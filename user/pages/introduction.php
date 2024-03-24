@@ -156,6 +156,178 @@ jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":
   <body class="html not-front not-logged-in no-sidebars page-node page-node- page-node-579 node-type-page s">
   	<!--customer chat-->
   	<!--arcontact button: allin-->
+  	<div class="form-signin-signup mfp-bg mfp-hide"></div>
+  	<div class="form-signin-signup mfp-wrap mfp-auto-cursor mfp-hide" tabindex="-1" style="overflow: hidden auto;">
+  		<div class="mfp-container">
+  			<div class="mfp-content">
+  				<div id="popup-form" class="white-popup-block" style="width: 70%;">
+  					<a class="popup-modal-dismiss" href="#">x</a>
+  					<ul class="nav nav-tabs" id="tab-login">
+  						<li id="form-login-tab1"><a data-toggle="tab" href="#login" class="active show">Đăng nhập</a></li>
+  						<li id="form-login-tab2"><a data-toggle="tab" href="#register" class="">Đăng ký</a></li>
+  					</ul>
+  					<div class="tab-content tab-content-login">
+  						<div id="login" class="tab-pane fade active show">
+  							<div id="blacasa-login-form">
+  								<form action="/gioi-thieu" method="post" id="blacasa-account-login" accept-charset="UTF-8">
+  									<div>
+  										<div id="form-login-messages"></div>
+  										<div class="form-item form-type-textfield form-item-email-phone">
+  											<label for="edit-email-phone">Email/Số ĐT </label>
+  											<input placeholder="Nhập email hoặc số điện thoại" type="text" id="edit-email-phone" name="email_phone" value="" size="60" maxlength="128" class="form-text">
+  										</div>
+  										<div class="form-item form-type-password form-item-pass">
+  											<label for="edit-pass--2">Mật khẩu </label>
+  											<input placeholder="Mật khẩu từ 6 đến 32 ký tự" id="password_login_form" type="password" name="pass" size="60" maxlength="128" class="form-text">
+  										</div>
+  										<span class="">Bạn quên mật khẩu? </span>Nhấn vào <a class="popup-modal" href="#forget-password">Đây</a><input type="hidden" name="form_build_id" value="form-bzHjkHdgUJhifx0OnoVM502FNUl35xOwUl_EyOLIPPw">
+  										<input type="hidden" name="form_id" value="blacasa_account_login">
+  										<div class="form-actions form-wrapper" id="edit-actions--2"><input type="submit" id="edit-submit--2" name="op" value="Đăng nhập" class="form-submit ajax-processed"></div>
+  									</div>
+  								</form>
+  							</div>
+  							<div class="social-login">
+  								<ul>
+  									<li class="facebook-link-small">
+  										<a href="https://www.blacasa.vn/login-via-facebook?redirect=node/579" class="" title="Đăng nhập bằng Facebook">
+  											<div class="btn-login-facebook">
+  												<div class="facebook-btn-icon">
+  													<i class="fa fa-facebook" aria-hidden="true"></i>
+  												</div>
+  												<span class="btn-facebook-text">Đăng nhập bằng Facebook</span>
+  											</div>
+  										</a>
+  									</li>
+  									<li class="google-link-small">
+  										<a href="https://www.blacasa.vn/login-via-google?redirect=node/579" class="" title="Đăng nhập bằng Google">
+  											<div class="login-google-btn">
+  												<div class="google-btn-all">
+  													<div class="google-btn-wrapper">
+  														<div class="google-btn-icon">
+  															<div class="google-btn-logo" style="width: 18px; height: 18px;">
+  																<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 48 48" class="abcRioButtonSvg">
+  																	<g>
+  																		<path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z">
+  																		</path>
+  																		<path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+  																		<path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z">
+  																		</path>
+  																		<path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z">
+  																		</path>
+  																		<path fill="none" d="M0 0h48v48H0z">
+  																		</path>
+  																	</g>
+  																</svg>
+  															</div>
+  														</div>
+  														<span class="btn-google-text">
+  															<span class="btn-google-text-login">
+  																Đăng nhập bằng Google
+  															</span>
+  														</span>
+  													</div>
+  												</div>
+  											</div>
+  										</a>
+  									</li>
+  								</ul>
+  							</div>
+  						</div>
+  						<div id="register" class="tab-pane fade">
+  							<div id="blacasa-register-form">
+  								<form action="/gioi-thieu" method="post" id="blacasa-account-register" accept-charset="UTF-8">
+  									<div>
+  										<div id="form-register-messages"></div>
+  										<div class="form-item form-type-radios form-item-type-acc">
+  											<label for="edit-type-acc">Loại tài khoản <span class="form-required" title="This field is required.">*</span></label>
+  											<div id="edit-type-acc" class="form-radios">
+  												<div class="form-item form-type-radio form-item-type-acc">
+  													<input type="radio" id="edit-type-acc-1" name="type_acc" value="1" class="form-radio"> <label class="option" for="edit-type-acc-1">Gia sư </label>
+
+  												</div>
+  												<div class="form-item form-type-radio form-item-type-acc">
+  													<input type="radio" id="edit-type-acc-0" name="type_acc" value="0" class="form-radio"> <label class="option" for="edit-type-acc-0">Học viên </label>
+
+  												</div>
+  											</div>
+  										</div>
+  										<div class="form-item form-type-textfield form-item-full-name">
+  											<label for="edit-full-name">Họ tên <span class="form-required" title="This field is required.">*</span></label>
+  											<input placeholder="Nhập họ tên *(bắt buộc)" type="text" id="edit-full-name" name="full_name" value="" size="60" maxlength="128" class="form-text required">
+  										</div>
+  										<div class="form-item form-type-textfield form-item-phone-number">
+  											<label for="edit-phone-number">Điện thoại <span class="form-required" title="This field is required.">*</span></label>
+  											<input placeholder="Nhập Số điện thoại *(bắt buộc)" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" type="text" id="edit-phone-number" name="phone_number" value="" size="60" maxlength="128" class="form-text required">
+  										</div>
+  										<div class="form-item form-type-textfield form-item-email">
+  											<label for="edit-email">Email </label>
+  											<input placeholder="Nhập Email (tùy chọn)" type="text" id="edit-email" name="email" value="" size="60" maxlength="128" class="form-text">
+  										</div>
+  										<div class="form-item form-type-password form-item-pass">
+  											<label for="edit-pass--3">Mật khẩu <span class="form-required" title="This field is required.">*</span></label>
+  											<input placeholder="Mật khẩu từ 6 đến 32 ký tự *(bắt buộc)" type="password" id="edit-pass--3" name="pass" size="60" maxlength="128" class="form-text required">
+  										</div>
+  										<div class="form-item form-type-checkbox form-item-rules">
+  											<input type="checkbox" id="cbc_agree" name="rules" value="1" class="form-checkbox required"> <label class="option" for="cbc_agree"><a href="https://www.blacasa.vn/terms-of-use" target="_blank" class="link_to_rules">Đồng ý với các quy định sử dụng</a> <span class="form-required" title="This field is required.">*</span></label>
+
+  										</div>
+  										<input type="submit" id="edit-submit--3" name="op" value="Đăng ký" class="form-submit ajax-processed"><input type="hidden" name="form_build_id" value="form-LXkTAaElQsCLGVI2CtreXP5pES3um5klR4wbJ0Aa9GE">
+  										<input type="hidden" name="form_id" value="blacasa_account_register">
+  									</div>
+  								</form>
+  							</div>
+  							<div class="social-login">
+  								<ul>
+  									<li class="facebook-link-small">
+  										<a href="https://www.blacasa.vn/login-via-facebook?redirect=node/579" class="" title="Đăng ký bằng Facebook">
+  											<div class="btn-login-facebook">
+  												<div class="facebook-btn-icon">
+  													<i class="fa fa-facebook" aria-hidden="true"></i>
+  												</div>
+  												<span class="btn-facebook-text">Đăng ký bằng Facebook</span>
+  											</div>
+  										</a>
+  									</li>
+  									<li class="google-link-small">
+  										<a href="https://www.blacasa.vn/login-via-google?redirect=node/579" class="" title="Đăng ký bằng Google">
+  											<div class="login-google-btn">
+  												<div class="google-btn-all">
+  													<div class="google-btn-wrapper">
+  														<div class="google-btn-icon">
+  															<div class="google-btn-logo" style="width: 18px; height: 18px;">
+  																<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 48 48" class="abcRioButtonSvg">
+  																	<g>
+  																		<path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z">
+  																		</path>
+  																		<path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+  																		<path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z">
+  																		</path>
+  																		<path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z">
+  																		</path>
+  																		<path fill="none" d="M0 0h48v48H0z">
+  																		</path>
+  																	</g>
+  																</svg>
+  															</div>
+  														</div>
+  														<span class="btn-google-text">
+  															<span class="btn-google-text-login">
+  																Đăng ký bằng Google
+  															</span>
+  														</span>
+  													</div>
+  												</div>
+  											</div>
+  										</a>
+  									</li>
+  								</ul>
+  							</div>
+  						</div>
+  					</div>
+  				</div>
+  			</div>
+  		</div>
+  	</div>
   	<script>
   		/*BUTTON LIÊN HẸ*/
   		function arCuGetCookie(t) {
@@ -507,7 +679,7 @@ jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":
   			<div class="top-header-right ml-2">
   				<ul>
   					<li>
-  						<a href="#popup-form" class="popup-modal link-login d-flex align-items-center" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+  						<a href="#popup-form" class="popup-modal link-login d-flex align-items-center account_login_modal" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
   							<span class="d-none d-sm-block">Đăng nhập</span><i class="fa fa-user-o ml-2" style="font-size:24px;"></i>
   						</a>
   					</li>
@@ -688,192 +860,6 @@ jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":
 
   	<!--SECTION III: Popups -->
   	<!--Signin,signup,password recover-->
-
-  	<div id="popup-form" class="white-popup-block mfp-hide">
-  		<a class="popup-modal-dismiss" href="#">x</a>
-  		<ul class="nav nav-tabs" id="tab-login">
-  			<li id="form-login-tab1"><a data-toggle="tab" href="#login">Đăng nhập</a></li>
-  			<li id="form-login-tab2"><a data-toggle="tab" href="#register">Đăng ký</a></li>
-  		</ul>
-  		<div class="tab-content tab-content-login">
-  			<div id="login" class="tab-pane fade">
-  				<div id="blacasa-login-form">
-  					<form action="/gioi-thieu" method="post" id="blacasa-account-login" accept-charset="UTF-8">
-  						<div>
-  							<div id='form-login-messages'></div>
-  							<div class="form-item form-type-textfield form-item-email-phone">
-  								<label for="edit-email-phone">Email/Số ĐT </label>
-  								<input placeholder="Nhập email hoặc số điện thoại" type="text" id="edit-email-phone" name="email_phone" value="" size="60" maxlength="128" class="form-text" />
-  							</div>
-  							<div class="form-item form-type-password form-item-pass">
-  								<label for="edit-pass--2">Mật khẩu </label>
-  								<input placeholder="Mật khẩu từ 6 đến 32 ký tự" id="password_login_form" type="password" name="pass" size="60" maxlength="128" class="form-text" />
-  							</div>
-  							<span class="">Bạn quên mật khẩu? </span>Nhấn vào <a class="popup-modal" href="#forget-password">Đây</a><input type="hidden" name="form_build_id" value="form-y0f8F_rNeZBD9S7W75Xds4Pbs1tE9joXnB7d8rEpe9w" />
-  							<input type="hidden" name="form_id" value="blacasa_account_login" />
-  							<div class="form-actions form-wrapper" id="edit-actions--2"><input type="submit" id="edit-submit--2" name="op" value="Đăng nhập" class="form-submit" /></div>
-  						</div>
-  					</form>
-  				</div>
-  				<div class="social-login">
-  					<ul>
-  						<li class="facebook-link-small">
-  							<a href="https://www.blacasa.vn/login-via-facebook?redirect=node/579" class="" title="Đăng nhập bằng Facebook">
-  								<div class="btn-login-facebook">
-  									<div class="facebook-btn-icon">
-  										<i class="fa fa-facebook" aria-hidden="true"></i>
-  									</div>
-  									<span class="btn-facebook-text">Đăng nhập bằng Facebook</span>
-  								</div>
-  							</a>
-  						</li>
-  						<li class="google-link-small">
-  							<a href="https://www.blacasa.vn/login-via-google?redirect=node/579" class="" title="Đăng nhập bằng Google">
-  								<div class="login-google-btn">
-  									<div class="google-btn-all">
-  										<div class="google-btn-wrapper">
-  											<div class="google-btn-icon">
-  												<div class="google-btn-logo" style="width: 18px; height: 18px;">
-  													<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 48 48" class="abcRioButtonSvg">
-  														<g>
-  															<path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z">
-  															</path>
-  															<path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
-  															<path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z">
-  															</path>
-  															<path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z">
-  															</path>
-  															<path fill="none" d="M0 0h48v48H0z">
-  															</path>
-  														</g>
-  													</svg>
-  												</div>
-  											</div>
-  											<span class="btn-google-text">
-  												<span class="btn-google-text-login">
-  													Đăng nhập bằng Google
-  												</span>
-  											</span>
-  										</div>
-  									</div>
-  								</div>
-  							</a>
-  						</li>
-  					</ul>
-  				</div>
-  			</div>
-  			<div id="register" class="tab-pane fade">
-  				<div id="blacasa-register-form">
-  					<form action="/gioi-thieu" method="post" id="blacasa-account-register" accept-charset="UTF-8">
-  						<div>
-  							<div id='form-register-messages'></div>
-  							<div class="form-item form-type-radios form-item-type-acc">
-  								<label for="edit-type-acc">Loại tài khoản <span class="form-required" title="This field is required.">*</span></label>
-  								<div id="edit-type-acc" class="form-radios">
-  									<div class="form-item form-type-radio form-item-type-acc">
-  										<input type="radio" id="edit-type-acc-1" name="type_acc" value="1" class="form-radio" /> <label class="option" for="edit-type-acc-1">Gia sư </label>
-
-  									</div>
-  									<div class="form-item form-type-radio form-item-type-acc">
-  										<input type="radio" id="edit-type-acc-0" name="type_acc" value="0" class="form-radio" /> <label class="option" for="edit-type-acc-0">Học viên </label>
-
-  									</div>
-  								</div>
-  							</div>
-  							<div class="form-item form-type-textfield form-item-full-name">
-  								<label for="edit-full-name">Họ tên <span class="form-required" title="This field is required.">*</span></label>
-  								<input placeholder="Nhập họ tên *(bắt buộc)" type="text" id="edit-full-name" name="full_name" value="" size="60" maxlength="128" class="form-text required" />
-  							</div>
-  							<div class="form-item form-type-textfield form-item-phone-number">
-  								<label for="edit-phone-number">Điện thoại <span class="form-required" title="This field is required.">*</span></label>
-  								<input placeholder="Nhập Số điện thoại *(bắt buộc)" onkeyup="this.value=this.value.replace(/[^0-9]/g,&#039;&#039;);" type="text" id="edit-phone-number" name="phone_number" value="" size="60" maxlength="128" class="form-text required" />
-  							</div>
-  							<div class="form-item form-type-textfield form-item-email">
-  								<label for="edit-email">Email </label>
-  								<input placeholder="Nhập Email" type="text" id="edit-email" name="email" value="" size="60" maxlength="128" class="form-text" />
-  							</div>
-  							<div class="form-item form-type-password form-item-pass">
-  								<label for="edit-pass--3">Mật khẩu <span class="form-required" title="This field is required.">*</span></label>
-  								<input placeholder="Mật khẩu từ 6 đến 32 ký tự *(bắt buộc)" type="password" id="edit-pass--3" name="pass" size="60" maxlength="128" class="form-text required" />
-  							</div>
-  							<div class="form-item form-type-checkbox form-item-rules">
-  								<input type="checkbox" id="cbc_agree" name="rules" value="1" class="form-checkbox required" /> <label class="option" for="cbc_agree"><a href="https://www.blacasa.vn/terms-of-use" target="_blank" class="link_to_rules">Đồng ý với các quy định sử dụng</a> <span class="form-required" title="This field is required.">*</span></label>
-
-  							</div>
-  							<input type="submit" id="edit-submit--3" name="op" value="Đăng ký" class="form-submit" /><input type="hidden" name="form_build_id" value="form-Znw3hLUTYnWLhl9cEO8PQCMXtdSxnLEFE17wUoAWO54" />
-  							<input type="hidden" name="form_id" value="blacasa_account_register" />
-  						</div>
-  					</form>
-  				</div>
-  				<div class="social-login">
-  					<ul>
-  						<li class="facebook-link-small">
-  							<a href="https://www.blacasa.vn/login-via-facebook?redirect=node/579" class="" title="Đăng ký bằng Facebook">
-  								<div class="btn-login-facebook">
-  									<div class="facebook-btn-icon">
-  										<i class="fa fa-facebook" aria-hidden="true"></i>
-  									</div>
-  									<span class="btn-facebook-text">Đăng ký bằng Facebook</span>
-  								</div>
-  							</a>
-  						</li>
-  						<li class="google-link-small">
-  							<a href="https://www.blacasa.vn/login-via-google?redirect=node/579" class="" title="Đăng ký bằng Google">
-  								<div class="login-google-btn">
-  									<div class="google-btn-all">
-  										<div class="google-btn-wrapper">
-  											<div class="google-btn-icon">
-  												<div class="google-btn-logo" style="width: 18px; height: 18px;">
-  													<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 48 48" class="abcRioButtonSvg">
-  														<g>
-  															<path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z">
-  															</path>
-  															<path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
-  															<path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z">
-  															</path>
-  															<path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z">
-  															</path>
-  															<path fill="none" d="M0 0h48v48H0z">
-  															</path>
-  														</g>
-  													</svg>
-  												</div>
-  											</div>
-  											<span class="btn-google-text">
-  												<span class="btn-google-text-login">
-  													Đăng ký bằng Google
-  												</span>
-  											</span>
-  										</div>
-  									</div>
-  								</div>
-  							</a>
-  						</li>
-  					</ul>
-  				</div>
-  			</div>
-  		</div>
-  	</div>
-  	<!--recover password-->
-  	<div id="forget-password" class="white-popup-block mfp-hide">
-  		<div class="box-title">Lấy lại mật khẩu</div>
-  		<a class="popup-modal-dismiss" href="#">x</a>
-  		<div id="forget-pass-form" class="custom-form">
-  			<div id="form-messages"></div>
-  			<form action="/gioi-thieu" method="post" id="blacasa-account-pass" accept-charset="UTF-8">
-  				<div>
-  					<div class="form-item form-type-textfield form-item-email-phone">
-  						<label for="edit-email-phone--2">Email hoặc số điện thoại * </label>
-  						<input placeholder="Nhập email hoặc số điện thoại" type="text" id="edit-email-phone--2" name="email_phone" value="" size="60" maxlength="254" class="form-text" />
-  					</div>
-  					<input type="submit" id="edit-submit--4" name="op" value="Lấy mật khẩu" class="form-submit" /><input type="hidden" name="form_build_id" value="form-s6cICav3c-VzSfpMgiyF7klaH1UQ2LvuYlwUVu_BPWI" />
-  					<input type="hidden" name="form_id" value="blacasa_account_pass" />
-  				</div>
-  			</form>
-  		</div>
-  	</div>
-  	<!--end chưa đăng nhập-->
-
   	<div id='arcontactus'></div>
 
 
@@ -1667,6 +1653,25 @@ jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":
 
   	<script type="text/javascript" src="../assets/js/jquery.bla-beauty-effect-libraries.min.js"></script>
   	<script type="text/javascript" src="../assets/js/main.js"></script>
+  	<script type="text/javascript">
+  		document.addEventListener("DOMContentLoaded", function() {
+  			var account_login_modals = document.querySelector(".account_login_modal");
+  			var form_signin_signup = document.querySelectorAll(".form-signin-signup");
+
+  			function openFormSigin_Signup() {
+				form_signin_signup.forEach(function(element) {
+					element.classList.replace('mfp-hide', 'mfp-ready');
+				});
+  			}
+  			// function closeModalLogin(){
+  			// 	popup_form_login.classList.remove('mfp-hide')
+  			// }
+  			account_login_modals.addEventListener("click", function() {
+				openFormSigin_Signup();
+  			});
+  		});
+  	</script>
+
   </body>
 
   </html>
