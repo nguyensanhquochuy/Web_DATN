@@ -1,5 +1,107 @@
   <!DOCTYPE html>
-  <html xmlns="http://www.w3.org/1999/xhtml">
+  <html xmlns="http://www.w3.org/1999/xhtml" class="js">
+  <?php
+	include 'config.php';
+
+	if (isset($_POST['register'])) {
+		$mail_ex = "/[a-zA-Z0-9]*@[a-zA-Z0-9]*.[a-zA-Z0-9]*/i";
+		$typeAcc = $_POST['type_acc'];
+		$fullName = $_POST['full_name'];
+		$phoneNumber = $_POST['phone_number'];
+		$email = $_POST['email'];
+		$passWord = $_POST['pass'];
+
+		// $check = true;
+		// if (empty($email)) {
+		// 	$errorEmail = "Email là bắt buộc";
+		// 	$check = false;
+		// } else if (!preg_match($mail_ex, $emailC)){
+		// 	$errorEmail="Email không đúng định dạng";
+		// 	$check = false;
+		// }
+		// if (empty($typeAcc)) {
+		// 	$errorTypeAcc = "Loại tài khoản là bắt buộc";
+		// 	$check = false;
+		// }
+		// if (empty($fullName)) {
+		// 	$errorFullName = "Họ tên là bắt buộc";
+		// 	$check = false;
+		// }
+		// if (empty($phoneNumber)) {
+		// 	$errorPhoneNumber = "Số điện thoại là bắt buộc";
+		// 	$check = false;
+		// }
+		// if (empty($passWord)) {
+		// 	$errorPass = "Mật khẩu là bắt buộc";
+		// 	$check = false;
+		// } else {
+		// 	if (strlen($passWord) < 8 || !preg_match('/[A-Z]/', $passWord) or !preg_match('/[a-z]/', $passWord) or !preg_match('/[0-9]/', $passWord) or !preg_match('/[^a-zA-Z0-9]/', $passWord)) {
+		// 		$errorPass = "Mật khẩu quá ngắn. Mật khẩu phải chứa ít nhất 3 trong số các yếu tố sau: chữ thường, chữ hoa, chữ số, ký tự đặc biệt";
+		// 		$check = false;
+		// 	}
+		// }
+
+		// if ($check) {
+			
+		// 	// Kiểm tra xem giá trị của username hoac phonenumber đã tồn tại trong bảng taikhoan chưa
+		// 	$sql = 'SELECT * FROM taikhoan WHERE TenDN = ? ';
+		// 	$stmt = $conn->prepare($sql);
+		// 	$stmt->bind_param("s", $email);
+		// 	$stmt->execute();
+		// 	$resultEmail = $stmt->get_result();
+
+		// 	$sql = 'SELECT * FROM taikhoan WHERE DienThoai = ?';
+		// 	$stmt = $conn->prepare($sql);
+		// 	$stmt->bind_param("s", $phoneNumber);
+		// 	$stmt->execute();
+		// 	$resultPhone = $stmt->get_result();
+
+
+		// 	if ($resultEmail->num_rows != 0) {
+		// 		$errEmail = "Email đã tồn tại trên hệ thống";
+		// 		echo $errEmail;
+		// 	} else if ($resultPhone->num_rows != 0) {
+		// 		$errPhone = "Số điện thoại đã tồn tại trên hệ thống";
+		// 		echo $errPhone;
+		// 	} else {
+		// 		$option = [
+		// 			'cost' => 12,
+		// 		];
+		// 		$passHash = password_hash($passWord, PASSWORD_DEFAULT, $option);
+		// 		$sql = 'INSERT INTO taikhoan (TenDN, DienThoai, MatKhau, MaPQ) VALUES (?, ?, ?, ?)';
+		// 		$stmt = $conn->prepare($sql);
+		// 		$stmt->bind_param("sssi", $email, $phoneNumber, $passHash, $typeAcc);
+		// 		$stmt->execute();
+
+		// 		$sql = 'SELECT * FROM taikhoan WHERE TenDN LIKE ?';
+		// 		$stmt = $conn->prepare($sql);
+		// 		$stmt->bind_param('s', $email);
+		// 		$stmt->execute();
+		// 		$result = $stmt->get_result()->fetch_assoc();
+		// 		$id = $result['MaTK'];
+
+		// 		$nullValue = NULL;
+		// 		$emptyValue = "";
+		// 		date_default_timezone_set('Asia/Ho_Chi_Minh');
+		// 		$currentDateTime = date('Y-m-d H:i:s');
+		// 		$views = 0;
+		// 		$status = 0;
+		// 		$sql = 'INSERT INTO giasu (HoTen, Email, DienThoai, Tinh_TP, DiaChiCT, MoTa, GioiTinh, HocPhi1H, MaLoaiGS, MaHT, MaMH, AnhBia, AnhDaiDien, AnhBangCap, LuotXem, ThoiGianDN, MaNV, TrangThaiDuyet, MaTK) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+		// 		$stmt = $conn->prepare($sql);
+		// 		$stmt->bind_param('ssssssidiiisssdsiii', $fullName, $email, $phoneNumber, $emptyValue, $emptyValue, $nullValue, $nullValue, $nullValue, $nullValue, $nullValue, $nullValue, $emptyValue, $emptyValue, $emptyValue, $views, $currentDateTime, $nullValue, $status, $id);
+		// 		$stmt->execute();
+		// 		// echo '<script language="javascript">alert("Employee added successfully!");</script>';
+		// 		// header("Refresh: 1; URL=employee.php");
+		// 	}
+
+		// }
+
+
+	}
+
+
+
+	?>
 
   <head>
   	<!--[if IE]><![endif]-->
@@ -63,94 +165,118 @@
   	<script type="text/javascript" src="../assets/js/js__dU859nniAHOO3ZZ49DZUXr5Frl9T3QSa81hYdDf9Uas__LOGJbIpGkynalCS.js"></script>
   	<script type="text/javascript" src="../assets/js/js__IxBpGC3NatX6P7dEN5hVBxBEGm6AzqoIcTK6bYbV8dQ__5gYxiRHtWORQMry.js"></script>
   	<script type="text/javascript" src="../assets/js/js__bcCAN6VgMjVnLudQwXmKyBrXo9atl70SkprxOvrBQ5E__d43UiXeszJjDIN6.js"></script>
-  	<script type="text/javascript">
-  		<!--//
-  		-->
-  	<![CDATA[//><!--
-(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,"script","https://www.google-analytics.com/analytics.js","ga");ga("create", "UA-99336519-1", {"cookieDomain":"auto"});ga("set", "anonymizeIp", true);ga("send", "pageview");
-//--><!]]>
-  	</script>
+
   	<script type="text/javascript" src="../assets/js/js__2H5VHDfLOvpT-ZWWBqPpmQoETJQWSLU5RqZ6iprXOAQ__6pqGXWUeGNf05Fe.js"></script>
   	<script type="text/javascript" src="../assets/js/js__I_3_005HciglOJyBxiQvaSLMYQsG33p9G0ihNQ_GR8U__Zuy3KzlHSmeJE8j.js"></script>
-  	<script type="text/javascript">
-  		<!--//
-  		-->
-  	<![CDATA[//><!--
-jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"blacasa","theme_token":"onp8JfKobXFGQSEL8MzKtPwNfW_oDz2VxQQ4iZAaoJM","jquery_version":"1.10","css":{"modules\/system\/system.base.css":1,"misc\/ui\/jquery.ui.core.css":1,"misc\/ui\/jquery.ui.theme.css":1,"misc\/ui\/jquery.ui.datepicker.css":1,"misc\/ui\/jquery.ui.menu.css":1,"misc\/ui\/jquery.ui.autocomplete.css":1,"sites\/all\/modules\/contrib\/simplenews\/simplenews.css":1,"sites\/all\/modules\/contrib\/date\/date_api\/date.css":1,"sites\/all\/modules\/contrib\/date\/date_popup\/themes\/datepicker.1.7.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"modules\/search\/search.css":1,"sites\/all\/modules\/contrib\/ubercart\/uc_order\/uc_order.css":1,"sites\/all\/modules\/contrib\/ubercart\/uc_product\/uc_product.css":1,"sites\/all\/modules\/contrib\/ubercart\/uc_store\/uc_store.css":1,"modules\/user\/user.css":1,"sites\/all\/modules\/contrib\/views\/css\/views.css":1,"sites\/all\/modules\/contrib\/ctools\/css\/modal.css":1,"sites\/all\/modules\/contrib\/ctools\/css\/ctools.css":1,"sites\/all\/themes\/blacasa\/stylesheets\/bootstrap.min.css":1,"sites\/all\/themes\/blacasa\/stylesheets\/font-awesome.min.css":1,"sites\/all\/themes\/blacasa\/stylesheets\/owl.carousel.min.css":1,"sites\/all\/themes\/blacasa\/stylesheets\/owl.theme.default.min.css":1,"sites\/all\/themes\/blacasa\/stylesheets\/jquery.mCustomScrollbar.css":1,"sites\/all\/themes\/blacasa\/stylesheets\/nice-select.css":1,"sites\/all\/themes\/blacasa\/stylesheets\/magnific-popup.css":1,"sites\/all\/themes\/blacasa\/stylesheets\/rrssb.css":1,"sites\/all\/themes\/blacasa\/stylesheets\/fixed.css":1,"sites\/all\/themes\/blacasa\/stylesheets\/main.css":1,"sites\/all\/themes\/blacasa\/stylesheets\/main-responsive.css":1},"js":{"sites\/all\/modules\/contrib\/jquery_update\/replace\/jquery\/1.10\/jquery.min.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.core.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.widget.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/external\/jquery.cookie.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/misc\/jquery.form.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.datepicker.min.js":1,"modules\/locale\/locale.datepicker.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.position.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.menu.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.autocomplete.min.js":1,"misc\/ajax.js":1,"sites\/all\/modules\/contrib\/jquery_update\/js\/jquery_update.js":1,"public:\/\/languages\/vi_gjt4PyHz1Wh_uZj7DgJTHOjFOP-W6xmYJKB6QdNKCKA.js":1,"sites\/all\/modules\/contrib\/ctools\/js\/ajax-responder.js":1,"sites\/all\/modules\/customs\/blacasa_account\/blacasa_account.js":1,"sites\/all\/modules\/customs\/blacasa_feedback\/js\/progressbar.min.js":1,"sites\/all\/modules\/customs\/blacasa_feedback\/js\/blacasa-feedback.js":1,"sites\/all\/modules\/customs\/blacasa_marketing\/blacasa-marketing.js":1,"sites\/all\/modules\/customs\/blacasa_message\/blacasa-message.js":1,"misc\/progress.js":1,"sites\/all\/modules\/contrib\/ctools\/js\/modal.js":1,"sites\/all\/modules\/customs\/blacasa_nhom_hoc\/js\/blacasa_nhom_hoc.js":1,"sites\/all\/modules\/customs\/blacasa_notification\/blacasa-notification.js":1,"sites\/all\/modules\/customs\/blacasa_push_notification\/firebase-custom.js":1,"sites\/all\/modules\/customs\/custom\/custom.js":1,"sites\/all\/modules\/contrib\/captcha\/captcha.js":1,"sites\/all\/modules\/contrib\/google_analytics\/googleanalytics.js":1,"sites\/all\/themes\/blacasa\/javascripts\/page.static.js":1,"sites\/all\/themes\/blacasa\/javascripts\/popper.min.js":1,"sites\/all\/themes\/blacasa\/javascripts\/bootstrap.min.js":1,"sites\/all\/themes\/blacasa\/javascripts\/bootstrap-sprockets.js":1,"sites\/all\/themes\/blacasa\/javascripts\/owl.carousel.min.js":1,"sites\/all\/themes\/blacasa\/javascripts\/slick.js":1,"sites\/all\/themes\/blacasa\/javascripts\/jquery.mCustomScrollbar.concat.min.js":1,"sites\/all\/themes\/blacasa\/javascripts\/jquery.nice-select.js":1,"sites\/all\/themes\/blacasa\/javascripts\/jquery.marquee.min.js":1,"sites\/all\/themes\/blacasa\/javascripts\/jquery.magnific-popup.min.js":1,"sites\/all\/themes\/blacasa\/javascripts\/rrssb.min.js":1,"sites\/all\/themes\/blacasa\/javascripts\/rangeslider.min.js":1,"sites\/all\/themes\/blacasa\/javascripts\/custom.js":1,"sites\/all\/themes\/blacasa\/javascripts\/blacasa.js":1}},"CToolsModal":{"loadingText":"Loading...","closeText":"Close Window","closeImage":"\u003Cimg typeof=\u0022foaf:Image\u0022 src=\u0022https:\/\/d1plicc6iqzi9y.cloudfront.net\/sites\/all\/modules\/contrib\/ctools\/images\/icon-close-window.png\u0022 alt=\u0022Close window\u0022 title=\u0022Close window\u0022 \/\u003E","throbber":"\u003Cimg typeof=\u0022foaf:Image\u0022 src=\u0022https:\/\/d1plicc6iqzi9y.cloudfront.net\/sites\/all\/modules\/contrib\/ctools\/images\/throbber.gif\u0022 alt=\u0022Loading\u0022 title=\u0022Loading...\u0022 \/\u003E"},"googleanalytics":{"trackOutbound":1,"trackMailto":1,"trackDownload":1,"trackDownloadExtensions":"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip"},"jquery":{"ui":{"datepicker":{"isRTL":false,"firstDay":"1"}}},"ajax":{"edit-submit--2":{"callback":"blacasa_account_login_ajax_callback","wrapper":"blacasa-login-form","effect":"fade","event":"mousedown","keypress":true,"prevent":"click","url":"\/system\/ajax","submit":{"_triggering_element_name":"op","_triggering_element_value":"\u0110\u0103ng nh\u1eadp"}},"edit-submit--3":{"callback":"blacasa_account_register_ajax_callback","wrapper":"blacasa-register-form","effect":"fade","event":"mousedown","keypress":true,"prevent":"click","url":"\/system\/ajax","submit":{"_triggering_element_name":"op","_triggering_element_value":"\u0110\u0103ng k\u00fd"}},"edit-submit--4":{"callback":"blacasa_account_pass_callback","wrapper":"forget-pass-form","effect":"fade","event":"mousedown","keypress":true,"prevent":"click","url":"\/system\/ajax","submit":{"_triggering_element_name":"op","_triggering_element_value":"L\u1ea5y m\u1eadt kh\u1ea9u"}}},"urlIsAjaxTrusted":{"\/system\/ajax":true,"\/gioi-thieu":true}});
-//--><!]]>
-  	</script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$("#edit-submit--3").on("click", function() {
+				let typeAcc = $("input[name='type_acc']:checked").val();		
+				if (typeAcc === undefined) {	
+					typeAcc = 0;
+				} 
+				let fullName = $("#edit-full-name").val();
+				let email = $("#edit-email").val();
+				let phoneNumber = $("#edit-phone-number").val();
+				let passWord = $("#edit-pass").val();    
+				let errTypeAcc = $(".errTypeAcc");     
+				let errEmail = $(".errEmail");
+				let errFullName = $(".errFullName");
+				let errPhoneNumber = $(".errPhoneNumber");
+				let errPassWord = $(".errPassWord");
 
-  	<!--Facebook pixel-->
-  	<script>
-  		! function(f, b, e, v, n, t, s) {
-  			if (f.fbq) return;
-  			n = f.fbq = function() {
-  				n.callMethod ?
-  					n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-  			};
-  			if (!f._fbq) f._fbq = n;
-  			n.push = n;
-  			n.loaded = !0;
-  			n.version = '2.0';
-  			n.queue = [];
-  			t = b.createElement(e);
-  			t.async = !0;
-  			t.src = v;
-  			s = b.getElementsByTagName(e)[0];
-  			s.parentNode.insertBefore(t, s)
-  		}(window, document, 'script',
-  			'https://connect.facebook.net/en_US/fbevents.js');
-  		fbq('init', '526936411030122');
-  		fbq('track', 'PageView');
-  	</script>
-  	<noscript>
-  		<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=526936411030122&ev=PageView&noscript=1" />
-  	</noscript>
-  	<!--End facebook pixel-->
+				$.ajax({
+					url: "RegisterAcc.php",
+					method: "POST",
+					data: { typeAcc: typeAcc, email: email, fullName: fullName, phoneNumber: phoneNumber, passWord: passWord},
+					dataType: 'json', // Expect JSON response
+					success: function(response) {
+						// Clear previous error messages
+						errTypeAcc.html("");
+						errEmail.html("");
+						errFullName.html("");
+						errPhoneNumber.html("");
+						errPassWord.html("");
+						console.log(response);
 
-  	<!-- Google Tag Manager -->
-  	<script>
-  		(function(w, d, s, l, i) {
-  			w[l] = w[l] || [];
-  			w[l].push({
-  				'gtm.start': new Date().getTime(),
-  				event: 'gtm.js'
-  			});
-  			var f = d.getElementsByTagName(s)[0],
-  				j = d.createElement(s),
-  				dl = l != 'dataLayer' ? '&l=' + l : '';
-  			j.async = true;
-  			j.src =
-  				'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-  			f.parentNode.insertBefore(j, f);
-  		})(window, document, 'script', 'dataLayer', 'GTM-W5M7CVK');
-  	</script>
-  	<!-- End Google Tag Manager -->
-  	<!-- Google Tag Manager (noscript) -->
-  	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W5M7CVK" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+						console.log(response.errorEmail);
+						// Check for specific errors and display messages
+						if (response.errorTypeAcc) {
+							errTypeAcc.html(response.errorTypeAcc);
+						}
+						if (response.errorEmail) {
+							errEmail.html(response.errorEmail);
+						}
+						if (response.errorFullName) {
+							errFullName.html(response.errorFullName);
+						}
+		
+						if (response.errorPhoneNumber) {
+							errPhoneNumber.html(response.errorPhoneNumber);
+						}
+	
+						if (response.errorPass) {
+							errPassWord.html(response.errorPass);
+						}
+	
+						if (response.success) {
+							// acRegisterForm.css("display", "none");
+							// acSignInForm.css("display", "block");
 
-  	<!-- GOOGLE ANALYSIS Global site tag (gtag.js) -->
-  	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-112538448-1"></script>
-  	<script>
-  		window.dataLayer = window.dataLayer || [];
+							location.reload();
+						}
+						
+					},
+					error: function(xhr, status, error) {
+						console.log("Error in AJAX request:", status, error);
+					}
+				});
+			});
+			$("#edit-submit--2").on("click", function() {	
 
-  		function gtag() {
-  			dataLayer.push(arguments);
-  		}
-  		gtag('js', new Date());
-  		gtag('config', 'UA-112538448-1');
-  		gtag('config', 'AW-811069783');
-  	</script>
-  	<!-- End Google Tag Manager (noscript) -->
-  	<!--Google Ads
-		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"ript>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({
-          google_ad_client: "ca-pub-2733700251080703",
-          enable_page_level_ads: true
-        });
+				let emailPhone = $("#edit-email-phone").val();
+				let passLogin = $("#password_login_form").val();    
+   
+				let errEmailPhone = $(".errEmailPhone");
+				let errPassLogin = $(".errPassLogin");
+				console.log(emailPhone)
+
+				$.ajax({
+					url: "LoginAcc.php",
+					method: "POST",
+					data: { emailPhone: emailPhone,  passLogin: passLogin},
+					dataType: 'json', // Expect JSON response
+					success: function(response) {
+						// Clear previous error messages
+						errEmailPhone.html("");
+						errPassLogin.html("");
+						console.log(response);
+						// Check for specific errors and display messages
+
+						if (response.errorEmailPhone) {
+							errEmailPhone.html(response.errorEmailPhone);
+						}
+	
+						if (response.errorPassLogin) {
+							errPassLogin.html(response.errorPassLogin);
+						}
+	
+						if (response.success) {
+							// acRegisterForm.css("display", "none");
+							// acSignInForm.css("display", "block");
+							location.reload();
+						}
+						
+					},
+					error: function(xhr, status, error) {
+						console.log("Error in AJAX request:", status, error);
+					}
+				});
+			});
+		});
     </script>
-		-->
+	
   </head>
 
   <body class="html not-front not-logged-in no-sidebars page-node page-node- page-node-579 node-type-page s">
@@ -169,22 +295,25 @@ jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":
   					<div class="tab-content tab-content-login">
   						<div id="login" class="tab-pane fade active show">
   							<div id="blacasa-login-form">
-  								<form action="/gioi-thieu" method="post" id="blacasa-account-login" accept-charset="UTF-8">
+  								<div  id="blacasa-account-login" accept-charset="UTF-8">
   									<div>
   										<div id="form-login-messages"></div>
   										<div class="form-item form-type-textfield form-item-email-phone">
   											<label for="edit-email-phone">Email/Số ĐT </label>
   											<input placeholder="Nhập email hoặc số điện thoại" type="text" id="edit-email-phone" name="email_phone" value="" size="60" maxlength="128" class="form-text">
+											<div  class="errEmailPhone" style="color: red;" ></div>
   										</div>
+
   										<div class="form-item form-type-password form-item-pass">
   											<label for="edit-pass--2">Mật khẩu </label>
   											<input placeholder="Mật khẩu từ 6 đến 32 ký tự" id="password_login_form" type="password" name="pass" size="60" maxlength="128" class="form-text">
+											<div  class="errPassLogin" style="color: red;" ></div>
   										</div>
-  										<span class="">Bạn quên mật khẩu? </span>Nhấn vào <a class="popup-modal" href="#forget-password">Đây</a><input type="hidden" name="form_build_id" value="form-bzHjkHdgUJhifx0OnoVM502FNUl35xOwUl_EyOLIPPw">
+  										<span class="">Bạn quên mật khẩu? </span>Nhấn vào <a id="forget-password-link" class="popup-modal" href="#forget-password">Đây</a><input type="hidden" name="form_build_id" value="form-bzHjkHdgUJhifx0OnoVM502FNUl35xOwUl_EyOLIPPw">
   										<input type="hidden" name="form_id" value="blacasa_account_login">
   										<div class="form-actions form-wrapper" id="edit-actions--2"><input type="submit" id="edit-submit--2" name="op" value="Đăng nhập" class="form-submit ajax-processed"></div>
   									</div>
-  								</form>
+  								</div>
   							</div>
   							<div class="social-login">
   								<ul>
@@ -235,46 +364,47 @@ jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":
   						</div>
   						<div id="register" class="tab-pane fade">
   							<div id="blacasa-register-form">
-  								<form action="/gioi-thieu" method="post" id="blacasa-account-register" accept-charset="UTF-8">
+  								<div  id="blacasa-account-register" accept-charset="UTF-8">
   									<div>
   										<div id="form-register-messages"></div>
   										<div class="form-item form-type-radios form-item-type-acc">
   											<label for="edit-type-acc">Loại tài khoản <span class="form-required" title="This field is required.">*</span></label>
   											<div id="edit-type-acc" class="form-radios">
   												<div class="form-item form-type-radio form-item-type-acc">
-  													<input type="radio" id="edit-type-acc-1" name="type_acc" value="1" class="form-radio"> <label class="option" for="edit-type-acc-1">Gia sư </label>
-
+  													<input type="radio" id="edit-type-acc-1" name="type_acc" value="2" class="form-radio"> <label class="option" for="edit-type-acc-1">Gia sư </label>					
   												</div>
   												<div class="form-item form-type-radio form-item-type-acc">
-  													<input type="radio" id="edit-type-acc-0" name="type_acc" value="0" class="form-radio"> <label class="option" for="edit-type-acc-0">Học viên </label>
-
+  													<input type="radio" id="edit-type-acc-0" name="type_acc" value="3" class="form-radio"> <label class="option" for="edit-type-acc-0">Học viên </label>
   												</div>
+												<div  class="errTypeAcc" style="color: red;" ></div>
   											</div>
   										</div>
   										<div class="form-item form-type-textfield form-item-full-name">
   											<label for="edit-full-name">Họ tên <span class="form-required" title="This field is required.">*</span></label>
   											<input placeholder="Nhập họ tên *(bắt buộc)" type="text" id="edit-full-name" name="full_name" value="" size="60" maxlength="128" class="form-text required">
+											<div  class="errFullName" style="color: red;" ></div>
   										</div>
   										<div class="form-item form-type-textfield form-item-phone-number">
   											<label for="edit-phone-number">Điện thoại <span class="form-required" title="This field is required.">*</span></label>
   											<input placeholder="Nhập Số điện thoại *(bắt buộc)" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" type="text" id="edit-phone-number" name="phone_number" value="" size="60" maxlength="128" class="form-text required">
+											<div  class="errPhoneNumber" style="color: red;" ></div>
+
   										</div>
   										<div class="form-item form-type-textfield form-item-email">
   											<label for="edit-email">Email </label>
   											<input placeholder="Nhập Email (tùy chọn)" type="text" id="edit-email" name="email" value="" size="60" maxlength="128" class="form-text">
+											<div  class="errEmail" style="color: red;" ></div>
   										</div>
+
   										<div class="form-item form-type-password form-item-pass">
   											<label for="edit-pass--3">Mật khẩu <span class="form-required" title="This field is required.">*</span></label>
-  											<input placeholder="Mật khẩu từ 6 đến 32 ký tự *(bắt buộc)" type="password" id="edit-pass--3" name="pass" size="60" maxlength="128" class="form-text required">
+  											<input placeholder="Mật khẩu từ 6 đến 32 ký tự *(bắt buộc)" type="password" id="edit-pass" name="pass" size="60" maxlength="128" class="form-text required">
+											<div  class="errPassWord" style="color: red;" ></div>
   										</div>
-  										<div class="form-item form-type-checkbox form-item-rules">
-  											<input type="checkbox" id="cbc_agree" name="rules" value="1" class="form-checkbox required"> <label class="option" for="cbc_agree"><a href="https://www.blacasa.vn/terms-of-use" target="_blank" class="link_to_rules">Đồng ý với các quy định sử dụng</a> <span class="form-required" title="This field is required.">*</span></label>
-
-  										</div>
-  										<input type="submit" id="edit-submit--3" name="op" value="Đăng ký" class="form-submit ajax-processed"><input type="hidden" name="form_build_id" value="form-LXkTAaElQsCLGVI2CtreXP5pES3um5klR4wbJ0Aa9GE">
+  										<input  type="submit" id="edit-submit--3" name="register" value="Đăng ký" class="form-submit ajax-processed"><input type="hidden" name="form_build_id" value="form-LXkTAaElQsCLGVI2CtreXP5pES3um5klR4wbJ0Aa9GE">
   										<input type="hidden" name="form_id" value="blacasa_account_register">
   									</div>
-  								</form>
+  								</div>
   							</div>
   							<div class="social-login">
   								<ul>
@@ -323,6 +453,23 @@ jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":
   								</ul>
   							</div>
   						</div>
+  					</div>
+  				</div>
+  				<div id="forget-password" class="white-popup-block mfp-hide">
+  					<div class="box-title">Lấy lại mật khẩu</div>
+  					<a class="popup-modal-dismiss" href="#">x</a>
+  					<div id="forget-pass-form" class="custom-form">
+  						<div id="form-messages"></div>
+  						<form action="/gioi-thieu" method="post" id="blacasa-account-pass" accept-charset="UTF-8">
+  							<div>
+  								<div class="form-item form-type-textfield form-item-email-phone">
+  									<label for="edit-email-phone--2">Email hoặc số điện thoại * </label>
+  									<input placeholder="Nhập email hoặc số điện thoại" type="text" id="edit-email-phone--2" name="email_phone" value="" size="60" maxlength="254" class="form-text" />
+  								</div>
+  								<input type="submit" id="edit-submit--4" name="op" value="Lấy mật khẩu" class="form-submit" /><input type="hidden" name="form_build_id" value="form-s6cICav3c-VzSfpMgiyF7klaH1UQ2LvuYlwUVu_BPWI" />
+  								<input type="hidden" name="form_id" value="blacasa_account_pass" />
+  							</div>
+  						</form>
   					</div>
   				</div>
   			</div>
@@ -1647,7 +1794,7 @@ jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":
   				scrollTop: $($toElement).offset().top - $offset
   			}, $speed);
   		});
-  	</script>
+  	</script> 
 
   	<span id="token-push-fb" style="display: none;"></span>
 
@@ -1657,18 +1804,51 @@ jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":
   		document.addEventListener("DOMContentLoaded", function() {
   			var account_login_modals = document.querySelector(".account_login_modal");
   			var form_signin_signup = document.querySelectorAll(".form-signin-signup");
+  			var popup_form = document.querySelector("#popup-form");
+  			var form_forget_password = document.querySelector("#forget-password");
+  			var forget_password_link = document.querySelector("#forget-password-link");
+  			var html_js = document.querySelector(".js");
+  			var popup_modal_dismiss = document.querySelectorAll(".popup-modal-dismiss");
 
   			function openFormSigin_Signup() {
-				form_signin_signup.forEach(function(element) {
-					element.classList.replace('mfp-hide', 'mfp-ready');
-				});
+  				form_signin_signup.forEach(function(element) {
+  					element.classList.replace('mfp-hide', 'mfp-ready');
+  				});
+  				html_js.style.cssText = "margin-right: 12px; overflow: hidden;";
   			}
-  			// function closeModalLogin(){
-  			// 	popup_form_login.classList.remove('mfp-hide')
-  			// }
+
+  			function openForgetPassword() {
+  				form_forget_password.classList.replace('mfp-hide', 'mfp-ready');
+  			}
+
+  			function closeModal() {
+  				form_signin_signup.forEach(function(element) {
+  					element.classList.replace('mfp-ready', 'mfp-hide');
+  				});
+  				form_forget_password.classList.replace('mfp-ready', 'mfp-hide');
+  				popup_form.classList.remove('mfp-hide')
+  				html_js.style.cssText = "";
+
+  			}
   			account_login_modals.addEventListener("click", function() {
-				openFormSigin_Signup();
+  				openFormSigin_Signup();
   			});
+
+  			forget_password_link.addEventListener("click", function() {
+  				openForgetPassword();
+  				popup_form.classList.add('mfp-hide')
+  			});
+
+  			popup_modal_dismiss.forEach(function(element) {
+  				element.addEventListener("click", function() {
+  					closeModal();
+  				});
+  			});
+
+  			// popup_modal_dismiss.addEventListener("click", function() {
+  			// 	openForgetPassword();
+  			// });
+
   		});
   	</script>
 
