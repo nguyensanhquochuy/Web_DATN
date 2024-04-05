@@ -139,4 +139,5 @@ $('.bla-goScrollSmoothly').click(function(event){
 		        behavior: 'smooth'
 		    });
 	}
+  
 });

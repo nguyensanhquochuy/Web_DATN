@@ -1,11 +1,12 @@
 
 <?php
 include 'config.php';
-// session_start();
+session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $emailPhone = $_POST['emailPhone'];
     $passLogin = $_POST['passLogin'];  
+    $_SESSION['Account']='none';
     $response = []; 
 
     if (empty($emailPhone)) {
@@ -17,9 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($response)) {
-        $sqlLogin = 'SELECT * FROM taikhoan WHERE TenDN = ?';
+        $sqlLogin = 'SELECT * FROM taikhoan WHERE TenDN = ? or DienThoai = ?';
         $stmt = $conn->prepare($sqlLogin);
-        $stmt->bind_param('s', $emailPhone);
+        $stmt->bind_param('ss', $emailPhone, $emailPhone);
         $stmt->execute();
         $result = $stmt->get_result();
         if($result->num_rows==0) {
@@ -27,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $acc = $result->fetch_assoc();
             if(password_verify($passLogin, $acc['MatKhau'])) {
-                // $_SESSION['customer'] = $emailLogin;
+                $_SESSION['Account'] = $emailPhone;
                 $response['success'] = "Login successful";
                 // echo("<meta http-equiv='refresh' content='0'>");
             } else {

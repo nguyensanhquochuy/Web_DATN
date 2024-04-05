@@ -1,7 +1,7 @@
 
 <?php
 include 'config.php';
-// session_start();
+session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mail_ex = "/[a-zA-Z0-9]*@[a-zA-Z0-9]*.[a-zA-Z0-9]*/i";
@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $response['errorSQL'] = $stmt->error;
         } else {
             $response['success'] = "Đăng ký thành công";
-            // $_SESSION['customer'] = $email;
+            $_SESSION['Account'] = $email;
 
         }
     }
