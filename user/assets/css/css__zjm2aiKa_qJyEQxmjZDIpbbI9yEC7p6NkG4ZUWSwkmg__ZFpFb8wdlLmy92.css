@@ -16510,7 +16510,7 @@ div.ctools-modal-content {
     margin: 0 auto;
     position: relative;
     padding-bottom: 15px;
-    border-radius: 2px
+    border-radius: 8px
 }
 
 .modal-header .close:after {
@@ -26564,7 +26564,7 @@ input[type="range"]:focus+.rangeslider .rangeslider__handle {
     height: var(--checkbox-height);
     width: var(--checkbox-height);
     background-color: transparent;
-    border: calc(var(--checkbox-height) * .1) solid #000;
+    border: calc(var(--checkbox-height) * .1) solid #ccc;
     border-radius: 5px;
     position: relative;
     display: inline-block;

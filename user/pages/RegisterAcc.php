@@ -76,18 +76,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $nullValue = NULL;
         $emptyValue = "";
+        $img_default = "default_user.png";
+        $img_cover = "img_cover_".rand(1, 6).".jpg";
+        $img_degree = "cert.png";
         if ($typeAcc == 2) {
             date_default_timezone_set('Asia/Ho_Chi_Minh');
             $currentDateTime = date('Y-m-d H:i:s');
             $views = 0;
             $status = 0;
-            $sql = 'INSERT INTO giasu (HoTen, Email, DienThoai, Tinh_TP, DiaChiCT, MoTa, GioiTinh, HocPhi1H, MaLoaiGS, MaHT, MaMH, AnhBia, AnhDaiDien, AnhBangCap, LuotXem, ThoiGianDN, MaNV, TrangThaiDuyet, MaTK) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+            $sql = 'INSERT INTO giasu (HoTen, Email, DienThoai, Tinh_TP, DiaChiCT, MoTa, GioiTinh, HocPhi1H, MaLoaiGS, MaHT, AnhBia, AnhDaiDien, AnhBangCap, LuotXem, ThoiGianDN, MaNV, TrangThaiDuyet, MaTK) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param('ssssssidiiisssdsiii', $fullName, $email, $phoneNumber, $emptyValue, $emptyValue, $nullValue, $nullValue, $nullValue, $nullValue, $nullValue, $nullValue, $emptyValue, $emptyValue, $emptyValue, $views, $currentDateTime, $nullValue, $status, $id);
+            $stmt->bind_param('ssssssidiisssdsiii', $fullName, $email, $phoneNumber, $emptyValue, $emptyValue, $nullValue, $nullValue, $nullValue, $nullValue, $nullValue, $img_cover, $img_default, $img_degree, $views, $currentDateTime, $nullValue, $status, $id);
         } else {
             $sql = 'INSERT INTO hocvien (HoTen, Email, DienThoai, Tinh_TP, DiaChiCT, MoTa, GioiTinh, AnhBia, AnhDaiDien, MaTK) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param('ssssssissi', $fullName, $email, $phoneNumber, $emptyValue, $emptyValue, $nullValue, $nullValue, $emptyValue, $emptyValue, $id);
+            $stmt->bind_param('ssssssissi', $fullName, $email, $phoneNumber, $emptyValue, $emptyValue, $nullValue, $nullValue, $img_cover, $img_default, $id);
         }
 
       

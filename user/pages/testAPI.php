@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <?php 
+                $img_default = 'default_user.png';
+                $img_cover = 'img_cover_'.rand(1, 6).'.jpg';
+                echo $img_default;
+                echo $img_cover;
+    ?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chọn Địa Phương</title>

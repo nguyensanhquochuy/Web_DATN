@@ -16,45 +16,314 @@ if (isset($_GET['edit'])) {
 	}
 
 	// tìm mã gs_mh và mã gs_cd tiếp theo
-	function next_id($conn, $type) {
+	function next_id($conn, $type)
+	{
 		if ($type == 1) {
 			$sql = 'SELECT MAX(MaGS_MH) as max_gsmh FROM giasu_monhoc';
 			$stmt = $conn->prepare($sql);
 			$stmt->execute();
 			$next_idGS_MH = $stmt->get_result()->fetch_assoc()['max_gsmh'] + 1;
 			return $next_idGS_MH;
-		} else if ($type== 2) {
+		} else if ($type == 2) {
 			$sql = 'SELECT MAX(MaGS_CD) as max_gscd FROM giasu_chude';
 			$stmt = $conn->prepare($sql);
 			$stmt->execute();
 			$next_idGS_CD = $stmt->get_result()->fetch_assoc()['max_gscd'] + 1;
 			return $next_idGS_CD;
-		} else if ($type== 3) {
+		} else if ($type == 3) {
 			$sql = 'SELECT MAX(MaLichDay) as max_lichday FROM lichday';
 			$stmt = $conn->prepare($sql);
 			$stmt->execute();
 			$next_idLichDay = $stmt->get_result()->fetch_assoc()['max_lichday'] + 1;
 			return $next_idLichDay;
 		}
-
 	}
 	// hàm cắt chuỗi sử dụng cho lịch 
-	function splitString($str) {
+	function splitString($str)
+	{
 		// Tìm vị trí của dấu cách cuối cùng trong chuỗi
 		$pos = strrpos($str, ' ');
-	
+
 		if ($pos !== false) {
 			// Cắt chuỗi thành 2 phần dựa vào vị trí tìm được
 			$part1 = substr($str, 0, $pos);
 			$part2 = substr($str, $pos + 1);
-	
+
 			return array($part1, $part2);
 		} else {
 			// Nếu không tìm thấy dấu cách, trả về mảng chứa chuỗi ban đầu và chuỗi rỗng
 			return array($str, '');
 		}
-	}	
+	}
 }
+
+
+?>
+<?php
+if (isset($idAcc)) {
+
+	$sql = 'SELECT * FROM taikhoan WHERE MaTK = ?';
+	$stmt = $conn->prepare($sql);
+	$stmt->bind_param('i', $idAcc);
+	$stmt->execute();
+	$result = $stmt->get_result()->fetch_assoc();
+	$typeAcc = $result['MaPQ'];
+
+	if ($typeAcc == 2) {
+		// Lấy thông tin gia sư
+		$sql = 'SELECT * FROM giasu  WHERE MaTK = ?';
+		$stmt = $conn->prepare($sql);
+		$stmt->bind_param('i', $idAcc);
+		$stmt->execute();
+		$resultTutor = $stmt->get_result()->fetch_assoc();
+		$idTutor = $resultTutor['MaGS'];
+		$fullName = $resultTutor['HoTen'];
+		$phoneNumber = $resultTutor['DienThoai'];
+		$typeTutor = $resultTutor['MaLoaiGS'];
+		$city = $resultTutor['Tinh_TP'];
+		$detailCity = $resultTutor['DiaChiCT'];
+		$sex = $resultTutor['GioiTinh'];
+		$description = $resultTutor['MoTa'];
+
+		$typeTeach = $resultTutor['MaHT'];
+		$fee1Hour = $resultTutor['HocPhi1H'];
+		$avatarTutor = $resultTutor['AnhDaiDien'];
+		$degreeTutor = $resultTutor['AnhBangCap'];
+
+		// Lấy dữ liệu chủ đề cho gia sư
+		$sql = 'SELECT * FROM giasu_chude  WHERE MaGS = ?';
+		$stmt = $conn->prepare($sql);
+		$stmt->bind_param('i', $idTutor);
+		$stmt->execute();
+		$resultTutor_Tag = $stmt->get_result();
+		$listTags = array();
+
+		while ($rowTutor_Tag = $resultTutor_Tag->fetch_assoc()) {
+			array_push($listTags, $rowTutor_Tag['MaCD']);
+		}
+
+		// Lấy dữ liệu lich dạy gia sư
+		if (isset($idTutor)) {
+			$sql = 'SELECT * FROM lichday  WHERE MaGS = ?';
+			$stmt = $conn->prepare($sql);
+			$stmt->bind_param('i', $idTutor);
+			$stmt->execute();
+			$resultlistCalendars = $stmt->get_result();
+			$listCalendars = array();
+
+			while ($rowlistCalendars = $resultlistCalendars->fetch_assoc()) {
+				array_push($listCalendars, $rowlistCalendars['TenThu'] . " " . $rowlistCalendars['TenBuoi']);
+			}
+		}
+		// Cập nhật thông tin gia sư
+	} else if ($typeAcc == 3) {
+		$sql = 'SELECT * FROM hocvien WHERE MaTK = ?';
+		$stmt = $conn->prepare($sql);
+		$stmt->bind_param('i', $idAcc);
+		$stmt->execute();
+		$resultStudent = $stmt->get_result()->fetch_assoc();
+		$idStudent = $resultStudent['MaHV'];
+		$fullName = $resultStudent['HoTen'];
+		$phoneNumber = $resultStudent['DienThoai'];
+		$city = $resultStudent['Tinh_TP'];
+		$detailCity = $resultStudent['DiaChiCT'];
+		$sex = $resultStudent['GioiTinh'];
+		$description = $resultStudent['MoTa'];
+	}
+
+	if (isset($_POST['submit-info'])) {
+		$fullName = $_POST['full_name'];
+		$phoneNumber = $_POST['number'];
+		$city = $_POST['place'];
+		$detailCity = $_POST['address-detail'];
+		$sex = $_POST['sex'];
+		$description = $_POST['body'];
+		if (array_key_exists($city, $cityData)) {
+			// Lấy tên của tỉnh/thành phố tương ứng với mã số
+			$selectedCity = $cityData[$city];
+			echo $selectedCity;
+		} else {
+			echo "Không tìm thấy tỉnh/thành phố tương ứng.";
+		}
+		if ($typeAcc == 2) {
+			if (isset($idTutor)) {
+				$typeTutor = $_POST['typeTutor'];
+				$fee1Hour = $_POST['price_cost'];
+				$avatarTutor = $_FILES['edit_avatar_account']['name'];
+				$upload_avt_Tutor = "../assets/img/img_tutor/" . $avatarTutor;
+				$degreeTutor = $_FILES['img_cmt_cert']['name'];
+				$upload_deg_Tutor = "../assets/img/img_tutor/" . $degreeTutor;
+
+				echo $fullName;
+				echo $phoneNumber;
+				echo $city;
+				echo $detailCity;
+				echo $description;
+				echo $typeTutor;
+				echo $avatarTutor;
+				echo $upload_avt_Tutor;
+				echo $degreeTutor;
+				echo $upload_deg_Tutor;
+				echo $sex;
+				echo $fee1Hour;
+				if (isset($_POST['subject'])) {
+					$typeSubjects  = $_POST['subject'];
+					foreach ($typeSubjects as $subject) {
+						echo $subject . "<br>";
+					}
+				} else {
+					$typeSubjects = NULL;
+				}
+
+				if (isset($_POST['list_tag'])) {
+					$listTags = $_POST['list_tag']; // Lấy các giá trị được chọn từ checkbox
+					foreach ($listTags as $tag) {
+						echo "Giá trị của checkbox được chọn: $tag <br>";
+					}
+				} else {
+					echo "Không có checkbox nào được chọn.";
+					$listTags = NULL;
+				}
+				if (isset($_POST['list-calendar'])) {
+					$listCalendars = $_POST['list-calendar'];
+
+					foreach ($listCalendars as $calendar) {
+						echo "Giá trị của checkbox được chọn: $calendar <br>";
+					}
+				} else {
+					echo "Không có checkbox nào được chọn.";
+					$listCalendars = array();
+				}
+				if (isset($_POST['type-teach'])) {
+					$typeTeachs = $_POST['type-teach'];
+					if (count($typeTeachs) > 1) {
+						$typeTeach = 3;
+					} else {
+						foreach ($typeTeachs as $x) {
+							if ($x == 1) {
+								$typeTeach = 1;
+							} else if ($x == 2) {
+								$typeTeach = 2;
+							}
+						}
+					}
+					echo $typeTeach;
+				} else {
+					$typeTeachs = NULL;
+					echo "vcllll";
+				}
+
+
+
+				if (!empty($fullName) and (!empty($phoneNumber)) and (!empty($description)) and (!empty($typeTutor)) and (!empty($fee1Hour)) and ($typeTeachs != NULL) and (!empty($selectedCity)) and (!empty($avatarTutor)) and (!empty($degreeTutor))) {
+					$updateTutor =  "UPDATE `giasu`
+																					 SET
+																						`Hoten` = ?,
+																						`DienThoai` = ?,
+																						`Tinh_TP` = ?,
+																						`DiaChiCT` = ?,
+																						`MoTa` = ?,
+																						`GioiTinh` = ?,
+																						`HocPhi1H` = ?,
+																						`MaLoaiGS` = ?,
+																						`MaHT` = ?,
+																						`AnhDaiDien` = ?,
+																						`AnhBangCap` = ?
+																					WHERE MaGS = ?;";
+
+					$stmt = $conn->prepare($updateTutor);
+					$stmt->bind_param("sssssidiissi", $fullName, $phoneNumber, $selectedCity, $detailCity, $description, $sex, $fee1Hour, $typeTutor, $typeTeach, $avatarTutor, $degreeTutor, $idTutor);
+
+
+					if ($stmt->execute()) {
+						move_uploaded_file($_FILES['edit_avatar_account']['tmp_name'], $upload_avt_Tutor);
+						move_uploaded_file($_FILES['img_cmt_cert']['tmp_name'], $upload_deg_Tutor);
+						echo '<script language="javascript">alert("Update successful!");</script>';
+						// header("Refresh: 1");
+					} else {
+						echo '<script language="javascript">alert("Update failed!");</script>';
+					}
+					if ($typeSubjects != NULL) {
+						$sql = 'DELETE FROM giasu_monhoc WHERE MaGS = ?';
+						$stmt = $conn->prepare($sql);
+						$stmt->bind_param('i', $idTutor);
+						$stmt->execute();
+
+						// thêm các môn học 
+						$sql = 'INSERT INTO giasu_monhoc (MaGS_MH, MaGS, MaMH) VALUES (?, ?, ?)';
+						$stmt = $conn->prepare($sql);
+						foreach ($typeSubjects as $subject) {
+							$next_idGS_MH = next_id($conn, 1);
+							$stmt->bind_param("iii", $next_idGS_MH, $idTutor, $subject);
+							$stmt->execute();
+						}
+
+						if ($listTags != NULL) {
+							$sql = 'DELETE FROM giasu_chude WHERE MaGS = ?';
+							$stmt = $conn->prepare($sql);
+							$stmt->bind_param('i', $idTutor);
+							$stmt->execute();
+
+							// thêm các chủ đề
+							$sql = 'INSERT INTO giasu_chude (MaGS_CD, MaGS, MaCD) VALUES (?, ?, ?)';
+							$stmt = $conn->prepare($sql);
+							foreach ($listTags as $tag) {
+								$next_idGS_CD = next_id($conn, 2);
+								$stmt->bind_param("iii", $next_idGS_CD, $idTutor, $tag);
+								$stmt->execute();
+							}
+						}
+					}
+					if (!empty($listCalendars)) {
+						$sql = 'DELETE FROM lichday WHERE MaGS = ?';
+						$stmt = $conn->prepare($sql);
+						$stmt->bind_param('i', $idTutor);
+						$stmt->execute();
+
+						// thêm các môn học 
+						$sql = 'INSERT INTO lichday (MaLichDay, TenThu, TenBuoi, MaGS) VALUES (?, ?, ?, ?)';
+						$stmt = $conn->prepare($sql);
+						foreach ($listCalendars as $calendar) {
+							$result_split = splitString($calendar);
+							// $result_split[0]; // Thứ 
+							// $result_split[1]; // Buổi
+							$next_idLichDay = next_id($conn, 3);
+							$stmt->bind_param("issi", $next_idLichDay, $result_split[0], $result_split[1], $idTutor);
+							$stmt->execute();
+						}
+					}
+				}
+			}
+		} else if ($typeAcc == 3) {
+			if (isset($idStudent)) {
+
+				if (!empty($fullName) and (!empty($phoneNumber)) and (!empty($selectedCity)) and (!empty($sex) or $sex == 0)) {
+
+					$updateStudent =  "UPDATE `hocvien`
+																					SET
+																						`Hoten` = ?,
+																						`DienThoai` = ?,
+																						`Tinh_TP` = ?,
+																						`DiaChiCT` = ?,
+																						`MoTa` = ?,
+																						`GioiTinh` = ?
+																					WHERE MaHV = ?;";
+
+					$stmt = $conn->prepare($updateStudent);
+					$stmt->bind_param("sssssii", $fullName, $phoneNumber, $selectedCity, $detailCity, $description, $sex, $idStudent);
+					if ($stmt->execute()) {
+
+						echo '<script language="javascript">alert("Update successful!");</script>';
+						// header("Refresh: 1");
+					} else {
+						echo '<script language="javascript">alert("Update failed!");</script>';
+					}
+				}
+			}
+		}
+	}
+}
+
 
 
 ?>
@@ -205,7 +474,7 @@ if (isset($_GET['edit'])) {
 										<div class="gblock-v2">
 
 											<div class="header-block">
-												<span>Hồ sơ giáo viên</span>
+												<span>Hồ sơ <?= (isset($typeAcc) && ($typeAcc == 2)) ? 'gia sư' : 'học viên' ?></span>
 											</div>
 
 											<!--Hiện dialog nếu chưa là giáo viên-->
@@ -250,259 +519,7 @@ if (isset($_GET['edit'])) {
 
 
 											<div class="body-block">
-												<?php
-												if (isset($idAcc)) {
 
-													$sql = 'SELECT * FROM taikhoan WHERE MaTK = ?';
-													$stmt = $conn->prepare($sql);
-													$stmt->bind_param('i', $idAcc);
-													$stmt->execute();
-													$result = $stmt->get_result()->fetch_assoc();
-													$typeAcc = $result['MaPQ'];
-
-													if ($typeAcc == 2) {
-														// Lấy thông tin gia sư
-														$sql = 'SELECT * FROM giasu  WHERE MaTK = ?';
-														$stmt = $conn->prepare($sql);
-														$stmt->bind_param('i', $idAcc);
-														$stmt->execute();
-														$resultTutor = $stmt->get_result()->fetch_assoc();
-														$idTutor = $resultTutor['MaGS'];
-														$fullName = $resultTutor['HoTen'];
-														$phoneNumber = $resultTutor['DienThoai'];
-														$typeTutor = $resultTutor['MaLoaiGS'];
-														$city = $resultTutor['Tinh_TP'];
-														$detailCity = $resultTutor['DiaChiCT'];
-														$sex = $resultTutor['GioiTinh'];
-														$description = $resultTutor['MoTa'];
-
-														$typeTeach = $resultTutor['MaHT'];
-														$fee1Hour = $resultTutor['HocPhi1H'];
-														$avatarTutor = $resultTutor['AnhDaiDien'];
-														$degreeTutor = $resultTutor['AnhBangCap'];
-
-														// Lấy dữ liệu chủ đề cho gia sư
-														$sql = 'SELECT * FROM giasu_chude  WHERE MaGS = ?';
-														$stmt = $conn->prepare($sql);
-														$stmt->bind_param('i', $idTutor);
-														$stmt->execute();
-														$resultTutor_Tag = $stmt->get_result();
-														$listTags = array();
-
-														while ($rowTutor_Tag = $resultTutor_Tag->fetch_assoc()) {
-															array_push($listTags, $rowTutor_Tag['MaCD']);
-														}
-
-														// Lấy dữ liệu lich dạy gia sư
-														if (isset($idTutor)) {
-															$sql = 'SELECT * FROM lichday  WHERE MaGS = ?';
-															$stmt = $conn->prepare($sql);
-															$stmt->bind_param('i', $idTutor);
-															$stmt->execute();
-															$resultlistCalendars = $stmt->get_result();
-															$listCalendars = array();
-		
-															while ($rowlistCalendars = $resultlistCalendars->fetch_assoc()) {
-																array_push($listCalendars, $rowlistCalendars['TenThu'] . " " . $rowlistCalendars['TenBuoi']);
-															}
-														}
-
-														// Cập nhật thông tin gia sư
-														if (isset($_POST['submit-info'])) {
-															$fullName = $_POST['full_name'];
-															$phoneNumber = $_POST['number'];
-															$city = $_POST['place'];
-															$detailCity = $_POST['address-detail'];
-															$sex = $_POST['sex'];
-															$description = $_POST['body'];
-															$typeTutor = $_POST['typeTutor'];
-
-
-
-
-															$fee1Hour = $_POST['price_cost'];
-															$avatarTutor = $_FILES['edit_avatar_account']['name'];
-															$upload_avt_Tutor = "../assets/img/img_tutor/" . $avatarTutor;
-															$degreeTutor = $_FILES['img_cmt_cert']['name'];
-															$upload_deg_Tutor = "../assets/img/img_tutor/" . $degreeTutor;
-
-															echo $fullName;
-															echo $phoneNumber;
-															echo $city;
-															echo $detailCity;
-															echo $description;
-															echo $typeTutor;
-
-
-															echo $avatarTutor;
-															echo $upload_avt_Tutor;
-															echo $degreeTutor;
-															echo $upload_deg_Tutor;
-															echo $sex;
-															echo $fee1Hour;
-															if (isset($_POST['subject'])) {
-																$typeSubjects  = $_POST['subject'];
-																foreach ($typeSubjects as $subject) {
-																	echo $subject . "<br>";
-																}
-															} else {
-																$typeSubjects = NULL;
-															}
-
-
-
-															if (isset($_POST['list_tag'])) {
-																$listTags = $_POST['list_tag']; // Lấy các giá trị được chọn từ checkbox
-																foreach ($listTags as $tag) {
-																	echo "Giá trị của checkbox được chọn: $tag <br>";
-																}
-															} else {
-																echo "Không có checkbox nào được chọn.";
-																$listTags = NULL;
-															}
-															if (isset($_POST['list-calendar'])) {
-																$listCalendars = $_POST['list-calendar'];
-
-																foreach ($listCalendars as $calendar) {
-																	echo "Giá trị của checkbox được chọn: $calendar <br>";
-																}
-															} else {
-																echo "Không có checkbox nào được chọn.";
-																$listCalendars = array();
-															}
-															if (isset($_POST['type-teach'])) {
-																$typeTeachs = $_POST['type-teach'];
-																if (count($typeTeachs) > 1) {
-																	$typeTeach = 3;
-																} else {
-																	foreach ($typeTeachs as $x) {
-																		if ($x == 1) {
-																			$typeTeach = 1;
-																		} else if ($x == 2) {
-																			$typeTeach = 2;
-																		}
-																	}
-																}
-																echo $typeTeach;
-															} else {
-																$typeTeachs = NULL;
-																echo "vcllll";
-															}
-
-
-
-															if (array_key_exists($city, $cityData)) {
-																// Lấy tên của tỉnh/thành phố tương ứng với mã số
-																$selectedCity = $cityData[$city];
-																echo $selectedCity;
-															} else {
-																echo "Không tìm thấy tỉnh/thành phố tương ứng.";
-															}
-
-															if (!empty($fullName) and (!empty($phoneNumber)) and (!empty($description)) and (!empty($typeTutor)) and (!empty($fee1Hour)) and ($typeTeachs != NULL) and (!empty($selectedCity)) and (!empty($avatarTutor)) and (!empty($degreeTutor))) {
-																$updateTutor =  "UPDATE `giasu`
-																				 SET
-																					`Hoten` = ?,
-																					`DienThoai` = ?,
-																					`Tinh_TP` = ?,
-																					`DiaChiCT` = ?,
-																					`MoTa` = ?,
-																					`GioiTinh` = ?,
-																					`HocPhi1H` = ?,
-																					`MaLoaiGS` = ?,
-																					`MaHT` = ?,
-																					`AnhDaiDien` = ?,
-																					`AnhBangCap` = ?
-																				WHERE MaGS = ?;";
-
-																$stmt = $conn->prepare($updateTutor);
-																$stmt->bind_param("sssssidiissi", $fullName, $phoneNumber, $selectedCity, $detailCity, $description, $sex, $fee1Hour, $typeTutor, $typeTeach, $avatarTutor, $degreeTutor, $idTutor);
-
-
-																if ($stmt->execute()) {
-																	move_uploaded_file($_FILES['edit_avatar_account']['tmp_name'], $upload_avt_Tutor);
-																	move_uploaded_file($_FILES['img_cmt_cert']['tmp_name'], $upload_deg_Tutor);
-																	echo '<script language="javascript">alert("Update successful!");</script>';
-																	// header("Refresh: 1");
-																} else {
-																	echo '<script language="javascript">alert("Update failed!");</script>';
-																}
-																if ($typeSubjects != NULL) {
-																	$sql = 'DELETE FROM giasu_monhoc WHERE MaGS = ?';
-																	$stmt = $conn->prepare($sql);
-																	$stmt->bind_param('i', $idTutor);
-																	$stmt->execute();
-
-																	// thêm các môn học 
-																	$sql = 'INSERT INTO giasu_monhoc (MaGS_MH, MaGS, MaMH) VALUES (?, ?, ?)';
-																	$stmt = $conn->prepare($sql);
-																	foreach ($typeSubjects as $subject) {
-																		$next_idGS_MH = next_id($conn, 1);
-																		$stmt->bind_param("iii", $next_idGS_MH, $idTutor, $subject);
-																		$stmt->execute();
-																	}
-
-																	if ($listTags != NULL) {
-																		$sql = 'DELETE FROM giasu_chude WHERE MaGS = ?';
-																		$stmt = $conn->prepare($sql);
-																		$stmt->bind_param('i', $idTutor);
-																		$stmt->execute();
-
-																		// thêm các chủ đề
-																		$sql = 'INSERT INTO giasu_chude (MaGS_CD, MaGS, MaCD) VALUES (?, ?, ?)';
-																		$stmt = $conn->prepare($sql);
-																		foreach ($listTags as $tag) {
-																			$next_idGS_CD = next_id($conn, 2);
-																			$stmt->bind_param("iii", $next_idGS_CD, $idTutor, $tag);
-																			$stmt->execute();
-																		}
-																	}
-																}
-																if (!empty($listCalendars)) {
-																		$sql = 'DELETE FROM lichday WHERE MaGS = ?';
-																		$stmt = $conn->prepare($sql);
-																		$stmt->bind_param('i', $idTutor);
-																		$stmt->execute();
-
-																		// thêm các môn học 
-																		$sql = 'INSERT INTO lichday (MaLichDay, TenThu, TenBuoi, MaGS) VALUES (?, ?, ?, ?)';
-																		$stmt = $conn->prepare($sql);
-																		foreach ($listCalendars as $calendar) {
-																			$result_split = splitString($calendar);
-																			// $result_split[0]; // Thứ 
-																			// $result_split[1]; // Buổi
-																			$next_idLichDay = next_id($conn, 3);
-																			$stmt->bind_param("issi", $next_idLichDay, $result_split[0], $result_split[1], $idTutor);
-																			$stmt->execute();
-																		}
-
-																}
-															}
-														}
-													} else if ($typeAcc == 3) {
-														$sql = 'SELECT * FROM hocvien WHERE MaTK = ?';
-														$stmt = $conn->prepare($sql);
-														$stmt->bind_param('i', $idAcc);
-														$stmt->execute();
-														$resultStudent = $stmt->get_result()->fetch_assoc();
-														$fullName = $resultStudent['HoTen'];
-														$phoneNumber = $resultStudent['DienThoai'];
-														$city = $resultStudent['Tinh_TP'];
-														$detailCityTutor = $resultStudent['DiaChiCT'];
-													}
-												}
-
-												// if (isset($)){
-												// 	$fullName = $_POST['full_name'];
-												// 	$phoneNumber = $_POST['number'];
-												// 	$city = $_POST['place'];
-												// 	$detailCity = $_POST['address-detail'];
-												// 	$description = $_POST['body'];
-
-
-												// }
-
-												?>
 												<!--Part 1: thông tin cá nhân-->
 												<form id="update-profile-form" method="POST" enctype="multipart/form-data">
 													<style>
@@ -529,7 +546,7 @@ if (isset($_GET['edit'])) {
 
 															<div class="col-md-6">
 																<label>TỈNH/THÀNH PHỐ ĐANG SỐNG <span class="teacher-alert">*</span> </label>
-																<select name="place" id="place" class="form-control">
+																<select style="border-radius: 8px;" name="place" id="place" class="form-control">
 																	<option value="" disabled selected>Lựa chọn</option>
 
 																	<optgroup label='Địa điểm phổ biến'>
@@ -589,17 +606,17 @@ if (isset($_GET['edit'])) {
 
 													<div class="row info-step-3 info-step">
 														<div class="col-md-12">
-															<label>MÔ TẢ BẢN THÂN, KINH NGHIỆM & BẰNG CẤP <span class="teacher-alert">*</span></label><br>
-															<i>(Bạn cần ghi đầy đủ ưu điểm của bản thân để được nhận lớp
+															<label>MÔ TẢ BẢN THÂN<?= (isset($typeAcc) && ($typeAcc == 2)) ? ', KINH NGHIỆM & BẰNG CẤP' : '' ?> <span class="teacher-alert">*</span></label><br>
+															<i style="display: <?= (isset($typeAcc) && ($typeAcc == 2)) ? '' : 'none' ?>">(Bạn cần ghi đầy đủ ưu điểm của bản thân để được nhận lớp
 																trong thời gian sớm nhất, <a href="#gs_huong_dan" class="popup-modal">xem hướng dẫn</a>)</i>
 
-															<textarea id="mo-ta-ban-than" oninput="changeStatusInput()" onkeypress="changeStatusInput()" style="margin-top: 20px" placeholder="Mô tả bản thân, bằng cấp và kinh nghiệm của bạn (nên dài hơn 150 chữ cái)..." name="body"><?= isset($description) ? $description : "" ?></textarea>
+															<textarea id="mo-ta-ban-than" oninput="changeStatusInput()" onkeypress="changeStatusInput()" style="<?= (isset($typeAcc) && ($typeAcc == 2)) ? 'margin-top: 20px' : '' ?>" placeholder="<?= (isset($typeAcc) && ($typeAcc == 2)) ? 'Mô tả bản thân, bằng cấp và kinh nghiệm của bạn (nên dài hơn 150 chữ cái)...' : 'Mô tả bản thân' ?>" name="body"><?= isset($description) ? $description : "" ?></textarea>
 
 														</div>
 													</div>
 
 													<!-- YEU CAU GIANH CHO GIAO VIEN -->
-													<div class="row info-step-2 info-step">
+													<div class="row info-step-2 info-step" style="display:<?= (isset($typeAcc) && ($typeAcc == 2)) ? '' : 'none' ?>">
 														<div class="col-md-12">
 															<h3>Hồ sơ chuyên môn</h3>
 														</div>
@@ -761,7 +778,7 @@ if (isset($_GET['edit'])) {
 													</div> <!--Ho so chuyen mon -->
 											</div>
 
-											<div class="row info-step-2 info-step">
+											<div class="row info-step-2 info-step" style="display:<?= (isset($typeAcc) && ($typeAcc == 2)) ? '' : 'none' ?>">
 												<label>LỊCH CÓ THỂ NHẬN LỚP <span class="teacher-alert">*</span>
 												</label>
 												<div class="content-info-step-2">
@@ -827,7 +844,7 @@ if (isset($_GET['edit'])) {
 											</div>
 
 											<!-- Part 2: Cập nhật ảnh: avatar, Bằng cấp, chứng minh thư -->
-											<div class="info-step-5 info-step" style="border-top: 10px solid #f7f7f7;margin:20px -5px 0 -5px;">
+											<div class="info-step-5 info-step" style="border-top: 10px solid #f7f7f7;margin:20px -5px 0 -5px;  display:<?= (isset($typeAcc) && ($typeAcc == 2)) ? '' : 'none' ?>">
 												<h3>Ảnh xác nhận thông tin gia sư</h3>
 												<div class="row  verifired-img justify-content-center">
 													<div class="col-md-4">
@@ -835,7 +852,7 @@ if (isset($_GET['edit'])) {
 															<div class="col-md-12">
 																<label class="title-update" style="margin-left: 22px;">ẢNH ĐẠI DIỆN (PHẢI RÕ MẶT, CHỤP MỘT MÌNH) <span class="teacher-alert">*</span></label>
 																<div class="image-info" id="user-avata">
-																	<a href="https://d1plicc6iqzi9y.cloudfront.net/sites/default/files/image/202403/11/-10-54-03502e62f56bd287d02932a561829bbb95.JPEG" target="_blank"><img id="show_avatar" src="../assets/img/<?= (isset($avatarTutor) and !empty($avatarTutor)) ? 'img_tutor/' . $avatarTutor : 'default_user.png' ?>">
+																	<a href="https://d1plicc6iqzi9y.cloudfront.net/sites/default/files/image/202403/11/-10-54-03502e62f56bd287d02932a561829bbb95.JPEG" target="_blank"><img id="show_avatar" src="../assets/img/img_tutor/<?= (isset($avatarTutor) and !empty($avatarTutor)) ? $avatarTutor : '' ?>">
 																	</a>
 
 																	<div class="box">
@@ -872,7 +889,7 @@ if (isset($_GET['edit'])) {
 																<label class="title-update" style="margin-left: 22px;">THẺ SINH VIÊN HOẶC BẰNG CẤP (KHÔNG HIỂN THỊ) <span class="teacher-alert">*</span> </label>
 																<div class="image-info" id="image-bang-cap">
 																	<a href="https://d1plicc6iqzi9y.cloudfront.net/sites/default/files/image/202403/11/66604-10-53-265a07e319af49f4dd11d3111ac210249a_cert.JPEG" target="blank">
-																		<img id="show-img-cert" src="../assets/img/<?= (isset($degreeTutor) and !empty($degreeTutor)) ? 'img_tutor/' . $degreeTutor : 'cert.png' ?>">
+																		<img id="show-img-cert" src="../assets/img/img_tutor/<?= (isset($degreeTutor) and !empty($degreeTutor)) ? $degreeTutor : '' ?>">
 																	</a>
 
 																	<div class="box">

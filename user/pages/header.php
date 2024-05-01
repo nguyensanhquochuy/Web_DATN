@@ -771,6 +771,7 @@ include 'config.php';
                                 $stmt->bind_param('s', $id);
                                 $stmt->execute();
                                 $resultTutor = $stmt->get_result()->fetch_assoc();
+                                $idTutor = $resultTutor['MaGS'];
                                 $avatarTutor = $resultTutor['AnhDaiDien'];
                     
                             } else if ($typeAcc == 3) {
@@ -779,7 +780,9 @@ include 'config.php';
                                 $stmt->bind_param('s', $id);
                                 $stmt->execute();
                                 $resultStudent = $stmt->get_result()->fetch_assoc();
+                                $idStudent = $resultStudent['MaHV'];
                                 $avatarStudent = $resultStudent['AnhDaiDien'];
+                                $coverStudent = $resultStudent['AnhBia'];
                             }
                         
                         } 
@@ -808,7 +811,7 @@ include 'config.php';
                                 } else if (!empty($avatarStudent)){
                                     echo 'img_student/'.$avatarStudent;
                                 } else {
-                                    echo 'avatarDefault.png';
+                                    echo 'default_user.png';
                                 }
                             ?>" alt=""> </a>
                         <div class="dropdown-menu dropdown-menu-right py-0" id="menu-top-personal-menu" x-placement="top-end" aria-labelledby="dropdown-header-profiles" style="position: absolute; transform: translate3d(-210px, 0px, 0px); top: 0px; left: 0px; will-change: transform;">
@@ -817,16 +820,16 @@ include 'config.php';
                                 <i class="fa fa-flag" aria-hidden="true" style="width:20px;"></i> Xem các lớp mới</a>
                             <a class="dropdown-item <?= isset($typeAcc) && ($typeAcc == 2) ? 'mfp-ready' : 'mfp-hide'?> " href="https://www.blacasa.vn/huy-nguyen-080324/offer">
                                 <i class="fa fa-flag" aria-hidden="true" style="width:20px;"></i> Các đề nghị dạy đã gửi</a>
-                            <a class="dropdown-item bla-border-bottom" href="https://www.blacasa.vn/huy-nguyen-080324/class">
+                            <a class="dropdown-item bla-border-bottom" href="class_student_tutor.php?view=<?=$id?>">
                                 <i class="fa fa-book" aria-hidden="true" style="width:20px;"></i> Yêu cầu tìm gia sư</a>
                             <a class="dropdown-item <?= isset($typeAcc) && ($typeAcc == 2) ? 'mfp-ready' : 'mfp-hide'?>" href="https://www.blacasa.vn/huy-nguyen-080324/object-saved?c=teacher">
                                 <i class="fa fa-heart-saved" aria-hidden="true" style="width:20px;"></i> Giáo viên đã lưu</a>
-                            <a class="dropdown-item" href="https://www.blacasa.vn/tao-lop-hoc">
+                            <a class="dropdown-item" href="add_class.php?add=<?=$id?>">
                                 <i class="fa fa-plus-circle" aria-hidden="true" style="width:20px;"></i> Đăng yêu cầu mới</a>
                             
                             <a class="dropdown-item" href="https://www.blacasa.vn/huy-nguyen-080324/bpoint">
                                 <i class="fa fa-btc" aria-hidden="true" style="width:20px;"></i> Quản lý BPoint</a>
-                            <a class="dropdown-item" href="https://www.blacasa.vn/huy-nguyen-080324">
+                            <a class="dropdown-item" href="account.php?view=<?=$id?>">
                                 <i class="fa fa-home" aria-hidden="true" style="width:20px;"></i> Trang cá nhân</a>
                             <a class="dropdown-item" href="edit_account.php?edit=<?=$id?>">
                                 <i class="fa fa-user" aria-hidden="true" style="width:20px;"></i> Cài đặt</a>
@@ -896,7 +899,7 @@ include 'config.php';
                                 <li>
                                     <a href="/class">Dành cho gia sư</a>
                                     <ul class="menu-top-modal-sub">
-                                        <li><a title="Lớp đang cần gia sư" href="/class">Lớp đang cần gia sư</a></li>
+                                        <li><a title="Lớp đang cần gia sư" href="class.php">Lớp đang cần gia sư</a></li>
                                         <li><a title="Trở thành gia sư" href="/lp/tro-thanh-gia-su-bmentor">Trở thành gia sư</a></li>
                                         <li><a title="Hướng dẫn nhận lớp" href="/become-teacher">Hướng dẫn nhận lớp</a></li>
                                         <li><a title="Mời bạn bè" href="/invite-friend">Mời bạn bè</a></li>
@@ -974,7 +977,7 @@ include 'config.php';
                 <li>
                     <a href="/class">Dành cho gia sư</a>
                     <ul class="menu-top-sub">
-                        <li><a title="Lớp đang cần gia sư" href="/class">Lớp đang cần gia sư</a></li>
+                        <li><a title="Lớp đang cần gia sư" href="class.php">Lớp đang cần gia sư</a></li>
                         <li><a title="Trở thành gia sư" href="/lp/tro-thanh-gia-su-bmentor">Trở thành gia sư</a></li>
                         <li><a title="Hướng dẫn nhận lớp" href="/become-teacher">Hướng dẫn nhận lớp</a></li>
                         <li><a title="Mời bạn bè" href="/invite-friend">Mời bạn bè</a></li>

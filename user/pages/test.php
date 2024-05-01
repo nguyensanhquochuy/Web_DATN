@@ -11,6 +11,23 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $currentDateTime);
 $stmt->execute();
 
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+$currentDateTime = date('Y-m-d H:i:s');
+echo $currentDateTime;
+echo '<div class="item-list"><ul class="page">';
+if ($page > 1) {
+    echo '<li class="pager-first page-item"><a class="page-link-1" href="tutor.php?page=1"><<</a></li>';
+    echo '<li class="pager-previous page-item"><a class="page-link-1" href="tutor.php?page=' . ($page - 1) . '"><</a></li>';
+}
+for ($i = 1; $i <= $total_pages; $i++) {
+    echo '<li class="pager-item page-item' . ($page == $i ? ' active-item' : '') . '"><a class="page-link-1' . ($page == $i ? ' active-link' : '') . ' " href="?page=' . $i . '">' . $i . '</a></li>';
+}
+if ($page < $total_pages) {
+    echo '<li class="pager-next page-item"><a class="page-link-1" href="tutor.php?page=' . ($page + 1) . '">></a></li>';
+    echo '<li class="pager-last page-item"><a class="page-link-1" href="tutor.php?page=' . $total_pages . '">>></a></li>';
+}
+echo '</ul></div>';
+
 
 ?>
 <!DOCTYPE html>
@@ -2198,6 +2215,783 @@ $stmt->execute();
                 </div>
             </div>
     </section>
+
+    <div class="headblockThird">
+        <!--
+                    <div class="wrapBlockCount">
+                      	<div class="blockCount">
+                          <span class="firstLine">2</span>
+                          <span class="secondtLine">Lớp đã tạo</span>
+                      	</div>
+                        <div class="blockCount">
+                            <span class="firstLine">0</span>
+                            <span class="secondtLine">Người quan tâm</span>
+                        </div>
+                        <div class="blockCount">
+                            <span class="firstLine">0</span>
+                            <span class="secondtLine">Thích đánh giá</span>
+                        </div>
+                        <div class="blockCount">
+                            <span class="firstLine">0</span>
+                            <span class="secondtLine">Lượt gợi ý</span>
+                        </div>
+                    </div>
+										-->
+        <div class="wrapBlockInvite" style="margin-top:10px;">
+            <a href="/tao-lop-hoc" class="btn-blueblacasa link-become-teacher">
+                Đăng yêu cầu tìm giáo viên
+            </a>
+
+        </div>
+    </div>
+    <div class="container p-create-class-body" style="margin-bottom:20px;">
+        <div class="gform form-article form-product form-nhom-hoc">
+            <div class="body-form">
+
+                <div class="w-100 d-flex justify-content-center" style="margin:0;padding-top:15px;">
+                    <div class="" style="max-width:850px; padding:0 !important;">
+                        <form id="create-class-form" action="/ajax-create-class-form" method="POST" enctype="multipart/form-data">
+                            <div class="left-class-create bla-common-shadow" style="margin:unset;">
+                                <div class="header-form">
+                                    <h2 style="margin: 0;font-size: 24px;">Mô tả yêu cầu tìm gia sư</h2>
+                                </div>
+                                <div class="group-row">
+                                    <div class="row">
+                                        <!--Hướng dẫn & mời gia sư-->
+                                        <div class="col-md-12">
+                                            <div class="class-field-1 class-field">
+                                                <input type="hidden" name="nid" value="">
+                                                <p style="text-align: justify;line-height:1.8;font-size:15px;">
+                                                    Xin chào, bạn chỉ cần <strong>đăng yêu cầu học</strong>, các gia sư sẽ <strong>gửi đề nghị dạy</strong>
+                                                    tới bạn với mức học phí phù hợp để bạn lựa chọn. Nếu bạn cần tư vấn, xin vui lòng gọi điện tới chúng tôi:
+                                                    <a href="telto:0989704869">0989.704.869 </a> hoặc
+                                                    <a class="blacasa-btn-border-only" href="javascript:$('#arcontactus').contactUs('openMenu');" style="padding:2px 5px;">
+                                                        <i class="fa fa-comments"></i> CHAT trực tuyến</a><br>
+                                                </p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--Tóm tắt + môn học + chủ đề-->
+                                <div class="group-row">
+                                    <div class="row">
+                                        <div class="col-md-12 class-field">
+                                            <p class="p-create-class-title">
+                                                Tóm tắt yêu cầu tìm gia sư (1 câu, tối đa 100 ký tự) <span class="class-field-alert">*</span>
+                                            </p>
+                                            <input type="text" name="name_class" id="name_class" placeholder="Ví dụ: Tìm gia sư tiếng anh lớp 7 tại Hoàn kiếm, Hà Nội" maxlength="100" value="">
+                                        </div>
+                                        <!--Môn học-->
+                                        <div class="col-md-6">
+                                            <div class="class-field-4 class-field">
+                                                <p class="p-create-class-title">Môn học <span class="class-field-alert">*</span></p>
+                                                <select name="subject_class" id="subject-class">
+                                                    <option value="">Lựa chọn môn học</option>
+                                                    <optgroup label="Môn học phổ thông">
+                                                        <option value="72">Toán</option>
+                                                        <option value="73">Lý</option>
+                                                        <option value="74">Hóa</option>
+                                                        <option value="76">Văn</option>
+                                                        <option value="677">Tiếng Việt</option>
+                                                        <option value="406">Lịch sử</option>
+                                                        <option value="407">Địa lý</option>
+                                                        <option value="81">Sinh</option>
+                                                        <option value="410">Môn phổ thông khác</option>
+                                                    </optgroup>
+                                                    <optgroup label="Ngoại ngữ">
+                                                        <option value="71">Tiếng Anh</option>
+                                                        <option value="82">Tiếng Nhật</option>
+                                                        <option value="83">Tiếng Hàn</option>
+                                                        <option value="85">Tiếng Đức</option>
+                                                        <option value="84">Tiếng Pháp</option>
+                                                        <option value="409">Tiếng Trung</option>
+                                                        <option value="86">Ngoại ngữ khác</option>
+                                                    </optgroup>
+                                                    <optgroup label="Học nghề">
+                                                        <option value="77">Kỹ năng mềm</option>
+                                                        <option value="404">Nuôi dạy trẻ</option>
+                                                        <option value="411">Công nghệ thông tin</option>
+                                                        <option value="412">Thiết kế - Đồ họa - Video</option>
+                                                        <option value="90">Sales - Marketing</option>
+                                                        <option value="682">Ẩm thực</option>
+                                                        <option value="95">Ngành nghề khác</option>
+                                                    </optgroup>
+                                                    <optgroup label="Thể thao - Nghệ thuật">
+                                                        <option value="97">Âm nhạc</option>
+                                                        <option value="99">Hội họa</option>
+                                                        <option value="101">Dance (nhảy)</option>
+                                                        <option value="78">Gyms, yoga, fitness</option>
+                                                        <option value="102">Thể thao khác</option>
+                                                        <option value="103">Nghệ thuật khác</option>
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!--Chủ đề liên quan-->
+                                        <div class="col-md-12">
+                                            <div class="group-tag">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--Thông tin học phí, số giờ học, phone, place-->
+                                <div class="group-row">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="class-field-6 class-field">
+                                                <p class="p-create-class-title">Học phí dự kiến (vnđ/buổi) <span class="class-field-alert">*</span></p>
+                                                <input type="number" class="form-control _numberOnly" autocomplete="off" maxlength="13" placeholder="Ví dụ:250,000" name="price_cost" id="price_cost" value="" data-original-title="" title="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="class-field-6 class-field class-time">
+                                                <p class="p-create-class-title">Số giờ học 1 buổi <span class="class-field-alert">*</span></p>
+                                                <input type="radio" name="duration" value="1"><label>1h</label>
+                                                <input type="radio" name="duration" value="1.5"><label>1.5h</label>
+                                                <input type="radio" name="duration" value="2" checked=""><label>2h</label>
+                                                <input type="radio" name="duration" value="2.5"><label>2.5h</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="class-field-5 class-field">
+                                                <p class="p-create-class-title">Điện thoại liên hệ <span class="class-field-alert">*</span></p>
+                                                <input type="text" name="phone_class" id="phone_class" placeholder="Ví dụ: 091234567" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" value="1231231235">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="class-field-2 class-field">
+                                                <p class="p-create-class-title">Hình thức học <span class="class-field-alert">*</span></p>
+                                                <label class="type-class">
+                                                    <input type="checkbox" name="class_type_offline" id="offline-type" value="0" checked=""><label for="offline-type">Gia sư tại nhà</label>
+                                                </label>
+                                                <label class="type-class">
+                                                    <input type="checkbox" name="class_type_online" id="online-type" value="1"><label for="online-type">(Online) Trực tuyến</label>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--address-->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="class-field-6 class-field class-address">
+                                                <p class="p-create-class-title">Địa điểm diễn ra lớp học (Chọn đủ tỉnh/quận-huyện/phường xã) <span class="class-field-alert">*</span></p>
+                                                <select name="place" id="select-country-class" onchange="placechange()">
+                                                    <option selected="" value="">-Tỉnh/thành phố-</option>;
+                                                    <optgroup label="Địa điểm phổ biến">
+                                                        <option value="1">Hà Nội</option>
+                                                        <option value="2">Hồ Chí Minh</option>
+                                                        <option value="10">Hải Phòng</option>
+                                                        <option value="3">Đà Nẵng</option>
+                                                        <option value="11">Cần Thơ</option>
+                                                    </optgroup>
+                                                    <optgroup label="Tỉnh, thành phố khác">
+                                                        <option value="17">An Giang</option>
+                                                        <option value="18">Bà Rịa-Vũng Tàu</option>
+                                                        <option value="21">Bắc Giang</option>
+                                                        <option value="20">Bắc Kạn</option>
+                                                        <option value="19">Bạc Liêu</option>
+                                                        <option value="22">Bắc Ninh</option>
+                                                        <option value="23">Bến Tre</option>
+                                                        <option value="14">Bình Dương</option>
+                                                        <option value="25">Bình Phước</option>
+                                                        <option selected="" value="26">Bình Thuận</option>
+                                                        <option value="24">Bình Định</option>
+                                                        <option value="27">Cà Mau</option>
+                                                        <option value="28">Cao Bằng</option>
+                                                        <option value="29">Đắk Lắk</option>
+                                                        <option value="30">Đắk Nông</option>
+                                                        <option value="31">Điện Biên</option>
+                                                        <option value="13">Đồng Nai</option>
+                                                        <option value="32">Đồng Tháp</option>
+                                                        <option value="33">Gia Lai</option>
+                                                        <option value="34">Hà Giang</option>
+                                                        <option value="35">Hà Nam</option>
+                                                        <option value="36">Hà Tây cũ (Hà Nội)</option>
+                                                        <option value="37">Hà Tĩnh</option>
+                                                        <option value="38">Hải Dương</option>
+                                                        <option value="40">Hậu Giang</option>
+                                                        <option value="39">Hòa Bình</option>
+                                                        <option value="12">Thừa Thiên Huế</option>
+                                                        <option value="41">Hưng Yên</option>
+                                                        <option value="42">Khánh Hòa</option>
+                                                        <option value="43">Kiên Giang</option>
+                                                        <option value="44">Kon Tum</option>
+                                                        <option value="45">Lai Châu</option>
+                                                        <option value="48">Lâm Đồng</option>
+                                                        <option value="47">Lạng Sơn</option>
+                                                        <option value="46">Lào Cai</option>
+                                                        <option value="49">Long An</option>
+                                                        <option value="50">Nam Định</option>
+                                                        <option value="51">Ninh Bình</option>
+                                                        <option value="52">Ninh Thuận</option>
+                                                        <option value="16">Nghệ An</option>
+                                                        <option value="53">Phú Thọ</option>
+                                                        <option value="54">Phú Yên</option>
+                                                        <option value="55">Quảng Bình</option>
+                                                        <option value="56">Quảng Nam</option>
+                                                        <option value="57">Quảng Ngãi</option>
+                                                        <option value="58">Quảng Ninh</option>
+                                                        <option value="59">Quảng Trị</option>
+                                                        <option value="60">Sóc Trăng</option>
+                                                        <option value="61">Sơn La</option>
+                                                        <option value="62">Tây Ninh</option>
+                                                        <option value="63">Thái Bình</option>
+                                                        <option value="64">Thái Nguyên</option>
+                                                        <option value="15">Thanh Hóa</option>
+                                                        <option value="65">Tiền Giang</option>
+                                                        <option value="66">Trà Vinh</option>
+                                                        <option value="67">Tuyên Quang</option>
+                                                        <option value="68">Vĩnh Long</option>
+                                                        <option value="69">Vĩnh Phúc</option>
+                                                        <option value="70">Yên Bái</option>
+                                                    </optgroup>
+                                                    <optgroup label="International cities">
+                                                        <option value="141">Cities in Asia</option>
+                                                        <option value="146">Cities in Africa</option>
+                                                        <option value="145">Cities in Australia (Oceania)</option>
+                                                        <option value="142">Cities in Europe</option>
+                                                        <option value="143">Cities in North America</option>
+                                                        <option value="144">Cities in South America</option>
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!-- Thêm quận huyện -->
+                                        <div class="col-md-3">
+                                            <div class="class-field-3 class-field class-address">
+                                                <p class="p-create-class-title" style="color: #fff!important;"> Quận Huyện</p>
+                                                <select id="district" name="district" class="form-control" onchange="districtchange()">
+                                                    <option value="">-Quận/Huyện-</option>
+                                                    <option value="Thành phố Phan Thiết">
+                                                        Thành phố Phan Thiết </option>
+                                                    <option value="Thị xã La Gi">
+                                                        Thị xã La Gi </option>
+                                                    <option value="Tuy Phong">
+                                                        Tuy Phong </option>
+                                                    <option value="Bắc Bình">
+                                                        Bắc Bình </option>
+                                                    <option value="Hàm Thuận Bắc">
+                                                        Hàm Thuận Bắc </option>
+                                                    <option value="Hàm Thuận Nam">
+                                                        Hàm Thuận Nam </option>
+                                                    <option value="Tánh Linh">
+                                                        Tánh Linh </option>
+                                                    <option value="Đức Linh">
+                                                        Đức Linh </option>
+                                                    <option value="Hàm Tân">
+                                                        Hàm Tân </option>
+                                                    <option value="Phú Quí">
+                                                        Phú Quí </option>
+                                                </select><input type="hidden" id="place_name" value="Bình Thuận">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="class-field-3 class-field class-address">
+                                                <p class="p-create-class-title" style="color: #fff!important;"> Phường/Xã</p>
+                                                <select id="ward" name="ward" class="form-control">
+                                                    <option value="">-Phường/Xã-</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!-- E: Thêm quận huyên -->
+                                        <div class="col-md-6">
+                                            <div class="class-field-7 class-field class-address">
+                                                <p class="p-create-class-title">Địa chỉ cụ thể diễn ra lớp học <span class="class-field-alert">*</span></p>
+                                                <input type="text" name="address_class" id="address-class" placeholder="Nhập Tên đường, quận/huyện (rồi chọn từ danh sách)" value="Nhà Nghĩ Rạng Đông">
+                                            </div>
+                                            <div class="class-field-7 class-field class-address">
+                                                <input type="hidden" name="latitude" id="latitude" value="21.035280">
+                                                <input type="hidden" name="longitude" id="longitude" value="105.809216">
+                                            </div>
+                                        </div>
+                                        <!--display embed map-->
+                                        <div class="col-md-12">
+                                            <div id="map-container">
+                                                <iframe id="iframe-map" width="100%" height="250px" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBGxfcOFnDe1SYCzxOOnSfHUXnQHVGyQH8&amp;q=21.03528,105.809216&amp;zoom=13&amp;maptype=roadmap" allowfullscreen="" data-ruffle-polyfilled="">
+                                                </iframe>
+                                            </div>
+                                            <!--old code using dynamic map-->
+                                            <div id="map"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--Mô tả chi tiết nội dung  học-->
+                                <div class="group-row">
+                                    <div class="row">
+                                        <!--Lịch có thể học-->
+                                        <div class="col-md-12">
+                                            <p class="p-create-class-title"><i class="fa fa-calendar" aria-hidden="true"></i> Thời gian có thể học</p>
+
+                                            <div class="calendar-list-picker">
+                                                <div class="row-calendar-check">
+                                                    <h4>Thứ 2</h4>
+                                                    <ul>
+                                                        <li><label for="morning-calendar-2">Sáng</label><input class="radio-calendar" id="morning-calendar-2" type="checkbox" name="sang_2" value="sang_2"></li>
+                                                        <li><label for="afternoon-calendar-2">Chiều</label><input class="radio-calendar" id="afternoon-calendar-2" type="checkbox" name="chieu_2" value="chieu_2"></li>
+                                                        <li><label for="evening-calendar-2">Tối</label><input class="radio-calendar" id="evening-calendar-2" type="checkbox" name="toi_2" value="toi_2"></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="row-calendar-check">
+                                                    <h4>Thứ 3</h4>
+                                                    <ul>
+                                                        <li><label for="morning-calendar-3">Sáng</label><input class="radio-calendar" id="morning-calendar-3" type="checkbox" name="sang_3" value="sang_3"></li>
+                                                        <li><label for="afternoon-calendar-3">Chiều</label><input class="radio-calendar" id="afternoon-calendar-3" type="checkbox" name="chieu_3" value="chieu_3"></li>
+                                                        <li><label for="evening-calendar-3">Tối</label><input class="radio-calendar" id="evening-calendar-3" type="checkbox" name="toi_3" value="toi_3"></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="row-calendar-check">
+                                                    <h4>Thứ 4</h4>
+                                                    <ul>
+                                                        <li><label for="morning-calendar-4">Sáng</label><input class="radio-calendar" id="morning-calendar-4" type="checkbox" name="sang_4" value="sang_4"></li>
+                                                        <li><label for="afternoon-calendar-4">Chiều</label><input class="radio-calendar" id="afternoon-calendar-4" type="checkbox" name="chieu_4" value="chieu_4"></li>
+                                                        <li><label for="evening-calendar-4">Tối</label><input class="radio-calendar" id="evening-calendar-4" type="checkbox" name="toi_4" value="toi_4"></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="row-calendar-check">
+                                                    <h4>Thứ 5</h4>
+                                                    <ul>
+                                                        <li><label for="morning-calendar-5">Sáng</label><input class="radio-calendar" id="morning-calendar-5" type="checkbox" name="sang_5" value="sang_5"></li>
+                                                        <li><label for="afternoon-calendar-5">Chiều</label><input class="radio-calendar" id="afternoon-calendar-5" type="checkbox" name="chieu_5" value="chieu_5"></li>
+                                                        <li><label for="evening-calendar-5">Tối</label><input class="radio-calendar" id="evening-calendar-5" type="checkbox" name="toi_5" value="toi_5"></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="row-calendar-check">
+                                                    <h4>Thứ 6</h4>
+                                                    <ul>
+                                                        <li><label for="morning-calendar-6">Sáng</label><input class="radio-calendar" id="morning-calendar-6" type="checkbox" name="sang_6" value="sang_6"></li>
+                                                        <li><label for="afternoon-calendar-6">Chiều</label><input class="radio-calendar" id="afternoon-calendar-6" type="checkbox" name="chieu_6" value="chieu_6"></li>
+                                                        <li><label for="evening-calendar-6">Tối</label><input class="radio-calendar" id="evening-calendar-6" type="checkbox" name="toi_6" value="toi_6"></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="row-calendar-check">
+                                                    <h4>Thứ 7</h4>
+                                                    <ul>
+                                                        <li><label for="morning-calendar-7">Sáng</label><input class="radio-calendar" id="morning-calendar-7" type="checkbox" name="sang_7" value="sang_7"></li>
+                                                        <li><label for="afternoon-calendar-7">Chiều</label><input class="radio-calendar" id="afternoon-calendar-7" type="checkbox" name="chieu_7" value="chieu_7"></li>
+                                                        <li><label for="evening-calendar-7">Tối</label><input class="radio-calendar" id="evening-calendar-7" type="checkbox" name="toi_7" value="toi_7"></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="row-calendar-check">
+                                                    <h4>Chủ nhật</h4>
+                                                    <ul>
+                                                        <li><label for="morning-calendar-8">Sáng</label><input class="radio-calendar" id="morning-calendar-8" type="checkbox" name="sang_8" value="sang_8"></li>
+                                                        <li><label for="afternoon-calendar-8">Chiều</label><input class="radio-calendar" id="afternoon-calendar-8" type="checkbox" name="chieu_8" value="chieu_8"></li>
+                                                        <li><label for="evening-calendar-8">Tối</label><input class="radio-calendar" id="evening-calendar-8" type="checkbox" name="toi_8" value="toi_8"></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div style="width: 100%;text-align: center;">
+                                                <p class="note-calender">Bấm để chọn lịch. <span>Màu xanh</span> là những buổi có thể học.</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="class-field-12 class-field">
+                                                <p class="p-create-class-title"><i class="fa fa-quote-right" aria-hidden="true"></i>Mô tả chi tiết nội dung muốn học <span class="class-field-alert">*</span></p>
+                                                <textarea name="introduce_class" id="introduce-class" placeholder="Mô tả các nội dung muốn học tại đây... "></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--Các tùy chọn nâng cao-->
+                                <div class="group-row">
+                                    <fieldset>
+                                        <legend style="text-align: center; border-bottom: none; color: #8a8a8a;font-weight: bold; font-size: 16px">THÔNG TIN THÊM</legend>
+                                        <div class="row-read-more read-more-wrap">
+                                            <div class="read-more-target">
+
+                                                <!--Số buổi học 1 tuần-->
+                                                <div class="col-md-6">
+                                                    <div class="class-field-6 class-field class-sum-day">
+                                                        <p class="p-create-class-title">Số buổi học trong tuần</p>
+                                                        <input type="radio" name="times_per_week" value="1"><label> 1 buổi</label>
+                                                        <input type="radio" name="times_per_week" value="2" checked="checked"><label> 2 buổi</label>
+                                                        <input type="radio" name="times_per_week" value="3"><label> 3 buổi</label>
+                                                        <input type="radio" name="times_per_week" value="4"><label> từ 4 buổi</label>
+                                                    </div>
+                                                </div>
+
+                                                <!--Số học viên-->
+                                                <div class="col-md-6">
+                                                    <div class="class-field-8 class-field">
+                                                        <p class="p-create-class-title">Số học viên</p>
+                                                        <input type="text" name="number_student" id="number_student" value="1">
+                                                    </div>
+                                                </div>
+
+                                                <!--Giới tính gia sư-->
+
+                                                <div class="col-md-6">
+                                                    <div class="class-field-8 class-field">
+                                                        <p class="p-create-class-title">Giới tính gia sư</p>
+                                                        <span style="padding-right:15px; min-width:60px;">
+                                                            <input type="checkbox" name="teacher_male" id="teacher_male" value="1" checked=""> Nam
+                                                        </span>
+                                                        <span>
+                                                            <input type="checkbox" name="teacher_female" id="teacher_female" value="0" checked=""> Nữ
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <!--Ngày học dự kiến-->
+                                                <div class="col-md-6">
+                                                    <div class="class-field-9 class-field">
+                                                        <p class="p-create-class-title">Ngày dự kiến học</p>
+                                                        <input type="text" name="day-start" id="day-start" value="" class="hasDatepicker">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+                                <!--b:TH Agency-->
+                                <div class="group-row" style="display:none">
+                                    <fieldset>
+                                        <legend style="text-align: center; border-bottom: none; color: #8a8a8a;font-weight: bold; font-size: 16px">DÀNH CHO TRUNG TÂM</legend>
+                                        <div class="row">
+                                            <div class="col-md-12" style="margin-bottom: 20px">
+                                                <input type="checkbox" name="tra_phi_sau"> Trả phí sau
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="class-field">
+                                                    <p class="p-create-class-title">Trung tâm</p>
+                                                    <select name="class_agency">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="class-field">
+                                                    <p class="p-create-class-title">Tên phụ huynh</p>
+                                                    <input type="text" name="class_requester_name" value="hao jan">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="class-field">
+                                                    <p class="p-create-class-title">Số điện thoại phụ huynh</p>
+                                                    <input type="text" name="class_requester_phone" value="1231231235">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="class-field">
+                                                    <p class="p-create-class-title">Email phụ huynh</p>
+                                                    <input type="text" name="class_requester_email" value="abc12333@gmail.com">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <!--e:TH Agency-->
+
+                                <!--TH Chưa đăng nhập-->
+
+                                <!--Group: chính sách & button đăng-->
+                                <div class="group-row">
+                                    <!--Cam kết khi tạo mới-->
+                                    <div class="row" style="font-size: 14px;max-width:500px;text-align:center;margin:auto; padding-bottom:10px;">
+                                        <input type="checkbox" name="term_of_user" id="term-of-user" value="1" class="mr-2">
+                                        <span id="text-term-of-use"> Tôi cam kết thông tin tạo lớp là thật và
+                                            chấp nhận <a href="/terms-of-use" target="_blank" style="color:unset;"><i>các quy định</i></a> của Blacasa.</span>
+                                    </div>
+
+                                    <!--Button đăng, cập nhật-->
+                                    <div style="text-align:center;padding:10px 0;">
+                                        <input name="submit-info" type="submit" class="btn btn-success" style="font-weight:bold;border: none;" value="Đăng yêu cầu">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div><!-- /.body-form -->
+        </div><!-- /.gform -->
+    </div>
+    <div id="modalBackdrop" class="backdrop-default" style="z-index: 1000; position: absolute; left: 0px; margin: 0px; background: rgb(255, 255, 255); opacity: 0.55; top: 0px; height: 4477px; width: 1524px;"></div>
+    <div id="modalContent" class="modal-default" style="z-index: 1001; position: absolute; top: 63px; left: 462px; display: block;">
+        <div class="ctools-modal-content" style="width: 1219.2px; height: 213.6px;">
+            <div class="modal-header"> <a class="close" href="#">Close Window<img typeof="foaf:Image" src="https://d1plicc6iqzi9y.cloudfront.net/sites/all/modules/contrib/ctools/images/icon-close-window.png" alt="Close window" title="Close window"> </a> <span id="modal-title" class="modal-title">Gửi đề nghị dạy</span> </div>
+            <div id="modal-content" class="modal-content" style="width: 1194.2px; height: 168.6px;">
+                <div id="dang-ky-tham-gia-form" class="white-popup-block">
+                    <div id="dang-ky-tham-gia-message"></div>
+                    <form action="/lop-hoc-user/10604/dang-ky-day" method="post" id="blacasa-nhom-hoc-dang-ky-day-form" accept-charset="UTF-8" class="ctools-use-modal-processed">
+                        <div>Rất tiếc, tài khoản của bạn không đủ BPoint để đăng ký dạy lớp học này.
+                            Lệ phí gửi đăng ký dạy là 5 Bpoint. Bấm vào <a href="/user/66628/bpoint">ĐÂY</a> để nạp thêm BPoint vào tài khoản.<input type="hidden" name="form_build_id" value="form-oxtNgXtvNrqLoTuvogCoJMgzSnPx-YU3bOtt-SAcXkg">
+                            <input type="hidden" name="form_token" value="1wTiuZcvbR4csS9kADRWC0EqZ3Nki4RKENkMa_nqfHo">
+                            <input type="hidden" name="form_id" value="blacasa_nhom_hoc_dang_ky_day_form">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9 custom-w-right" id="ajax-content-user-load" style="padding:0">
+        <div id="ajax-user-load-page">
+            <button class="w3-button w3-teal w3-xlarge w3-hide-large" onclick="w3_open()">☰</button>
+            <div class="region region-content">
+                <div id="block-system-main" class="block block-system">
+
+
+                    <div class="content">
+                        <div class="gblock-v2" style="margin-bottom:0">
+                            <div class="header-block"><span>Quản lý yêu cầu tìm gia sư</span></div>
+                        </div>
+                        <div class="view view-nhom-hoc-chung view-id-nhom_hoc_chung view-display-id-block_8 view-dom-id-a8f8990a92392270597df1f6c30a8f89 jquery-once-2-processed">
+
+                            <div class="view-filters">
+                                <form action="/tim-nhom-hoc-chung/66628" method="get" id="views-exposed-form-nhom-hoc-chung-block-8" accept-charset="UTF-8" class="jquery-once-2-processed">
+                                    <div>
+                                        <div class="views-exposed-form">
+                                            <div class="views-exposed-widgets clearfix">
+                                                <div id="edit-status-wrapper" class="views-exposed-widget views-widget-filter-field_course_state_value">
+                                                    <div class="views-widget">
+                                                        <div class="form-item form-type-select form-item-status">
+                                                            <select id="edit-status" name="status" class="form-select">
+                                                                <option value="All" selected="selected">- Any -</option>
+                                                                <option value="0">Đang tìm Gia sư</option>
+                                                                <option value="1">Đã chấp nhận</option>
+                                                                <option value="2">Đóng lớp: Đã kết nối</option>
+                                                                <option value="3">Đóng lớp: Chưa có kết nối</option>
+                                                                <option value="4">Từ chối đăng</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="views-exposed-widget views-submit-button">
+                                                    <input type="submit" id="edit-submit-nhom-hoc-chung" name="" value="Áp dụng" class="form-submit">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+
+                            <div class="view-content">
+                                <div class="row-tittle">
+                                    <div class="row-request-1">
+                                        <h3>NGÀY</h3>
+                                    </div>
+                                    <div class="row-request-2">
+                                        <h3>MÔ TẢ</h3>
+                                    </div>
+                                    <div class="row-request-3">
+                                        <h3>ĐỀ NGHỊ DẠY</h3>
+                                    </div>
+                                    <div class="row-request-4">
+                                        <h3>TRẠNG THÁI</h3>
+                                    </div>
+                                </div>
+                                <div class="row-request">
+
+                                    <div class="row-request-1">
+                                        <p>19/04/2024</p>
+                                    </div>
+                                    <div class="row-request-2">
+                                        <p>
+                                            <a href="/class/tim-gia-su-tieng-anh-11146">Tìm gia sư tiếng anh</a>
+                                        </p>
+                                        <span>Tiếng Anh</span>
+                                        <span>(Online) Trực tuyến</span>
+                                        <span class="orange">200,000 vnd/buổi</span>
+                                    </div>
+                                    <div class="row-request-3 count-request">
+                                        <span>0/6 <a href="/class/tim-gia-su-tieng-anh-11146/offer">Xem đề nghị</a></span>
+                                    </div>
+                                    <div class="row-request-4">
+                                        <p style="font-weight: bold; text-transform: uppercase;">Đang tìm Gia sư</p>
+                                        <div>
+                                            <a href="javascripts:voild(0)" class="btn-option dropdown-toggle manage-class-action-edit" type="button" id="dropdown-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" tabindex="0">
+                                                <i class="fa fa-pencil-square-o"></i> Sửa / đóng
+                                            </a>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdown-1">
+                                                <li><a href="/sua-lop-hoc/11146" tabindex="0">Chỉnh sửa</a></li>
+                                                <li><a href="/dong-lop-hoc/11146" tabindex="0" class="ctools-use-modal ctools-use-modal-processed">Đóng yêu cầu</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row-request">
+
+                                    <div class="row-request-1">
+                                        <p>18/04/2024</p>
+                                    </div>
+                                    <div class="row-request-2">
+                                        <p>
+                                            <a href="/class/tim-gia-su-on-van-thi-dai-hoc-11145">Tìm gia sư ôn Văn thi đại học</a>
+                                        </p>
+                                        <span>Văn</span>
+                                        <span>(Online) Trực tuyến</span>
+                                        <span class="orange">200,000 vnd/buổi</span>
+                                    </div>
+                                    <div class="row-request-3 count-request">
+                                        <span>0/6 <a href="/class/tim-gia-su-on-van-thi-dai-hoc-11145/offer">Xem đề nghị</a></span>
+                                    </div>
+                                    <div class="row-request-4">
+                                        <p style="font-weight: bold; text-transform: uppercase;">Đang tìm Gia sư</p>
+                                        <div>
+                                            <a href="javascripts:voild(0)" class="btn-option dropdown-toggle manage-class-action-edit" type="button" id="dropdown-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" tabindex="0">
+                                                <i class="fa fa-pencil-square-o"></i> Sửa / đóng
+                                            </a>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdown-1">
+                                                <li><a href="/sua-lop-hoc/11145" tabindex="0">Chỉnh sửa</a></li>
+                                                <li><a href="/dong-lop-hoc/11145" tabindex="0" class="ctools-use-modal ctools-use-modal-processed">Đóng yêu cầu</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row-request">
+
+                                    <div class="row-request-1">
+                                        <p>25/03/2024</p>
+                                    </div>
+                                    <div class="row-request-2">
+                                        <p>
+                                            <a href="/class/tim-gia-su-photoshop-11142">Tìm gia sư photoshop</a>
+                                        </p>
+                                        <span>Công nghệ thông tin</span>
+                                        <span>(Online) Trực tuyến</span>
+                                        <span class="orange">100,000 vnd/buổi</span>
+                                    </div>
+                                    <div class="row-request-3 count-request">
+                                        <span>0/6 <a href="/class/tim-gia-su-photoshop-11142/offer">Xem đề nghị</a></span>
+                                    </div>
+                                    <div class="row-request-4">
+                                        <p style="font-weight: bold; text-transform: uppercase;">Đang tìm Gia sư</p>
+                                        <div>
+                                            <a href="javascripts:voild(0)" class="btn-option dropdown-toggle manage-class-action-edit" type="button" id="dropdown-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" tabindex="0">
+                                                <i class="fa fa-pencil-square-o"></i> Sửa / đóng
+                                            </a>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdown-1">
+                                                <li><a href="/sua-lop-hoc/11142" tabindex="0">Chỉnh sửa</a></li>
+                                                <li><a href="/dong-lop-hoc/11142" tabindex="0" class="ctools-use-modal ctools-use-modal-processed">Đóng yêu cầu</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row-request">
+
+                                    <div class="row-request-1">
+                                        <p>13/03/2024</p>
+                                    </div>
+                                    <div class="row-request-2">
+                                        <p>
+                                            <a href="/class/em-dang-lam-do-an-thoii-11139">Em đang làm đồ án thoii.</a>
+                                        </p>
+                                        <span>Toán</span>
+                                        <span>(Online) Trực tuyến</span>
+                                        <span class="orange">100,000 vnd/buổi</span>
+                                    </div>
+                                    <div class="row-request-3 count-request">
+                                        <span>0/6 <a href="/class/em-dang-lam-do-an-thoii-11139/offer">Xem đề nghị</a></span>
+                                    </div>
+                                    <div class="row-request-4">
+                                        <p style="font-weight: bold; text-transform: uppercase;">Đóng lớp: Chưa có kết nối</p>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="review-popup-form" class="white-popup-block position-relative" style="">
+        <div class="box-title">Đánh giá</div>
+        <a class="popup-modal-dismiss" href="#">x</a>
+        <div class="box-review-content review-form" style="">
+            <form action="/namkstn" method="post" id="blacasa-feedback-review-form" accept-charset="UTF-8" style="">
+                <div style="">
+                    <div class="form-item form-type-textfield form-item-title">
+                        <input placeholder="Tiêu đề*" type="text" id="edit-title" name="title" value="" size="60" maxlength="128" class="form-text" data-sider-insert-id="b6f89446-61f3-45d3-9976-2acf1b400427" data-sider-select-id="4136215d-78a6-4aa0-91aa-2dea4948b542">
+                    </div>
+                    <div class="form-item form-type-textarea form-item-comment-positive">
+                        <div class="form-textarea-wrapper"><textarea placeholder="Điểm tốt" id="edit-comment-positive" name="comment_positive" cols="60" rows="5" class="form-textarea" data-sider-insert-id="f1ceddb5-6525-449c-86aa-92445228828c" data-sider-select-id="b8a08f4d-7852-49f3-ac17-aa634bdaa5c2"></textarea></div>
+                    </div>
+                    <div class="form-item form-type-textarea form-item-comment-negative">
+                        <div class="form-textarea-wrapper"><textarea placeholder="Điểm chưa tốt" id="edit-comment-negative" name="comment_negative" cols="60" rows="5" class="form-textarea" data-sider-insert-id="ef970ecd-7302-4337-805d-afb6de010158" data-sider-select-id="fb64ce3b-34fa-4e3f-8215-a3f8454f4048"></textarea></div>
+                    </div>
+                    <fieldset class="form-wrapper" id="edit-criteria" style="">
+                        <legend><span class="fieldset-legend">Tiêu chí đánh giá</span></legend>
+                        <div class="fieldset-wrapper" style="">
+                            <div class="review-criteria" style=""><input key="1" id="sliderscore1" class="md-slider-score" type="rang" max="10" step="0.1" value="7.0" oninput="score1.value=sliderscore1.value" style="position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0;">
+                                <div class="rangeslider rangeslider--horizontal" id="js-rangeslider-0" style="">
+                                    <div class="rangeslider__fill" style="width: 412.8px;"></div>
+                                    <div class="rangeslider__handle" style="left: 405.3px;"></div>
+                                </div><span>Phương pháp dạy học</span><output id="score1" for="sliderscore1">7</output>
+                            </div>
+                            <div class="review-criteria" style=""><input key="2" id="sliderscore2" class="md-slider-score" type="rang" max="10" step="0.1" value="7.0" oninput="score2.value=sliderscore2.value" style="position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0;">
+                                <div class="rangeslider rangeslider--horizontal" id="js-rangeslider-1" style="">
+                                    <div class="rangeslider__fill" style="width: 412.8px;"></div>
+                                    <div class="rangeslider__handle" style="left: 405.3px;"></div>
+                                </div><span>Kỹ năng mềm</span><output id="score2" for="sliderscore2">7</output>
+                            </div>
+                            <div class="review-criteria" style=""><input key="3" id="sliderscore3" class="md-slider-score" type="rang" max="10" step="0.1" value="7.0" oninput="score3.value=sliderscore3.value" style="position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0;">
+                                <div class="rangeslider rangeslider--horizontal" id="js-rangeslider-2" style="">
+                                    <div class="rangeslider__fill" style="width: 412.8px;"></div>
+                                    <div class="rangeslider__handle" style="left: 405.3px;"></div>
+                                </div><span>Sự tận tình</span><output id="score3" for="sliderscore3">7</output>
+                            </div>
+                            <div class="review-criteria" style=""><input key="4" id="sliderscore4" class="md-slider-score" type="rang" max="10" step="0.1" value="7.0" oninput="score4.value=sliderscore4.value" style="position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0;">
+                                <div class="rangeslider rangeslider--horizontal" id="js-rangeslider-3" style="">
+                                    <div class="rangeslider__fill" style="width: 412.8px;"></div>
+                                    <div class="rangeslider__handle" style="left: 405.3px;"></div>
+                                </div><span>Đúng giờ</span><output id="score4" for="sliderscore4">7</output>
+                            </div>
+                            <div class="review-criteria" style=""><input key="5" id="sliderscore5" class="md-slider-score" type="rang" max="10" step="0.1" value="7.0" oninput="score5.value=sliderscore5.value" style="position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0;">
+                                <div class="rangeslider rangeslider--horizontal" id="js-rangeslider-4" style="">
+                                    <div class="rangeslider__fill" style="width: 412.8px;"></div>
+                                    <div class="rangeslider__handle" style="left: 405.3px;"></div>
+                                </div><span>Nghiệp vụ sư phạm</span><output id="score5" for="sliderscore5">7</output>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <input type="hidden" name="criteria_1" value="7">
+                    <input type="hidden" name="criteria_2" value="7">
+                    <input type="hidden" name="criteria_3" value="7">
+                    <input type="hidden" name="criteria_4" value="7">
+                    <input type="hidden" name="criteria_5" value="7">
+                    <div class="form-item form-type-radios form-item-recommend">
+                        <label for="edit-recommend">Bạn có muốn recommend này cho người khác không? </label>
+                        <div id="edit-recommend" class="form-radios">
+                            <div class="form-item form-type-radio form-item-recommend">
+                                <input type="radio" id="edit-recommend-yes" name="recommend" value="yes" checked="checked" class="form-radio"> <label class="option" for="edit-recommend-yes">Có </label>
+
+                            </div>
+                            <div class="form-item form-type-radio form-item-recommend">
+                                <input type="radio" id="edit-recommend-no" name="recommend" value="no" class="form-radio"> <label class="option" for="edit-recommend-no">Không </label>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div id="element-form"><input type="submit" id="edit-submit" name="op" value="Gửi đánh giá" class="form-submit ajax-processed"></div><input type="hidden" name="form_build_id" value="form-eNhUFV_0QCyqKZQEIfuooNEOwMag0XoYpgop1XUYKo8">
+                    <input type="hidden" name="form_token" value="Zd05Sw5yGlNhlYYK_vh8whTb5yWHpuE4QWGEGT7bffE">
+                    <input type="hidden" name="form_id" value="blacasa_feedback_review_form">
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 
 </html>
