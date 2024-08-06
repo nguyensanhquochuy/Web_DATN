@@ -85,22 +85,22 @@ include 'config.php';
                         <div class="list-links">
                             <h4 class="d-none">Blacasa JSC.</h4>
                             <div class="mb-3 d-flex flex-column">
-                                <img src="/sites/all/themes/blacasa/images/logo-blacasa-white.png" width="100%" style="max-width:250px;">
-                                <div class="font-weight-bold mt-2" style="font-size:16px;">Công ty cổ phần Blacasa Việt Nam</div>
+                                <img src="../assets/img/tutorConnectStudent-removebg.png" width="100%" style="max-width:250px;">
+                                <div class="font-weight-bold mt-2" style="font-size:16px;">Website kết nối gia sư và người học</div>
                             </div>
                             <ul>
                                 <li class="d-flex align-items-center">
                                     <i class="fa fa-phone mr-2" style="font-size:16px; min-width:20px;"></i>
                                     <div>
-                                        <a href="tel:0989704869">0989.704.869</a></br>
-                                        <a href="tel:1900636342">1900.63.63.42</a>
+                                        <a href="tel:0854641904">0854.641.904</a></br>
+                                     
                                     </div>
                                 </li>
-                                <li><i class="fa fa-envelope mr-2" style="font-size:16px; min-width:20px;"></i><a href="mailto:contact@blacasa.vn">contact@blacasa.vn</a></li>
+                                <li><i class="fa fa-envelope mr-2" style="font-size:16px; min-width:20px;"></i><a href="mailto:contact@blacasa.vn">tutorconnect@gmail.com</a></li>
                                 <li class="d-flex align-items-center">
                                     <i class="fa fa-map-marker mr-2" style="font-size:16px; min-width:20px;"></i>
                                     <div>
-                                        <a href="#" rel="nofollow" target="_blank">Toà nhà Blacasa, 92/5 Láng Hạ, Đống Đa, Hà Nội</a>
+                                        <a href="#" rel="nofollow" target="_blank">Ký túc xá K7 trường Đại Học Nha Trang, Vĩnh Thọ, Nha Trang, Khánh Hòa</a>
                                     </div>
                                 </li>
                                 <li><i class="fa fa-paper-plane mr-2" style="font-size:16px; min-width:20px;"></i><a href="javascript:" class="btnPopupRegister">Gửi liên hệ</a></li>
@@ -109,12 +109,12 @@ include 'config.php';
                     </div>
                     <div class="col-lg-3 col-md-6 col-6">
                         <div class="list-links">
-                            <h4>Về Blacasa</h4>
+                            <h4>Về TutorConnectStudent</h4>
                             <ul>
-                                <li><a href="/gioi-thieu">Giới thiệu Blacasa</a></li>
-                                <li><a href="/jobs">Tuyển dụng</a></li>
-                                <li><a href="/gioi-thieu#partner">Hợp tác & đầu tư</a></li>
-                                <li><a href="/bai-viet/du-an-cong-dong">Các dự án xã hội</a></li>
+                                <li><a href="introduction.php">Giới thiệu TutorConnectStudent</a></li>
+                 
+                                <li><a href="introduction.php#partner">Hợp tác & đầu tư</a></li>
+                               
                             </ul>
                         </div>
                         <div class="list-links">

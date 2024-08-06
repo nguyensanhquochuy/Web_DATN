@@ -149,7 +149,7 @@ function limitWords($string, $limit)
     JOIN monhoc ON monhoc.MaMH = lophoc.MaMH
     JOIN hinhthuc ON hinhthuc.MaHT = lophoc.MaHT
     JOIN hocvien ON hocvien.MaHV = lophoc.MaHV
-    WHERE (1=1) ';
+    WHERE (1=1) AND lophoc.TenTTLop = "Đang tìm gia sư" ';
 
 
     if (isset($_GET['search-class'])) {
@@ -199,7 +199,7 @@ function limitWords($string, $limit)
         )";
 
 
-        echo $class;
+        
     }
 
     $stmt = $conn->prepare($class);
@@ -214,6 +214,7 @@ function limitWords($string, $limit)
     $total_pages = ceil($total_results / $items_per_page);
 
 
+    $class .= "Order by ThoiGianDang DESC ";
     // Thực hiện truy vấn SQL có phân trang sử dụng LIMIT và OFFSET
     $class .= ' LIMIT ' . $items_per_page . ' OFFSET ' . $offset;
 
@@ -647,7 +648,7 @@ function limitWords($string, $limit)
                 Object.entries(data).forEach(([code, province]) => {
                     const option = document.createElement('option');
                     value_otp_main = ["Hà Nội", "Hồ Chí Minh", "Hải Phòng", "Đà Nẵng", "Cần Thơ"];
-                    if (!value_otp_main.includes(code.toString())) {
+                    if (!value_otp_main.includes(province.name)) {
                         option.value = province.name;
                         option.textContent = province.name;
                         // if (option.textContent == city) option.selected = true;

@@ -199,7 +199,32 @@ if (isset($_GET['view'])) {
                         <div style="display:<?= ($result->num_rows >= 1) ? 'flex' : 'none' ?>; margin-top: 20px;" class="">
                             <!-- Phần tử 1 -->
                             <?php while ($row = $result->fetch_assoc()) { ?>
-                                <div class="col-md-2 col-12 ">
+                                <?php
+                                if (isset($_POST['btn-cancel-' . $row['MaGS']])) {
+                                    $statusConnect = "Đề nghị đã bị từ chối";
+                                    $updateConnect =  "UPDATE `ketnoigs_hv`
+                                    SET
+                                        `TenTTDeNghi` = ?
+                                    WHERE MaLop = ? AND MaGS = ?";
+
+                                    $stmt = $conn->prepare($updateConnect);
+                                    $stmt->bind_param("sii", $statusConnect, $idClass, $row['MaGS']);
+                                    $stmt->execute();
+
+                                    $statusClass = "Đang tìm gia sư";
+                                    $updateClass =  "UPDATE `lophoc`
+                                    SET
+                                        `TenTTLop` = ?
+                                    WHERE MaLop = ?";
+
+                                    $stmt = $conn->prepare($updateClass);
+                                    $stmt->bind_param("si", $statusClass, $idClass);
+                                    $stmt->execute();
+
+                                    echo '<script>window.location.reload();</script>';
+                                }
+                                ?>
+                                <form method="post" class="col-md-2 col-12 ">
                                     <div class="user-info">
                                         <div class="avatar">
                                             <a href="account.php?view=<?= $row['MaTK'] ?>">
@@ -210,12 +235,12 @@ if (isset($_GET['view'])) {
                                         <div class="user-details">
                                             <p class="creator-name"><a href="account.php?view=<?= $row['MaTK'] ?>"><?= $row['HoTen'] ?></a></p>
                                             <div class="button-container">
-                                                <button class="btn cancel-btn">Hủy</button>
-                                                <button class="btn accept-btn" disabled>Đã Chấp nhận</button>
+                                                <button name="btn-cancel-<?= $row['MaGS'] ?>" type="submit" class="btn cancel-btn">Hủy</button>
+                                                <button name="btn-accept-<?= $row['MaGS'] ?>" type="submit" class="btn accept-btn" disabled>Đã chấp nhận</button>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </form>
                             <?php } ?>
 
 
@@ -263,7 +288,7 @@ if (isset($_GET['view'])) {
                                     $stmt->bind_param("sii", $statusConnect, $idClass, $row['MaGS']);
                                     $stmt->execute();
 
-                                    $statusConnect = "Đề nghị đã hủy";
+                                    $statusConnect = "Đề nghị đã bị từ chối";
                                     $updateConnect =  "UPDATE `ketnoigs_hv`
                                     SET
                                         `TenTTDeNghi` = ?
@@ -288,7 +313,7 @@ if (isset($_GET['view'])) {
 
 
                                 if (isset($_POST['btn-cancel-' . $row['MaGS']])) {
-                                    $statusConnect = "Đề nghị đã hủy";
+                                    $statusConnect = "Đề nghị đã bị từ chối";
                                     $updateConnect =  "UPDATE `ketnoigs_hv`
                                     SET
                                         `TenTTDeNghi` = ?
@@ -330,7 +355,7 @@ if (isset($_GET['view'])) {
                     <div id="canceled">
                         <div class="view view-blacasa-u2g-relation view-id-blacasa_u2g_relation view-display-id-block_8 view-dom-id-432cc77ac634a09a04f1f2cab2dcb52d gblock-v2">
                             <div class="header-block">
-                                <span>Đề nghị đã hủy</span>
+                                <span>Đề nghị đã từ chối</span>
                             </div>
 
                             <?php
@@ -340,7 +365,7 @@ if (isset($_GET['view'])) {
                                 } else if ($typeAcc == 3) {
                                     $sql = 'SELECT * FROM ketnoigs_hv  
                                     JOIN giasu ON giasu.MaGS = ketnoigs_hv.MaGS
-                                    WHERE MaLop = ? AND TenTTDeNghi = "Đề nghị đã hủy" ';
+                                    WHERE MaLop = ? AND TenTTDeNghi = "Đề nghị đã bị từ chối" ';
                                     $stmt = $conn->prepare($sql);
                                     $stmt->bind_param('i', $idClass);
                                     $stmt->execute();
@@ -355,7 +380,43 @@ if (isset($_GET['view'])) {
                             <div style="display:<?= ($result->num_rows >= 1) ? 'flex' : 'none' ?>; margin-top: 20px;" class="">
                                 <!-- Phần tử 1 -->
                                 <?php while ($row = $result->fetch_assoc()) { ?>
-                                    <div class="col-md-2 col-12 ">
+                                    <?php
+                                        if (isset($_POST['btn-accept-' . $row['MaGS']])) {
+                                            $statusConnect = "Đề nghị dạy đã chấp nhận";
+        
+                                            $updateConnect =  "UPDATE `ketnoigs_hv`
+                                            SET
+                                                `TenTTDeNghi` = ?
+                                            WHERE MaLop = ? AND MaGS = ?";
+        
+                                            $stmt = $conn->prepare($updateConnect);
+                                            $stmt->bind_param("sii", $statusConnect, $idClass, $row['MaGS']);
+                                            $stmt->execute();
+        
+                                            $statusConnect = "Đề nghị đã bị từ chối";
+                                            $updateConnect =  "UPDATE `ketnoigs_hv`
+                                            SET
+                                                `TenTTDeNghi` = ?
+                                            WHERE MaLop = ? AND MAGS != ?";
+        
+                                            $stmt = $conn->prepare($updateConnect);
+                                            $stmt->bind_param("sii", $statusConnect, $idClass, $row['MaGS']);
+                                            $stmt->execute();
+        
+                                            $statusClass = "Đã chấp nhận";
+                                            $updateClass =  "UPDATE `lophoc`
+                                            SET
+                                                `TenTTLop` = ?
+                                            WHERE MaLop = ?";
+        
+                                            $stmt = $conn->prepare($updateClass);
+                                            $stmt->bind_param("si", $statusClass, $idClass);
+                                            $stmt->execute();
+        
+                                            echo '<script>window.location.reload();</script>';
+                                        } 
+                                    ?>
+                                    <form method="post" class="col-md-2 col-12 " style="margin-right: 20px;">
                                         <div class="user-info">
                                             <div class="avatar">
                                                 <a href="account.php?view=<?= $row['MaTK'] ?>">
@@ -366,12 +427,12 @@ if (isset($_GET['view'])) {
                                             <div class="user-details">
                                                 <p class="creator-name"><a href="account.php?view=<?= $row['MaTK'] ?>"><?= $row['HoTen'] ?></a></p>
                                                 <div class="button-container">
-                                                    <button class="btn cancel-btn" disabled>Đã hủy</button>
-                                                    <button class="btn accept-btn">Chấp nhận</button>
+                                                    <button name="btn-cancel-<?= $row['MaGS'] ?>" type="submit" disabled class="btn cancel-btn">Đã từ chối</button>
+                                                    <button name="btn-accept-<?= $row['MaGS'] ?>" type="submit" class="btn accept-btn">Chấp nhận</button>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </form>
                                 <?php } ?>
 
 
@@ -381,15 +442,68 @@ if (isset($_GET['view'])) {
 
                         </div>
                     </div>
-                    <div id="invitation">
-                        <div style="display: none;" class="view view-blacasa-class-invitation view-id-blacasa_class_invitation view-display-id-block_1 view-dom-id-093e49be614f53ca21f5dc0ab47d0ccd gblock-v2">
-                            <div class="header-block">
-                                <span>Đã mời</span>
-                            </div>
-                            <div class="view-empty body-block">
-                                <p>Chưa có giáo viên nào được mời!</p>
-                            </div>
+                    <div class="view view-blacasa-u2g-relation view-id-blacasa_u2g_relation view-display-id-block_6 view-dom-id-c27cc66897b8d8684e30d30032082266 gblock-v2">
+                        <div class="header-block">
+                            <span>Đã mời</span>
                         </div>
+                        <?php
+
+                        if (isset($typeAcc)) {
+                            if ($typeAcc == 2) {
+                            } else if ($typeAcc == 3) {
+                                $sql = 'SELECT * FROM ketnoigs_hv  
+                                JOIN giasu ON giasu.MaGS = ketnoigs_hv.MaGS
+                                WHERE MaLop = ? AND TenTTDeNghi = "Đã mời" ';
+                                $stmt = $conn->prepare($sql);
+                                $stmt->bind_param('i', $idClass);
+                                $stmt->execute();
+                                $result = $stmt->get_result();
+                            }
+                        }
+
+                        ?>
+                        <div style="display:<?= ($result->num_rows < 1) ? 'block' : 'none' ?>" class="view-empty body-block">
+                            Chưa mời gia sư nào!
+                        </div>
+                        <div style="display:<?= ($result->num_rows >= 1) ? 'flex' : 'none' ?>; margin-top: 20px;" class="">
+                            <!-- Phần tử 1 -->
+                            <?php while ($row = $result->fetch_assoc()) { ?>
+                                <?php
+                                if (isset($_POST['btn-cancel-' . $row['MaGS']])) {
+                             
+                                    $deleteConnect =  "DELETE FROM `ketnoigs_hv`
+                                    WHERE MaLop = ? AND MaGS = ?";
+                                    $stmt = $conn->prepare($deleteConnect);
+                                    $stmt->bind_param("ii", $idClass, $row['MaGS']);
+                                    $stmt->execute();
+
+                                    echo '<script>window.location.reload();</script>';
+                                }
+                                ?>
+                                <form method="post" class="col-md-2 col-12 ">
+                                    <div class="user-info">
+                                        <div class="avatar">
+                                            <a href="account.php?view=<?= $row['MaTK'] ?>">
+                                                <img src="../assets/img/default_user.png" alt="Avatar">
+                                            </a>
+
+                                        </div>
+                                        <div class="user-details">
+                                            <p class="creator-name"><a href="account.php?view=<?= $row['MaTK'] ?>"><?= $row['HoTen'] ?></a></p>
+                                            <div class="button-container">
+                                                <button name="btn-cancel-<?= $row['MaGS'] ?>" type="submit" class="btn cancel-btn">Hủy</button>
+                                                <button name="btn-accept-<?= $row['MaGS'] ?>" type="submit" class="btn accept-btn" disabled>Đã mời</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            <?php } ?>
+
+
+
+
+                        </div>
+
                     </div>
                 </div>
             </div>

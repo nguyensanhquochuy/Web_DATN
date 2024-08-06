@@ -71,6 +71,22 @@
   	<script type="text/javascript" src="../assets/js/js__2H5VHDfLOvpT-ZWWBqPpmQoETJQWSLU5RqZ6iprXOAQ__6pqGXWUeGNf05Fe.js"></script>
   	<script type="text/javascript" src="../assets/js/js__I_3_005HciglOJyBxiQvaSLMYQsG33p9G0ihNQ_GR8U__Zuy3KzlHSmeJE8j.js"></script>
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  	<style>
+  		#products {
+  			background: url(../assets/img/bg-wave.jpeg);
+  			background-repeat: no-repeat;
+  			background-position: center bottom;
+  			background-size: cover;
+
+  		}
+
+  		#partner {
+  			background: url(../assets/img/why-learn-bg.jpeg);
+  			background-repeat: no-repeat;
+  			background-position: center;
+  			background-size: cover;
+  		}
+  	</style>
   </head>
 
   <body class="html not-front not-logged-in no-sidebars page-node page-node- page-node-579 node-type-page s">
@@ -104,7 +120,7 @@
   						<h2>SỨ MỆNH GIÁO DỤC</h2>
   						<p>Nền kinh tế Việt Nam đang vươn lên mạnh mẽ. Để đáp ứng được nhu cầu lao động chất lượng cao
   							thì cải cách giáo dục phải được ưu tiên lên hàng đầu. Hưởng ứng lời kêu gọi xã hội hóa giáo dục của chính phủ,
-  							Chúng tôi, những con người BLACASA đang ngày đêm góp sức mình trong việc nâng cao chất lượng giáo dục tại Việt Nam.
+  							Chúng tôi, những con người đang ngày đêm góp sức mình trong việc nâng cao chất lượng giáo dục tại Việt Nam.
   							Chúng tôi tự hào gọi đó là một <i>"Sứ mệnh giáo dục"</i>.
   						</p>
   					</div>
@@ -168,12 +184,10 @@
   					<div class="col-md-5 col-sm-12 col-xs-12 text-half-block">
   						<h2>ĐÁP ỨNG MỌI NHU CẦU HỌC TẬP CỦA BẠN</h2>
   						<p>Giờ đây bạn không phải vất vả tìm kiếm nữa, bởi tất cả mọi nhu cầu học tập của bạn
-  							đều rất sẵn sàng trên BLACASA. Chúng tôi có thể giúp bạn:
+  							đều rất sẵn sàng trên TUTORCONNECTSTUDENT. Chúng tôi có thể giúp bạn:
   						<ul style="font-size:16px;">
   							<li>Tìm gia sư, tìm giáo viên dạy kèm</li>
-  							<li>Tìm khóa học trung tâm</li>
-  							<li>Tư vấn giáo dục</li>
-  							<li>Hoạt động giáo dục trải nghiệm</li>
+
   						</ul>
   						</p>
   					</div>
@@ -251,7 +265,7 @@
   		<div class="block-content  bg-gradient-blue" id="onnews" style="padding-left:0!important; padding-right:0!important; text-align:center; background-color:#fff!important;">
   			<div class="container">
   				<div class="row d-flex flex-column justify-content-center align-items-center">
-  					<h2>TRUYỀN THÔNG NÓI VỀ BLACASA</h2>
+  					<h2>TRUYỀN THÔNG NÓI VỀ TUTORCONNECTSTUDENT</h2>
   					<p style="font-size: 16px;max-width: 780px;text-align: center; margin: 0 auto;padding-bottom: 20px;">
   						Trên hành trình thực hiện <i>"Sứ mệnh giáo dục"</i>, chúng tôi cảm thấy may mắn và cảm kích vì luôn có sự
   						đồng hành, ủng hộ của rất nhiều cá nhân, tổ chức, cũng như cơ quan truyền thông. Đây chính là
@@ -451,23 +465,23 @@
   					<div class="col-md-3 col-sm-6 col-xs-12 about-contact-item">
   						<i class="fa fa-map-marker"></i>
   						<h3>Địa chỉ liên hệ</h3>
-  						<p>Số 5, ngõ 92 Láng Hạ, Đống Đa, Hà Nội.
-  							<a href="https://drive.google.com/open?id=1zlEGGY42_sP8RNJL0_6PVgJi48E&usp=sharing" target="_blank" class="text-blacasa">Bản đồ.</a>
+  						<p>Ký túc xá K7 trường Đại Học Nha Trang, Vĩnh Thọ, Nha Trang, Khánh Hòa
+
   						</p>
   					</div>
 
   					<div class="col-md-3 col-sm-6 col-xs-12 about-contact-item">
   						<i class="fa fa-phone"></i>
   						<h3>Điện thoại & Fax</h3>
-  						<p>Tel. 1900.63.63.42<br /> </p>
+  						<p>Tel. 0854.641.904<br /> </p>
   					</div>
 
   					<div class="col-md-3 col-sm-6 col-xs-12 about-contact-item">
   						<i class="fa fa-envelope"></i>
   						<h3>Email</h3>
   						<p>
-  							<a class="tz-text" href="mailto:contact@blacasa.vn">contact@blacasa.vn</a><br />
-  							<a class="tz-text" href="mailto:blacasavn@gmail.com">blacasavn@gmail.com</a>
+  							<a class="tz-text" href="mailto:contact@blacasa.vn">tutorconnect@gmail.com</a><br />
+  							<a class="tz-text" href="mailto:blacasavn@gmail.com">huy.nsq.62cntt@ntu.edu.vn</a>
 
   						</p>
   					</div>
@@ -485,7 +499,7 @@
   	</div>
   	<?php include 'footer.php' ?>
 
-	
+
   </body>
 
   </html>

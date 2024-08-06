@@ -6,6 +6,9 @@ session_start();
 if (isset($_GET['add'])) {
     $idAcc = $_GET['add'];
 }
+if (isset($_GET['add_tutor'])) {
+    $inviteTutor = $_GET['add_tutor'];
+}
 ?>
 
 <head>
@@ -140,7 +143,7 @@ if (isset($_GET['add'])) {
     <!--main content-->
     <div class="container p-create-class-body" style="margin-bottom:20px;">
         <?php
-        if (isset($idAcc)) {
+        if (isset($idStudent)) {
             // tỉnh
             // $jsonData = file_get_contents('https://raw.githubusercontent.com/madnh/hanhchinhvn/master/dist/tinh_tp.json');
             // $data = json_decode($jsonData, true);
@@ -187,9 +190,9 @@ if (isset($_GET['add'])) {
             // }
 
 
-            $sql = 'SELECT * FROM hocvien WHERE MaTK = ?';
+            $sql = 'SELECT * FROM hocvien WHERE MaHV = ?';
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param('i', $idAcc);
+            $stmt->bind_param('i', $idStudent);
             $stmt->execute();
             $resultStudent = $stmt->get_result()->fetch_assoc();
             $idStudent = $resultStudent['MaHV'];
@@ -248,28 +251,28 @@ if (isset($_GET['add'])) {
                 $numberStudent = $_POST['number_student'];
                 $dayStart = $_POST['day-start'];
 
-                echo $nameClass;
-                echo $subjectClass;
-                echo $price;
-                echo $duration;
-                echo $phoneClass;
+                // echo $nameClass;
+                // echo $subjectClass;
+                // echo $price;
+                // echo $duration;
+                // echo $phoneClass;
                 // echo $city;
                 // echo $district;
                 // echo $ward;
 
-                echo $detailCity;
-                echo $description;
-                echo $timesPerWeek;
-                echo $numberStudent;
-                echo $dayStart;
+                // echo $detailCity;
+                // echo $description;
+                // echo $timesPerWeek;
+                // echo $numberStudent;
+                // echo $dayStart;
 
                 if (isset($_POST['list-calendar'])) {
                     $listCalendars = $_POST['list-calendar']; // Lấy các giá trị được chọn từ checkbox
-                    foreach ($listCalendars as $calendar) {
-                        echo "Giá trị của checkbox lịch được chọn: $calendar <br>";
-                    }
+                    // foreach ($listCalendars as $calendar) {
+                    //     echo "Giá trị của checkbox lịch được chọn: $calendar <br>";
+                    // }
                 } else {
-                    echo "Không có checkbox nào được chọn.";
+                    // echo "Không có checkbox nào được chọn.";
                     $listCalendars = array();
                 }
 
@@ -286,17 +289,17 @@ if (isset($_GET['add'])) {
                             }
                         }
                     }
-                    echo 'hình thức học:' . $typeClass;
+                    // echo 'hình thức học:' . $typeClass;
                     if ($typeClass == 1 || $typeClass == 3) {
                         $city = $_POST['place'];
                         $district = $_POST['district'];
-                        echo 'quan' . $district;
+                        // echo 'quan' . $district;
                         $ward = $_POST['ward'];
-                        echo 'xa' . $ward;
+                        // echo 'xa' . $ward;
                         $detailCity = $_POST['address_class'];
                     }
                 } else {
-                    echo "Không có checkbox nào được chọn.";
+                    // echo "Không có checkbox nào được chọn.";
                     $typeClasses = array();
                 }
 
@@ -315,18 +318,18 @@ if (isset($_GET['add'])) {
                             }
                         }
                     }
-                    echo 'giới tính gs:' . $sex;
+                    // echo 'giới tính gs:' . $sex;
                 } else {
-                    echo "Không có checkbox nào được chọn.";
+                    // echo "Không có checkbox nào được chọn.";
                     $teacher_sex = array();
                 }
                 if (isset($_POST['list_tag'])) {
                     $listTags = $_POST['list_tag']; // Lấy các giá trị được chọn từ checkbox
-                    foreach ($listTags as $tag) {
-                        echo "Giá trị của checkbox chủ đề được chọn: $tag <br>";
-                    }
+                    // foreach ($listTags as $tag) {
+                    //     echo "Giá trị của checkbox chủ đề được chọn: $tag <br>";
+                    // }
                 } else {
-                    echo "Không có checkbox nào được chọn.";
+                    // echo "Không có checkbox nào được chọn.";
                     $listTags = array();
                 }
 
@@ -403,7 +406,7 @@ if (isset($_GET['add'])) {
                     $check = false;
                     $errDayStart = "Vui lòng chọn ngày dự kiến học";
                 }
-
+                // echo $check .'123';
                 if ($check) {
                     $nullValue = NULL;
                     date_default_timezone_set('Asia/Ho_Chi_Minh');
@@ -412,7 +415,13 @@ if (isset($_GET['add'])) {
                     $sql = 'INSERT INTO lophoc (TenLop, MaMH, MaHV, MaHT, Tinh_TP, Quan_Huyen, Xa_Phuong, SoGioHoc1Buoi, DienThoai, GioiTinhGS, SoHV, SoBuoiHoc1Tuan, HocPhi1Buoi, NoiDung, DiaChiCT, NgayBD, ThoiGianDang, MaNV, TenTTLop) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
                     $stmt = $conn->prepare($sql);
                     $stmt->bind_param('siiisssdsiiidssssis', $nameClass, $subjectClass, $idStudent, $typeClass, $city, $district, $ward, $duration, $phoneClass, $sex, $numberStudent, $timesPerWeek, $price, $description, $detailCity, $dayStart, $currentDateTime, $nullValue, $statusClass);
-                    $stmt->execute();
+                    if ($stmt->execute()) {
+
+						echo '<script language="javascript">alert("Thêm lớp học thành công");</script>';
+						// header("Refresh: 1");
+					} else {
+						echo '<script language="javascript">alert("Thêm lớp học thất bại");</script>';
+					}
 
                     $idClass = $stmt->insert_id;
                     // insert lophoc_chude
@@ -434,6 +443,16 @@ if (isset($_GET['add'])) {
                         $stmt->bind_param("issi", $next_idLichHoc, $result_split[0], $result_split[1], $idClass);
                         $stmt->execute();
                     }
+
+                    // insert gia su duoc moi
+
+                    if (!empty($inviteTutor)) {
+                        $statusConnect = "Đã mời";
+                        $sql = 'INSERT INTO ketnoigs_hv (MaLop, MaGS, TenTTDeNghi) VALUES (?, ?, ?)';
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("iis", $idClass, $inviteTutor, $statusConnect);
+                        $stmt->execute();
+                    } 
                 }
             }
         }
@@ -460,6 +479,28 @@ if (isset($_GET['add'])) {
                                                     <a href="telto:0989704869">0989.704.869 </a> hoặc
                                                     <a class="blacasa-btn-border-only" href="javascript:$('#arcontactus').contactUs('openMenu');" style="padding:2px 5px;">
                                                         <i class="fa fa-comments"></i> CHAT trực tuyến</a><br>
+                                                        <?php 
+                                                            if (isset($_GET['add_tutor'])) {
+                                                                $inviteTutor = $_GET['add_tutor'];
+                                                                $sql = 'SELECT * FROM giasu WHERE MaGS = ?';
+                                                                $stmt = $conn->prepare($sql);
+                                                                $stmt->bind_param('i', $inviteTutor);
+                                                                $stmt->execute();
+                                                                $result = $stmt->get_result()->fetch_assoc();
+                                                                
+                                                            ?>
+                                                            
+                                                            <span> Gia sư được mời:                               
+                                                                <a class="name-tutor" href="account.php?view_tutor=<?= $inviteTutor ?>" style="font-size: 17px;">
+                                                                    <img class="img-tutor" style="width: 50px;height: 50px;border-radius: 50%;margin-right: 10px;" typeof="foaf:Image" src="../assets/img/img_tutor/<?= $result['AnhDaiDien'] ?>" width="50" height="50" alt="">                                                        
+                                                                    <?= $result['HoTen'] ?>
+
+                                                                
+                                                                </a>
+                                                            </span>
+                                                            <?php } ?>
+                                       
+                                       
                                                 </p>
 
                                             </div>

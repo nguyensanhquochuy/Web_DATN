@@ -8,14 +8,14 @@ session_start();
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
 // Số lượng mục trên mỗi trang
-$items_per_page = 2;
+$items_per_page = 8;
 
 // Tính toán offset cho truy vấn SQL dựa trên trang hiện tại
 $offset = ($page - 1) * $items_per_page;
 
 
 
-$tutor = 'SELECT * FROM giasu WHERE (1=1) ';
+$tutor = 'SELECT * FROM giasu WHERE (1=1) AND giasu.TrangThaiDuyet = 1 ';
 
 if (isset($_GET['search-tutor'])) {
     $city = $_GET['place'];
@@ -66,7 +66,7 @@ $total_results = $results->num_rows;
 // Tính toán số trang
 $total_pages = ceil($total_results / $items_per_page);
 
-
+$tutor .= ' ORDER BY giasu.ThoiGianDN DESC ';
 // Thực hiện truy vấn SQL có phân trang sử dụng LIMIT và OFFSET
 $tutor .= ' LIMIT ' . $items_per_page . ' OFFSET ' . $offset;
 
@@ -193,10 +193,34 @@ $results = $stmt->get_result();
     .active-link {
         color: white;
     }
+
+    .form-item-class-11149:hover {
+        background-color: #ccc;
+        color: #069d86;
+    }
 </style>
 
 <body class="html not-front not-logged-in no-sidebars page-node page-node- page-node-579 node-type-page s">
     <?php include 'header.php' ?>
+    <?php
+    if (isset($idStudent)) {
+        $statusClass = "Đang tìm gia sư";
+        $sqlClass = 'SELECT lophoc.MaLop as MaLopp, lophoc.*, ketnoigs_hv.* FROM lophoc 
+        LEFT JOIN ketnoigs_hv on ketnoigs_hv.MaLop = lophoc.MaLop
+        WHERE MaHV = ? AND (TenTTLop = ? OR  TenTTLop = "Chưa duyệt") ';
+        $stmt = $conn->prepare($sqlClass);
+        $stmt->bind_param('is', $idStudent, $statusClass);
+        $stmt->execute();
+        $resultClass = $stmt->get_result();
+        $countClass = $resultClass->num_rows;
+        if ($countClass > 0) {
+            $checkClass = true;
+        } else {
+            $checkClass = false;
+        }
+    }
+
+    ?>
     <!--main content-->
     <section class="home-category">
         <div class="container" style="padding-top:10px;">
@@ -230,6 +254,42 @@ $results = $stmt->get_result();
 
                                                                             </optgroup>
                                                                             <optgroup id="other_province" label='Tỉnh, thành phố khác'>
+                                                                                <script>
+                                                                                    document.addEventListener("DOMContentLoaded", function() {
+                                                                                    
+                                                                                        var tinhThanhOtpgroup = document.getElementById('other_province');
+                                                                                        const cityName = <?= isset($city) ? json_encode($city) : "''" ?>;
+                                                                              
+                                                                                        // Lấy dữ liệu tỉnh/thành phố ban đầu từ URL
+                                                                                        fetch('https://raw.githubusercontent.com/madnh/hanhchinhvn/master/dist/tinh_tp.json')
+                                                                                            .then(response => response.json())
+                                                                                            .then(data => {
+                                                                                                console.log('Data fetched:', data);
+                                                                                                const options = [];
+                                                                                                // Thêm các option cho thẻ select tỉnh/thành phố
+                                                                                                Object.entries(data).forEach(([code, province]) => {
+                                                                                                    const option = document.createElement('option');
+                                                                                                    const value_otp_main = ["Hà Nội", "Hồ Chí Minh", "Hải Phòng", "Đà Nẵng", "Cần Thơ"];
+                                                                                                    if (!value_otp_main.includes(province.name)) {
+                                                                                                        option.value = province.name;
+                                                                                                        option.textContent = province.name;
+                                                                                                        if (option.value == cityName) {
+                                                                                                            option.selected = true;
+                                                                                                        }
+                                                                                                        options.push(option);
+                                                                                                    }
+                                                                                                });
+
+                                                                                                options.sort((a, b) => a.textContent.localeCompare(b.textContent));
+
+                                                                                                // Thêm các option từ mảng đã sắp xếp vào thẻ select
+                                                                                                options.forEach(option => {
+                                                                                                    tinhThanhOtpgroup.appendChild(option);
+                                                                                                });
+                                                                                            })
+                                                                                            .catch(error => console.error('Error:', error));
+                                                                                    });
+                                                                                </script>
 
 
                                                                         </select>
@@ -277,6 +337,7 @@ $results = $stmt->get_result();
                                                                             echo '</optgroup>';
                                                                             ?>
                                                                         </select>
+
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -301,6 +362,48 @@ $results = $stmt->get_result();
 
 
                                                                         </select>
+                                                                        <script>
+                                                                            document.addEventListener("DOMContentLoaded", function() {
+                                                                                const selectSubject = document.getElementById('subject-class');
+                                                                                const subjectTag = document.getElementById('edit-topic');
+
+
+
+
+                                                                                // Lấy danh sách các môn học và mã môn học tương ứng từ PHP và lưu vào đối tượng subjectNameMapping
+
+                                                                                selectSubject.addEventListener('change', function() {
+                                                                                    // Lấy giá trị mới của select
+                                                                                    const selectedValue = this.value;
+                                                                                    console.log(selectedValue);
+
+                                                                                    // Tạo yêu cầu AJAX
+                                                                                    const xhr = new XMLHttpRequest();
+                                                                                    xhr.open("POST", "get_topic.php", true);
+                                                                                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+                                                                                    // Gửi yêu cầu AJAX với selectedValue như là dữ liệu
+                                                                                    xhr.send("selectedValue=" + selectedValue);
+
+                                                                                    // Xử lý phản hồi từ máy chủ
+                                                                                    xhr.onreadystatechange = function() {
+                                                                                        if (this.readyState == 4 && this.status == 200) {
+                                                                                            // Nhận kết quả từ máy chủ dưới dạng JSON
+                                                                                            const topics = JSON.parse(this.responseText);
+
+                                                                                            subjectTag.innerHTML = '<option value="" selected="selected">-Chọn chủ đề-</option>';
+                                                                                            topics.forEach(function(topic) {
+
+                                                                                                subjectTag.innerHTML += `<option value="${topic.MaCD}"> ${topic.TenCD}</option>`;
+                                                                                            });
+                                                                                            console.log(subjectTag);
+
+                                                                                        }
+                                                                                    };
+                                                                                });
+
+                                                                            });
+                                                                        </script>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -379,8 +482,8 @@ $results = $stmt->get_result();
                                     <div class="header-block">
                                         <button class="visible-xs"><i class="fa fa-list"></i></button>
                                         <ul class="nav nav-tabs pull-left">
-                                            <li class="<?php echo  (isset($_GET['check']) && $_GET['check'] === 'true') ? 'active' : ''; ?>">
-                                            <a href="tutor.php?page=1<?php
+                                            <li class="<?php echo (isset($_GET['check']) && $_GET['check'] === 'true') ? 'active' : ''; ?>">
+                                                <a href="tutor.php?page=1<?php
                                                                             if (isset($_GET['search-tutor'])) {
                                                                                 echo '&search-tutor=1&place=' . $_GET['place'] . '&subject_class=' . $_GET['subject_class'] . '&topic=' . $_GET['topic'] . '&method=' . $_GET['method'] . '&gender=' . $_GET['gender'] . '&type-tutor=' . $_GET['type-tutor'];
                                                                             }
@@ -389,14 +492,14 @@ $results = $stmt->get_result();
                                             <li class="">
                                                 <a href="/teacher?orderby=review">Đánh giá tốt nhất</a>
                                             </li>
-                                            <li class="<?php echo  (isset($_GET['view']) && $_GET['view'] === 'view_desc') ? 'active' : ''; ?>">
+                                            <li class="<?php echo (isset($_GET['view']) && $_GET['view'] === 'view_desc') ? 'active' : ''; ?>">
                                                 <a href="tutor.php?page=1<?php
                                                                             if (isset($_GET['search-tutor'])) {
                                                                                 echo '&search-tutor=1&place=' . $_GET['place'] . '&subject_class=' . $_GET['subject_class'] . '&topic=' . $_GET['topic'] . '&method=' . $_GET['method'] . '&gender=' . $_GET['gender'] . '&type-tutor=' . $_GET['type-tutor'];
                                                                             }
                                                                             ?>&view=view_desc">Xem nhiều nhất </a>
                                             </li>
-                                            <li class="<?php echo  (isset($_GET['sort']) && $_GET['sort'] === 'price_asc') ? 'active' : ''; ?>">
+                                            <li class="<?php echo (isset($_GET['sort']) && $_GET['sort'] === 'price_asc') ? 'active' : ''; ?>">
                                                 <a href="tutor.php?page=1<?php
                                                                             if (isset($_GET['search-tutor'])) {
                                                                                 echo '&search-tutor=1&place=' . $_GET['place'] . '&subject_class=' . $_GET['subject_class'] . '&topic=' . $_GET['topic'] . '&method=' . $_GET['method'] . '&gender=' . $_GET['gender'] . '&type-tutor=' . $_GET['type-tutor'];
@@ -417,10 +520,10 @@ $results = $stmt->get_result();
                                                         ?>
                                                             <div class="col col-md-3 col-sm-6">
                                                                 <div class="box-content">
-                                                                    <div class="tile-v-12">
+                                                                    <div class="tile-v-12" style="border-radius: 20px;">
                                                                         <div class="img">
-                                                                            <a href="https://www.blacasa.vn/pham-minh-khue-280123">
-                                                                                <img typeof="foaf:Image" src="../assets/img/img_tutor/<?= $row['AnhDaiDien'] ?>" width="312" height="200" alt="pham-minh-khue-280123's picture" title="pham-minh-khue-280123's picture">
+                                                                            <a href="account.php?view_tutor=<?= $row['MaGS'] ?>">
+                                                                                <img typeof="foaf:Image" src="../assets/img/img_tutor/<?= $row['AnhDaiDien'] ?>" width="312" height="200" alt="pham-minh-khue-280123's picture" title="pham-minh-khue-280123's picture"  style="border-radius: 20px 20px 0 0;">
                                                                             </a>
                                                                         </div>
                                                                         <div class="name">
@@ -431,13 +534,15 @@ $results = $stmt->get_result();
                                                                                     $idTutor = $row['MaGS'];
                                                                                     if (isset($idTutor)) {
                                                                                         // Lấy tất cả các môn học từ cơ sở dữ liệu
-                                                                                        $typeSubjects = 'SELECT * FROM monhoc';
-                                                                                        $stmt = $conn->prepare($typeSubjects);
-                                                                                        $stmt->execute();
-                                                                                        $resultSubjects = $stmt->get_result();
+                                                                                        // $typeSubjects = 'SELECT * FROM monhoc';
+                                                                                        // $stmt = $conn->prepare($typeSubjects);
+                                                                                        // $stmt->execute();
+                                                                                        // $resultSubjects = $stmt->get_result();
 
                                                                                         // Lấy dữ liệu môn học gia sư dạy
-                                                                                        $sql = 'SELECT * FROM giasu_monhoc WHERE MaGS = ?'; // Đổi MaGS thành ID của giáo sư
+                                                                                        $sql = 'SELECT * FROM giasu_monhoc 
+                                                                                        JOIN monhoc on giasu_monhoc.MaMH = monhoc.MaMH
+                                                                                        WHERE MaGS = ?'; // Đổi MaGS thành ID của giáo sư
                                                                                         $stmt = $conn->prepare($sql);
                                                                                         $stmt->bind_param('i', $idTutor);
                                                                                         $stmt->execute();
@@ -446,15 +551,16 @@ $results = $stmt->get_result();
                                                                                         // Tạo một mảng lưu trữ các môn học mà giáo sư dạy
                                                                                         $typeSubjects = array();
                                                                                         while ($rowTutorSubject = $resultTutorSubjects->fetch_assoc()) {
-                                                                                            $typeSubjects[] = $rowTutorSubject['MaMH'];
+                                                                                            $typeSubjects[] = $rowTutorSubject['TenMH'];
                                                                                         }
 
-                                                                                        while ($rowSubject = $resultSubjects->fetch_assoc()) {
-                                                                                            $checked = in_array($rowSubject['MaMH'], $typeSubjects) ? 'checked' : ''; // Kiểm tra xem môn học có trong danh sách môn học của giáo sư hay không
-                                                                                            if ($checked) {
-                                                                                                echo $rowSubject['TenMH'] . ", ";
-                                                                                            }
-                                                                                        }
+                                                                                        // while ($rowSubject = $resultSubjects->fetch_assoc()) {
+                                                                                        //     $checked = in_array($rowSubject['MaMH'], $typeSubjects) ? 'checked' : ''; // Kiểm tra xem môn học có trong danh sách môn học của giáo sư hay không
+                                                                                        //     if ($checked) {
+                                                                                        //         echo $rowSubject['TenMH'] . ", ";
+                                                                                        //     }
+                                                                                        // }
+                                                                                        echo implode(', ', $typeSubjects);
                                                                                     }
 
                                                                                     ?>
@@ -475,7 +581,7 @@ $results = $stmt->get_result();
                                                                         <div class="btn-bottom text-right">
                                                                             <div class="btn-data" data-object="64119" data-type="user"></div>
                                                                             <!--<button class="invitation"  data-object="" data-type="user" data-studygroup="">Mời dạy</button> -->
-                                                                            <a href="/invitation-teacher/64119" class="btn btn-default ctools-use-modal ctools-use-modal-processed" rel="nofollow">Mời dạy</a> <button class="btn btn-default save save-favorite favorite-gray" data-id="64119" data-type="user"><i class="fa fa-heart-save"></i> <span class="text">Lưu</span></button>
+                                                                            <a href="" class="btn btn-default ctools-use-modal ctools-use-modal-processed btn-invite" rel="nofollow" data-id="<?= $row['MaGS'] ?>" data-name="<?= $row['HoTen'] ?>" data-img="<?= $row['AnhDaiDien'] ?>">Mời dạy</a> <button class="btn btn-default save save-favorite favorite-gray"><i class="fa fa-heart-save"></i> <span class="text">Lưu</span></button>
                                                                         </div>
                                                                     </div><!-- /.tile-v-12 -->
                                                                 </div>
@@ -600,87 +706,333 @@ $results = $stmt->get_result();
         </div>
     </section>
     <?php include 'footer.php' ?>
+    <div id="modalBackdrop" class="backdrop-default" style="display: none;z-index: 1000;justify-content: center;align-items: center;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); opacity: 0.5;"></div>
+
+    <div id="modalContent" class="modal-default" style=" z-index: 1001; position: absolute;display: none;left: 10% !important;right: 10% !important;max-width: 700px;">
+        <div class="ctools-modal-content" style="width: 100%;max-width: 700px;">
+            <div class="modal-header"> <a class="close" href="#">Close Window<img typeof="foaf:Image" src="https://d1plicc6iqzi9y.cloudfront.net/sites/all/modules/contrib/ctools/images/icon-close-window.png" alt="Close window" title="Close window"> </a> <span id="modal-title" class="modal-title">Mời giáo viên</span> </div>
+            <div id="modal-content" class="modal-content" style="">
+                <div id="dang-ky-tham-gia-form" class="white-popup-block">
+                    <div id="dang-ky-tham-gia-message"></div>
+                    <form action="/lop-hoc-user/10604/dang-ky-day" method="post" id="blacasa-nhom-hoc-dang-ky-day-form" accept-charset="UTF-8" class="ctools-use-modal-processed">
+                        <div>
+
+                            <div class="modal-body">
+                                <div class="teacher-info" style="margin-bottom: 20px;">
+                                    <img class="img-tutor" style="    width: 50px;height: 50px;border-radius: 50%;margin-right: 10px;" typeof="foaf:Image" src="" width="50" height="50" alt="">
+                                    <a class="name-tutor" href="" style="font-size: 17px;"></a>
+                                </div>
+                                <b style="display:<?= (isset($checkClass) && $checkClass == true) ? 'block' : 'none' ?>  ;margin-bottom: 10px;">Yêu cầu học mà bạn muốn mời giáo viên này</b>
+                                <div class="list-class-invitation" style="    border-radius: 8px;max-height: 200px;overflow-y: scroll;border: 1px solid #d3d3d3;padding: 5px;display:<?= (isset($checkClass) && $checkClass == true) ? 'block' : 'none' ?>">
+                                    <div id="edit-class" class="form-checkboxes">
+                                        <?php $count = 0;
+                                        $listIdClass = array(); ?>
+                                        <?php while ($row = $resultClass->fetch_assoc()) {
+                                            array_push($listIdClass, $row['MaLopp']);
+
+
+                                            if ($row['TenTTDeNghi'] == "Đã mời" || $row['TenTTDeNghi'] == "Đang đề nghị dạy") {
+                                                $count++;
+                                            }
+
+
+
+
+                                        ?>
+                                            <div class="form-item form-type-checkbox form-item-class-11149">
+                                                <input type="checkbox" class="check-class-<?= $row['MaLopp'] ?>" id="edit-class-<?= $row['MaLopp'] ?>" name="class[]" style="position: relative;" value="<?= $row['MaLopp'] ?>" class="form-checkbox"> <label class="option" for="edit-class-<?= $row['MaLopp'] ?>">[<?= $row['MaLopp'] ?>] <?= $row['TenLop'] ?>. </label>
+                                                <span class="status-<?= $row['MaLopp'] ?>"></span>
+
+                                            </div>
+                                        <?php } ?>
+                                        <?php
+                                        // foreach ($listIdClass as $idClass) {
+                                        //     echo $idClass . "<br>";
+                                        // }
+                                        ?>
+                                        <!-- <div class="form-item form-type-checkbox form-item-class-11148">
+                                            <input type="checkbox" id="edit-class-11148" name="class[11148]" value="11148" class="form-checkbox"> <label class="option" for="edit-class-11148">[11148] Em đang làm đồ án thoii. </label>
+
+                                        </div> -->
+                                    </div>
+                                    <div class="class-invited"></div>
+                                </div>
+
+                                <p class="text-p" style="text-align: justify;">
+                                    Để mời gia sư này, bạn cần đăng yêu cầu học mô tả cụ thể nội dung, thời gian, địa điểm học.
+                                    Nếu quan tâm, gia sư sẽ gửi đề nghị dạy. Bạn cũng có thể mời nhiều gia sư khác, hoặc các gia sư trên hệ thống sẽ tự đề nghị dạy,
+                                    khi đó bạn có thể lựa chọn đề nghị dạy phù hợp nhất.
+                                </p>
+                            </div>
+                            <div class="modal-footer" style="justify-content: center;">
+                                <!-- <a href="/huy-nguyen-080324">Về Trang cá nhân</a> -->
+                                <!-- <a href="/become-teacher#how-it-work" style="background-color: #afabab !important">Hướng dẫn</a> -->
+                                <button type="button" style="text-transform: uppercase;padding: 10px 18px;background: #ff961e;color: #fff;font-size: 16px; font-weight: bold; transition: opacity 0.3s;" class="btn-close" data-dismiss="modal" aria-label="Close">Thoát</button>
+                                <a href="add_class.php?add_tutor=" style="display:<?= (isset($checkClass) && $checkClass == false) ? '' : 'none' ?>; text-transform: uppercase;padding: 10px 18px;background: #069d86;color: #fff;font-size: 16px; font-weight: bold; transition: opacity 0.3s;" class="btn-tao-yeu-cau"> Tạo yêu cầu học</a>
+                                <a style="display:<?= (isset($checkClass) && $checkClass == true) ? '' : 'none' ?>; text-transform: uppercase;padding: 10px 18px;background: #069d86;color: #fff;font-size: 16px; font-weight: bold; transition: opacity 0.3s;" class="btn-gui-loi-moi"> Gửi lời mời</a>
+                                <style>
+                                    .btn-close:hover,
+                                    .btn-tao-yeu-cau:hover,
+                                    .btn-gui-loi-moi:hover {
+                                        opacity: 0.8;
+                                        cursor: pointer;
+                                        text-decoration: none;
+                                        /* Giảm độ mờ khi hover */
+                                    }
+                                </style>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        var idTutor;
+        document.addEventListener("DOMContentLoaded", function() {
+            var btnInvite = document.querySelectorAll(".btn-invite");
+            var btnAddClass = document.querySelector(".btn-tao-yeu-cau");
+            var btnCreateRequest = document.querySelector(".btn-gui-loi-moi");
+            var nameTutor = document.querySelector(".name-tutor");
+            var imgTutor = document.querySelector(".img-tutor");
+
+
+
+            btnInvite.forEach(function(btn) {
+                btn.addEventListener("click", function(event) {
+                    event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+
+                    // var nameClass = this.getAttribute("data-name");
+                    idTutor = this.getAttribute("data-id"); // Lấy ID lớp học từ thuộc tính data
+                    name = this.getAttribute("data-name");
+                    img = this.getAttribute("data-img");
+
+
+                    // Gửi ID lớp học đến modal
+                    openModal(idTutor, name, img);
+                    let idClass = <?php echo isset($listIdClass) ? json_encode($listIdClass) : "''"; ?>;
+                    let countClass = <?php echo isset($countClass) ? json_encode($countClass) : "''"; ?>;
+
+                    var statuses = [];
+                    var inputs = [];
+                    var text_p = document.querySelector(".text-p");
+
+                    for (var i = 0; i < idClass.length; i++) {
+                        statuses[i] = document.querySelector(".status-" + idClass[i]);
+                        inputs[i] = document.querySelector(".check-class-" + idClass[i]);
+                        console.log(inputs[i]);
+                    }
+                    console.log(idClass);
+
+                    if (idClass.length !== 0) {
+                        $.ajax({
+                            url: "CheckInvite.php",
+                            method: "POST",
+                            data: {
+                                idClass: idClass,
+                                idTutor: idTutor
+                            },
+                            dataType: 'json', // Expect JSON response
+                            success: function(response) {
+                                // err.html("");
+                                console.log(response);
+                                // Check for specific errors and display messages
+
+                                count = 0;
+                                for (var i = 0; i < idClass.length; i++) {
+                                    statuses[i].innerHTML = "";
+                                    inputs[i].disabled = false;
+
+                                }
+
+                                for (var i = 0; i < response.length; i++) {
+                                    if (response[i].TenTTDeNghi === 'Đã mời' || response[i].TenTTDeNghi === 'Đang đề nghị dạy') {
+                                        statuses[i].innerHTML = "(" + response[i].TenTTDeNghi + ")";
+                                        inputs[i].disabled = true;
+                                        count++;
+
+
+                                    }
+                                }
+                                console.log(count, countClass);
+                                if (count == countClass) {
+                                    text_p.style.display = 'block';
+                                    btnAddClass.style.display = 'block';
+                                    btnCreateRequest.style.display = 'none';
+
+                                } else {
+                                    text_p.style.display = 'none';
+                                    btnAddClass.style.display = 'none';
+                                    btnCreateRequest.style.display = 'block';
+                                }
+
+
+                            },
+                            error: function(xhr, status, error) {
+                                console.log("Error in AJAX request:", status, error);
+                            }
+                        });
+                    }
+
+                });
+            });
+
+            function openModal(idTutor, name, img) {
+                // Đoạn mã để mở modal và truyền ID lớp học vào đây
+                document.getElementById('modalBackdrop').style.display = 'flex';
+                document.getElementById('modalContent').style.display = 'block';
+                imgTutor.src = "../assets/img/img_tutor/" + img;
+                nameTutor.innerHTML = name;
+                nameTutor.href = "account.php?view_tutor=" + idTutor;
+                btnAddClass.href = "add_class.php?add_tutor=" + idTutor;
+
+                console.log(name, imgTutor.src);
+                // console.log(nameClass);
+
+                // var modalContent = document.getElementById("modal-content");
+                // modalContent.innerHTML = "ID của lớp học là: " + classId;
+
+                //     
+            }
+        });
+
+
+
+        function closeModal() {
+            // Đóng modal
+            document.getElementById('modalBackdrop').style.display = 'none';
+            document.getElementById('modalContent').style.display = 'none';
+        }
+
+        document.querySelector('.close').addEventListener('click', function(event) {
+            event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+            // Gọi hàm closeModal để đóng modal
+            closeModal();
+        });
+
+        document.querySelector('.btn-close').addEventListener('click', function(event) {
+            closeModal();
+        });
+
+        // Bắt sự kiện click bên ngoài modal để đóng nó
+        document.getElementById('modalBackdrop').addEventListener('click', function(event) {
+            if (event.target === this) { // Chỉ đóng modal nếu người dùng nhấp vào phần backdrop (nền)
+                // Gọi hàm closeModal để đóng modal
+                closeModal();
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // đóng yêu cầu
+            $(".btn-gui-loi-moi").on("click", function() {
+
+                let modal_body = $(".modal-body");
+                let modal_footer = $(".modal-footer");
+                var selectedClasses = []; // Mảng để lưu các giá trị của checkbox được chọn
+
+                $('input[name="class[]"]:checked').each(function() {
+                    selectedClasses.push($(this).val()); // Thêm giá trị của checkbox được chọn vào mảng
+                });
+
+                // Hiển thị giá trị của các checkbox được chọn
+                console.log(selectedClasses);
+                // let btn_use_modal = $(".btn-use-modal");
+                // let btn_search_class = $(".btn-tim-lop-khac");
+                // console.log(btn_use_modal);
+
+
+                $.ajax({
+                    url: "SendInvite.php",
+                    method: "POST",
+                    data: {
+                        idTutor: idTutor,
+                        idClass: selectedClasses
+
+                    },
+                    dataType: 'json', // Expect JSON response
+                    success: function(response) {
+                        modal_body.html("");
+                        console.log(response);
+                        // Check for specific errors and display messages
+
+                        if (response.success) {
+                            modal_body.html(response.success);
+                            // btn_connect.html("Tìm các lớp khác!");
+                            // btn_connect.attr("href", "class.php");
+                            modal_footer.css("display", "none");
+                            // Delay 2 giây trước khi reload trang
+                            setTimeout(function() {
+                                location.reload();
+                            }, 1500);
+                        }
+
+                    },
+                    error: function(xhr, status, error) {
+                        console.log("Error in AJAX request:", status, error);
+                    }
+                });
+            });
+            // // hủy đề nghị
+            // $(".btn-huy-dn").on("click", function() {
+            //     console.log(idClass);
+            //     let idTutor = <?php echo isset($idTutor) ? $idTutor : "''"; ?>;
+            //     let err = $(".err");
+            //     let modal_footer = $(".modal-footer");
+            //     // let btn_use_modal = $(".btn-use-modal");
+            //     // let btn_search_class = $(".btn-tim-lop-khac");
+            //     // console.log(btn_use_modal);
+
+
+            //     $.ajax({
+            //         url: "CloseConnect.php",
+            //         method: "POST",
+            //         data: {
+            //             idClass: idClass,
+            //             idTutor: idTutor
+            //         },
+            //         dataType: 'json', // Expect JSON response
+            //         success: function(response) {
+            //             err.html("");
+            //             console.log(response);
+            //             // Check for specific errors and display messages
+
+            //             if (response.success) {
+            //                 err.html(response.success);
+            //                 // btn_connect.html("Tìm các lớp khác!");
+            //                 // btn_connect.attr("href", "class.php");
+            //                 modal_footer.css("display", "none");
+            //                 // Delay 2 giây trước khi reload trang
+            //                 setTimeout(function() {
+            //                     location.reload();
+            //                 }, 1500);
+            //             }
+
+            //         },
+            //         error: function(xhr, status, error) {
+            //             console.log("Error in AJAX request:", status, error);
+            //         }
+            //     });
+            // });
+        });
+    </script>
 
 
 </body>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const selectSubject = document.getElementById('subject-class');
-        const subjectTag = document.getElementById('edit-topic');
 
 
 
-
-        // Lấy danh sách các môn học và mã môn học tương ứng từ PHP và lưu vào đối tượng subjectNameMapping
-
-        selectSubject.addEventListener('change', function() {
-            // Lấy giá trị mới của select
-            const selectedValue = this.value;
-            console.log(selectedValue);
-
-            // Tạo yêu cầu AJAX
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", "get_topic.php", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-            // Gửi yêu cầu AJAX với selectedValue như là dữ liệu
-            xhr.send("selectedValue=" + selectedValue);
-
-            // Xử lý phản hồi từ máy chủ
-            xhr.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    // Nhận kết quả từ máy chủ dưới dạng JSON
-                    const topics = JSON.parse(this.responseText);
-
-                    subjectTag.innerHTML = '<option value="" selected="selected">-Chọn chủ đề-</option>';
-                    topics.forEach(function(topic) {
-
-                        subjectTag.innerHTML += `<option value="${topic.MaCD}"> ${topic.TenCD}</option>`;
-                    });
-                    console.log(subjectTag);
-
-                }
-            };
-        });
-
-    });
-</script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var tinhThanhOtpgroup = document.getElementById('other_province');
-        const cityName = <?= isset($city) ? json_encode($city) : "''" ?>;
-
-        // Lấy dữ liệu tỉnh/thành phố ban đầu từ URL
-        fetch('https://raw.githubusercontent.com/madnh/hanhchinhvn/master/dist/tinh_tp.json')
-            .then(response => response.json())
-            .then(data => {
-                const options = [];
-                // Thêm các option cho thẻ select tỉnh/thành phố
-                Object.entries(data).forEach(([code, province]) => {
-                    const option = document.createElement('option');
-                    value_otp_main = ["Hà Nội", "Hồ Chí Minh", "Hải Phòng", "Đà Nẵng", "Cần Thơ"];
-                    if (!value_otp_main.includes(code.toString())) {
-                        option.value = province.name;
-                        option.textContent = province.name;
-                        // if (option.textContent == city) option.selected = true;
-                        if (option.value == cityName) option.selected = true;
-
-                        options.push(option);
-                        // tinhThanhOtpgroup.appendChild(option);
-                    }
-                });
-
-                options.sort((a, b) => a.textContent.localeCompare(b.textContent));
-
-                // Thêm các option từ mảng đã sắp xếp vào thẻ select
-                options.forEach(option => {
-                    tinhThanhOtpgroup.appendChild(option);
-                });
-            })
-            .catch(error => console.error('Error:', error));
-    });
-</script>
 
 
 

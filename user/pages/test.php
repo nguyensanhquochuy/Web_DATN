@@ -2917,81 +2917,306 @@ echo '</ul></div>';
     </div>
 
 
-    <div id="review-popup-form" class="white-popup-block position-relative" style="">
-        <div class="box-title">Đánh giá</div>
-        <a class="popup-modal-dismiss" href="#">x</a>
-        <div class="box-review-content review-form" style="">
-            <form action="/namkstn" method="post" id="blacasa-feedback-review-form" accept-charset="UTF-8" style="">
-                <div style="">
-                    <div class="form-item form-type-textfield form-item-title">
-                        <input placeholder="Tiêu đề*" type="text" id="edit-title" name="title" value="" size="60" maxlength="128" class="form-text" data-sider-insert-id="b6f89446-61f3-45d3-9976-2acf1b400427" data-sider-select-id="4136215d-78a6-4aa0-91aa-2dea4948b542">
-                    </div>
-                    <div class="form-item form-type-textarea form-item-comment-positive">
-                        <div class="form-textarea-wrapper"><textarea placeholder="Điểm tốt" id="edit-comment-positive" name="comment_positive" cols="60" rows="5" class="form-textarea" data-sider-insert-id="f1ceddb5-6525-449c-86aa-92445228828c" data-sider-select-id="b8a08f4d-7852-49f3-ac17-aa634bdaa5c2"></textarea></div>
-                    </div>
-                    <div class="form-item form-type-textarea form-item-comment-negative">
-                        <div class="form-textarea-wrapper"><textarea placeholder="Điểm chưa tốt" id="edit-comment-negative" name="comment_negative" cols="60" rows="5" class="form-textarea" data-sider-insert-id="ef970ecd-7302-4337-805d-afb6de010158" data-sider-select-id="fb64ce3b-34fa-4e3f-8215-a3f8454f4048"></textarea></div>
-                    </div>
-                    <fieldset class="form-wrapper" id="edit-criteria" style="">
-                        <legend><span class="fieldset-legend">Tiêu chí đánh giá</span></legend>
-                        <div class="fieldset-wrapper" style="">
-                            <div class="review-criteria" style=""><input key="1" id="sliderscore1" class="md-slider-score" type="rang" max="10" step="0.1" value="7.0" oninput="score1.value=sliderscore1.value" style="position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0;">
-                                <div class="rangeslider rangeslider--horizontal" id="js-rangeslider-0" style="">
-                                    <div class="rangeslider__fill" style="width: 412.8px;"></div>
-                                    <div class="rangeslider__handle" style="left: 405.3px;"></div>
-                                </div><span>Phương pháp dạy học</span><output id="score1" for="sliderscore1">7</output>
-                            </div>
-                            <div class="review-criteria" style=""><input key="2" id="sliderscore2" class="md-slider-score" type="rang" max="10" step="0.1" value="7.0" oninput="score2.value=sliderscore2.value" style="position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0;">
-                                <div class="rangeslider rangeslider--horizontal" id="js-rangeslider-1" style="">
-                                    <div class="rangeslider__fill" style="width: 412.8px;"></div>
-                                    <div class="rangeslider__handle" style="left: 405.3px;"></div>
-                                </div><span>Kỹ năng mềm</span><output id="score2" for="sliderscore2">7</output>
-                            </div>
-                            <div class="review-criteria" style=""><input key="3" id="sliderscore3" class="md-slider-score" type="rang" max="10" step="0.1" value="7.0" oninput="score3.value=sliderscore3.value" style="position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0;">
-                                <div class="rangeslider rangeslider--horizontal" id="js-rangeslider-2" style="">
-                                    <div class="rangeslider__fill" style="width: 412.8px;"></div>
-                                    <div class="rangeslider__handle" style="left: 405.3px;"></div>
-                                </div><span>Sự tận tình</span><output id="score3" for="sliderscore3">7</output>
-                            </div>
-                            <div class="review-criteria" style=""><input key="4" id="sliderscore4" class="md-slider-score" type="rang" max="10" step="0.1" value="7.0" oninput="score4.value=sliderscore4.value" style="position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0;">
-                                <div class="rangeslider rangeslider--horizontal" id="js-rangeslider-3" style="">
-                                    <div class="rangeslider__fill" style="width: 412.8px;"></div>
-                                    <div class="rangeslider__handle" style="left: 405.3px;"></div>
-                                </div><span>Đúng giờ</span><output id="score4" for="sliderscore4">7</output>
-                            </div>
-                            <div class="review-criteria" style=""><input key="5" id="sliderscore5" class="md-slider-score" type="rang" max="10" step="0.1" value="7.0" oninput="score5.value=sliderscore5.value" style="position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0;">
-                                <div class="rangeslider rangeslider--horizontal" id="js-rangeslider-4" style="">
-                                    <div class="rangeslider__fill" style="width: 412.8px;"></div>
-                                    <div class="rangeslider__handle" style="left: 405.3px;"></div>
-                                </div><span>Nghiệp vụ sư phạm</span><output id="score5" for="sliderscore5">7</output>
-                            </div>
-                        </div>
-                    </fieldset>
-                    <input type="hidden" name="criteria_1" value="7">
-                    <input type="hidden" name="criteria_2" value="7">
-                    <input type="hidden" name="criteria_3" value="7">
-                    <input type="hidden" name="criteria_4" value="7">
-                    <input type="hidden" name="criteria_5" value="7">
-                    <div class="form-item form-type-radios form-item-recommend">
-                        <label for="edit-recommend">Bạn có muốn recommend này cho người khác không? </label>
-                        <div id="edit-recommend" class="form-radios">
-                            <div class="form-item form-type-radio form-item-recommend">
-                                <input type="radio" id="edit-recommend-yes" name="recommend" value="yes" checked="checked" class="form-radio"> <label class="option" for="edit-recommend-yes">Có </label>
+    <div class="mfp-wrap mfp-auto-cursor mfp-ready" tabindex="-1" style="overflow: hidden auto;">
+        <div class="mfp-container mfp-inline-holder">
+            <div class="mfp-content">
+                <div id="review-popup-form" class="white-popup-block position-relative" style="">
+                    <div class="box-title">Đánh giá</div>
+                    <a class="popup-modal-dismiss" href="#">x</a>
+                    <div class="box-review-content review-form" style="">
+                        <form action="/nguyen-thi-lan-anh-180222" method="post" id="blacasa-feedback-review-form" accept-charset="UTF-8" style="">
+                            <div style="">
+                                <div class="form-item form-type-textfield form-item-title">
+                                    <input placeholder="Tiêu đề*" type="text" id="edit-title" name="title" value="" size="60" maxlength="128" class="form-text">
+                                </div>
+                                <div class="form-item form-type-textarea form-item-comment-positive">
+                                    <div class="form-textarea-wrapper"><textarea placeholder="Điểm tốt" id="edit-comment-positive" name="comment_positive" cols="60" rows="5" class="form-textarea" data-sider-insert-id="1aa91682-ad55-4a6b-97f3-1d90152dd6ba" data-sider-select-id="3b0b4735-13c5-4369-bdd6-7513ebb9a0fa"></textarea></div>
+                                </div>
+                                <div class="form-item form-type-textarea form-item-comment-negative">
+                                    <div class="form-textarea-wrapper"><textarea placeholder="Điểm chưa tốt" id="edit-comment-negative" name="comment_negative" cols="60" rows="5" class="form-textarea" data-sider-insert-id="29d9dca6-61ad-4663-9ee3-abedaeae7a0a" data-sider-select-id="cf5e1b3a-eacc-48ad-8b47-31c7a317d7de"></textarea></div>
+                                </div>
+                                <fieldset class="form-wrapper" id="edit-criteria" style="">
+                                    <legend><span class="fieldset-legend">Tiêu chí đánh giá</span></legend>
+                                    <div class="fieldset-wrapper" style="">
+                                        <div class="review-criteria" style=""><input key="1" id="sliderscore1" class="md-slider-score" type="rang" max="10" step="0.1" value="7.0" oninput="score1.value=sliderscore1.value" style="position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0;">
+                                            <div class="rangeslider rangeslider--horizontal" id="js-rangeslider-0" style="">
+                                                <div class="rangeslider__fill" style="width: 412.8px;"></div>
+                                                <div class="rangeslider__handle" style="left: 405.3px;"></div>
+                                            </div><span>Phương pháp dạy học</span><output id="score1" for="sliderscore1">7</output>
+                                        </div>
+                                        <div class="review-criteria" style=""><input key="2" id="sliderscore2" class="md-slider-score" type="rang" max="10" step="0.1" value="7.0" oninput="score2.value=sliderscore2.value" style="position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0;">
+                                            <div class="rangeslider rangeslider--horizontal" id="js-rangeslider-1" style="">
+                                                <div class="rangeslider__fill" style="width: 412.8px;"></div>
+                                                <div class="rangeslider__handle" style="left: 405.3px;"></div>
+                                            </div><span>Kỹ năng mềm</span><output id="score2" for="sliderscore2">7</output>
+                                        </div>
+                                        <div class="review-criteria" style=""><input key="3" id="sliderscore3" class="md-slider-score" type="rang" max="10" step="0.1" value="7.0" oninput="score3.value=sliderscore3.value" style="position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0;">
+                                            <div class="rangeslider rangeslider--horizontal" id="js-rangeslider-2" style="">
+                                                <div class="rangeslider__fill" style="width: 412.8px;"></div>
+                                                <div class="rangeslider__handle" style="left: 405.3px;"></div>
+                                            </div><span>Sự tận tình</span><output id="score3" for="sliderscore3">7</output>
+                                        </div>
+                                        <div class="review-criteria" style=""><input key="4" id="sliderscore4" class="md-slider-score" type="rang" max="10" step="0.1" value="7.0" oninput="score4.value=sliderscore4.value" style="position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0;">
+                                            <div class="rangeslider rangeslider--horizontal" id="js-rangeslider-3" style="">
+                                                <div class="rangeslider__fill" style="width: 412.8px;"></div>
+                                                <div class="rangeslider__handle" style="left: 405.3px;"></div>
+                                            </div><span>Đúng giờ</span><output id="score4" for="sliderscore4">7</output>
+                                        </div>
+                                        <div class="review-criteria" style=""><input key="5" id="sliderscore5" class="md-slider-score" type="rang" max="10" step="0.1" value="7.0" oninput="score5.value=sliderscore5.value" style="position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0;">
+                                            <div class="rangeslider rangeslider--horizontal" id="js-rangeslider-4" style="">
+                                                <div class="rangeslider__fill" style="width: 412.8px;"></div>
+                                                <div class="rangeslider__handle" style="left: 405.3px;"></div>
+                                            </div><span>Nghiệp vụ sư phạm</span><output id="score5" for="sliderscore5">7</output>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <input type="hidden" name="criteria_1" value="7">
+                                <input type="hidden" name="criteria_2" value="7">
+                                <input type="hidden" name="criteria_3" value="7">
+                                <input type="hidden" name="criteria_4" value="7">
+                                <input type="hidden" name="criteria_5" value="7">
+                                <div class="form-item form-type-radios form-item-recommend">
+                                    <label for="edit-recommend">Bạn có muốn recommend này cho người khác không? </label>
+                                    <div id="edit-recommend" class="form-radios">
+                                        <div class="form-item form-type-radio form-item-recommend">
+                                            <input type="radio" id="edit-recommend-yes" name="recommend" value="yes" checked="checked" class="form-radio"> <label class="option" for="edit-recommend-yes">Có </label>
 
-                            </div>
-                            <div class="form-item form-type-radio form-item-recommend">
-                                <input type="radio" id="edit-recommend-no" name="recommend" value="no" class="form-radio"> <label class="option" for="edit-recommend-no">Không </label>
+                                        </div>
+                                        <div class="form-item form-type-radio form-item-recommend">
+                                            <input type="radio" id="edit-recommend-no" name="recommend" value="no" class="form-radio"> <label class="option" for="edit-recommend-no">Không </label>
 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="element-form"><input type="submit" id="edit-submit" name="op" value="Gửi đánh giá" class="form-submit ajax-processed"></div><input type="hidden" name="form_build_id" value="form-4e5DskUAOa8POlBKbO6KVgE3nS2kWaM9LASR2NTYi_s">
+                                <input type="hidden" name="form_token" value="Zd05Sw5yGlNhlYYK_vh8whTb5yWHpuE4QWGEGT7bffE">
+                                <input type="hidden" name="form_id" value="blacasa_feedback_review_form">
                             </div>
-                        </div>
+                        </form>
                     </div>
-                    <div id="element-form"><input type="submit" id="edit-submit" name="op" value="Gửi đánh giá" class="form-submit ajax-processed"></div><input type="hidden" name="form_build_id" value="form-eNhUFV_0QCyqKZQEIfuooNEOwMag0XoYpgop1XUYKo8">
-                    <input type="hidden" name="form_token" value="Zd05Sw5yGlNhlYYK_vh8whTb5yWHpuE4QWGEGT7bffE">
-                    <input type="hidden" name="form_id" value="blacasa_feedback_review_form">
                 </div>
-            </form>
+            </div>
         </div>
     </div>
+
+
+
+
+    <div class="tab-pane fade in active" id="review-joined">
+
+        <div class="ProgressBar row">
+            <div id="ProgressBarCircle-Join" class="ProgressBarCircle col-md-3 col-sm-12 col-xs-12 cricle-process">
+                <div class="Review-Crircle-Info">
+                    <div class="Review-SummaryScore">8.7</div>
+                    <div class="Review-Text">2 đánh giá</div>
+                </div>
+                <svg viewBox="0 0 100 100">
+                    <path d="M 50,50 m 0,-47.5 a 47.5,47.5 0 1 1 0,95 a 47.5,47.5 0 1 1 0,-95" stroke="#cfcfcf" stroke-width="5" fill-opacity="0"></path>
+                    <path d="M 50,50 m 0,-47.5 a 47.5,47.5 0 1 1 0,95 a 47.5,47.5 0 1 1 0,-95" stroke="#069d86" stroke-width="5" fill-opacity="0" style="stroke-dasharray: 298.493, 298.493; stroke-dashoffset: 29.8493;"></path>
+                </svg>
+            </div>
+            <div class="ProgressLine col-md-9 col-sm-12 col-xs-12">
+                <div class="Review-Criteria line-process" id="Criteria-1">
+                    <div class="Review-Criteria-Line"><svg viewBox="0 0 100 2" preserveAspectRatio="none" style="width: 100%; height: 100%;">
+                            <path d="M 0,1 L 100,1" stroke="#cfcfcf" stroke-width="2" fill-opacity="0"></path>
+                            <path d="M 0,1 L 100,1" stroke="#069d86" stroke-width="2" fill-opacity="0" style="stroke-dasharray: 100, 100; stroke-dashoffset: 15;"></path>
+                        </svg></div>
+                    <div class="Review-Text">Phương pháp dạy học</div>
+                    <div class="Review-SummaryScore">8.5</div>
+                </div>
+                <div class="Review-Criteria line-process" id="Criteria-2">
+                    <div class="Review-Criteria-Line"><svg viewBox="0 0 100 2" preserveAspectRatio="none" style="width: 100%; height: 100%;">
+                            <path d="M 0,1 L 100,1" stroke="#cfcfcf" stroke-width="2" fill-opacity="0"></path>
+                            <path d="M 0,1 L 100,1" stroke="#069d86" stroke-width="2" fill-opacity="0" style="stroke-dasharray: 100, 100; stroke-dashoffset: 10;"></path>
+                        </svg></div>
+                    <div class="Review-Text">Kỹ năng mềm</div>
+                    <div class="Review-SummaryScore">9</div>
+                </div>
+                <div class="Review-Criteria line-process" id="Criteria-3">
+                    <div class="Review-Criteria-Line"><svg viewBox="0 0 100 2" preserveAspectRatio="none" style="width: 100%; height: 100%;">
+                            <path d="M 0,1 L 100,1" stroke="#cfcfcf" stroke-width="2" fill-opacity="0"></path>
+                            <path d="M 0,1 L 100,1" stroke="#069d86" stroke-width="2" fill-opacity="0" style="stroke-dasharray: 100, 100; stroke-dashoffset: 9;"></path>
+                        </svg></div>
+                    <div class="Review-Text">Sự tận tình</div>
+                    <div class="Review-SummaryScore">9.1</div>
+                </div>
+                <div class="Review-Criteria line-process" id="Criteria-4">
+                    <div class="Review-Criteria-Line"><svg viewBox="0 0 100 2" preserveAspectRatio="none" style="width: 100%; height: 100%;">
+                            <path d="M 0,1 L 100,1" stroke="#cfcfcf" stroke-width="2" fill-opacity="0"></path>
+                            <path d="M 0,1 L 100,1" stroke="#069d86" stroke-width="2" fill-opacity="0" style="stroke-dasharray: 100, 100; stroke-dashoffset: 12;"></path>
+                        </svg></div>
+                    <div class="Review-Text">Đúng giờ</div>
+                    <div class="Review-SummaryScore">8.8</div>
+                </div>
+                <div class="Review-Criteria line-process" id="Criteria-5">
+                    <div class="Review-Criteria-Line"><svg viewBox="0 0 100 2" preserveAspectRatio="none" style="width: 100%; height: 100%;">
+                            <path d="M 0,1 L 100,1" stroke="#cfcfcf" stroke-width="2" fill-opacity="0"></path>
+                            <path d="M 0,1 L 100,1" stroke="#069d86" stroke-width="2" fill-opacity="0" style="stroke-dasharray: 100, 100; stroke-dashoffset: 18;"></path>
+                        </svg></div>
+                    <div class="Review-Text">Nghiệp vụ sư phạm</div>
+                    <div class="Review-SummaryScore">8.2</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="view view-blacasa-feedback view-id-blacasa_feedback view-display-id-block_2 view-dom-id-a8f05e7aadf1ff1a95f8f0fb825d8500 jquery-once-1-processed">
+
+
+
+            <div class="view-content">
+                <div class="Review-comments" id="reviewSectionComments">
+                    <div class="views-row-odd views-row-first">
+                        <div class="review-comment row" id="review-0" data-id="59">
+                            <div class="review-comment-left col-md-3 col-sm-6 col-xs-12" style="text-align:center;">
+                                <div class="review-comment-score">8.4</div>
+                                <div class="review-comment-reviewer" data-info-type="reviewer-name">
+                                    <a href="/namtn"><img typeof="foaf:Image" src="https://d1plicc6iqzi9y.cloudfront.net/sites/default/files/styles/user_40_40/public/image/201809/25/16-08-34-13c0261f4eb80a8ae909b1d2f267b7826e.JPEG" width="40" height="40" alt=""></a>
+                                </div>
+                                <div class="info">
+                                    <strong>The MAN</strong>
+                                </div>
+                                <div>
+                                    Từ học viên </div>
+                            </div>
+
+                            <div class="review-comment-right col-md-9 col-sm-6 col-xs-12">
+                                <div class="Review-comment-bubble">
+                                    <div class="Review-comment-body">
+                                        <div class="Review-comment-bodyTitle"> <strong>"Mình thấy cũng ổn"</strong></div>
+                                        <div class="Review-comment-bodyText" data-type="positive">
+                                            <i class="fa fa-plus-circle Review-comment-bodyPositive"></i>
+                                            <div>nhiệt tình, làm việc nghiêm túc</div>
+                                        </div>
+                                        <div class="Review-comment-bodyText" data-type="negative">
+                                            <i class="fa fa-minus-circle Review-comment-bodyNegative"></i>
+                                            <div>tham công tiếc việc, yêu cầu quá cao</div>
+                                        </div>
+                                    </div>
+                                    <!--endbodytext -->
+                                    <div class="Review-statusBar">
+                                        <div class="Review-statusBar-left">
+                                            <span class="Review-statusBar-date ">Đã nhận xét vào 24-11-2017 </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Bubble-->
+                                <div class="review-comment-helpful">
+                                    <span class="review-comment-helpful-text">2 người dùng thấy nhận xét này hữu ích. Bạn thì sao?</span>
+
+                                    <span><button class="review-comment-helpful-button" data-type="yes">Có</button>
+                                    </span>
+                                </div>
+                                <!-- End helpful -->
+                            </div>
+                        </div>
+                        <div class="views-row-even views-row-last">
+                            <div class="review-comment row" id="review-1" data-id="48">
+                                <div class="review-comment-left col-md-3 col-sm-6 col-xs-12" style="text-align:center;">
+                                    <div class="review-comment-score">8.9</div>
+                                    <div class="review-comment-reviewer" data-info-type="reviewer-name">
+                                        <img src="/sites/all/themes/blacasa/images/default_user.png" alt="">
+                                    </div>
+                                    <div class="info">
+                                        <strong>Miss Anna</strong>
+                                    </div>
+                                    <div>
+                                        Từ khách </div>
+                                </div>
+
+                                <div class="review-comment-right col-md-9 col-sm-6 col-xs-12">
+                                    <div class="Review-comment-bubble">
+                                        <div class="Review-comment-body">
+                                            <div class="Review-comment-bodyTitle"> <strong>"Rất tuyệt"</strong></div>
+                                            <div class="Review-comment-bodyText" data-type="positive">
+                                                <i class="fa fa-plus-circle Review-comment-bodyPositive"></i>
+                                                <div>Nhiệt tình, phương pháp dạy thú vị</div>
+                                            </div>
+                                        </div>
+                                        <!--endbodytext -->
+                                        <div class="Review-statusBar">
+                                            <div class="Review-statusBar-left">
+                                                <span class="Review-statusBar-date ">Đã nhận xét vào 24-11-2017 </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End Bubble-->
+                                    <div class="review-comment-helpful">
+                                        <span class="review-comment-helpful-text">2 người dùng thấy nhận xét này hữu ích. Bạn thì sao?</span>
+
+                                        <span><button class="review-comment-helpful-button" data-type="yes">Có</button>
+                                        </span>
+                                    </div>
+                                    <!-- End helpful -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+    </div>
+    <div class="section_steps" id="section_steps">
+        <div class="container">
+            <div class="">
+                <div class="section-title text-center">QUY TRÌNH GIA SƯ BLACASA</div>
+                <div class="section-subtitle text-muted text-center font-secondary pb-4">
+                    Quy trình học được Blacasa thiết kế tối ưu giúp học viên nhanh chóng tập trung vào học tập <br> và đạt được sự tiến bộ chỉ sau một thời gian ngắn.
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 text-center process-left-icon process-left-icon-1"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
+                <div class="col-lg-4 text-center process-left-icon process-left-icon-2"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
+                <div class="col-lg-4 text-center process-left-icon process-left-icon-3"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
+            </div>
+            <div class="box-content row">
+                <div class="col-lg-3 plan-line">
+                    <div class="text-center process-box">
+                        <i class="fa fa-newspaper-o"></i>
+                        <h4 class="pt-3">1. KIỂM TRA ĐẦU VÀO</h4>
+                        <p class="text-muted">Học viên sẽ làm một bài kiểm tra để đánh giá trình độ hiện tại.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 plan-line">
+                    <div class="text-center process-box">
+                        <i class="fa fa-pencil-square-o"></i>
+                        <h4 class="pt-3">2. XÂY DỰNG LỘ TRÌNH</h4>
+                        <p class="text-muted">Giáo viên chuyên môn sẽ đánh giá và xây dựng lộ trình học tập phù hợp.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 plan-line">
+                    <div class="text-center process-box">
+                        <i class="fa fa-male"></i>
+                        <h4 class="pt-3">3. HỌC KÈM 1-1 VỚI GIA SƯ</h4>
+                        <p class="text-muted">Một gia sư giỏi, phù hợp sẽ được lựa chọn để dạy kèm học viên theo lộ trình đã xây dựng.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 ">
+                    <div class="text-center process-box">
+                        <i class="fa fa-line-chart "></i>
+                        <h4 class="pt-3">4. ĐÁNH GIÁ VÀ ĐIỀU CHỈNH</h4>
+                        <p class="text-muted">Đánh giá định kỳ sự hiệu quả học tập và điều chỉnh lộ trình phù hợp.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4 row w-100 justify-content-center">
+                <a href="javascript:" class="btnPopupRegister bla-shadow btn-bla-yellow" data-location="lp-bmentor-steps">ĐĂNG KÝ TƯ VẤN LỘ TRÌNH</a>
+            </div>
+        </div> <!--endcontainer-->
+    </div>
+
 </body>
+
+
 
 </html>

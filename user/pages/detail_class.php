@@ -94,7 +94,7 @@ if (isset($_GET['view'])) {
     </div>
     <?php
     if (isset($idClass)) {
-        $sql = 'SELECT *, lophoc.DiaChiCT AS lophoc_DiaChiCT, lophoc.Tinh_TP AS lophoc_Tinh_TP FROM lophoc
+        $sql = 'SELECT *, lophoc.DiaChiCT AS lophoc_DiaChiCT, lophoc.Tinh_TP AS lophoc_Tinh_TP, lophoc.DienThoai as DienThoai_Lop FROM lophoc
             JOIN monhoc ON monhoc.MaMH = lophoc.MaMH
             JOIN hinhthuc ON hinhthuc.MaHT = lophoc.MaHT
             JOIN hocvien ON hocvien.MaHV = lophoc.MaHV
@@ -111,7 +111,7 @@ if (isset($_GET['view'])) {
         $duration = $results['SoGioHoc1Buoi'];
 
 
-        // $phoneClass = $_POST['phone_class'];
+        $phoneClass = $results['DienThoai_Lop'];
 
         $description = $results['NoiDung'];
         $timesPerWeek = $results['SoBuoiHoc1Tuan'];
@@ -173,6 +173,7 @@ if (isset($_GET['view'])) {
             $result = $stmt->get_result();
             if ($result->num_rows > 0) {
                 $checkConnect = true;
+                $statusConnect = $result->fetch_assoc()['TenTTDeNghi'];
             } else {
                 $checkConnect = false;
             }
@@ -187,8 +188,11 @@ if (isset($_GET['view'])) {
             <div class="">
                 <h1>
 
-                    <i class="fa fa-check-circle" aria-hidden="true" style="font-size: 24px;color: #03ad03;margin-right: 2px;" title="Đã xác thực thông tin">
-                    </i>
+                  
+                
+                    <?= ($statusClass == "Chưa duyệt") ? ' <i class="fa fa-question-circle" aria-hidden="true" style="font-size: 24px;color: gray;margin-right: 2px;" title="Đã xác thực thông tin">
+                    </i>'
+                     : ' <i class="fa fa-check-circle" aria-hidden="true" style="font-size: 24px;color: #03ad03;margin-right: 2px;" title="Đã xác thực thông tin"></i>'?>
                     <?= isset($nameClass) ? $nameClass : '' ?>
 
                 </h1>
@@ -237,7 +241,7 @@ if (isset($_GET['view'])) {
                         <p><i class="fa fa-briefcase"></i> Hình thức học:
                             <?= isset($nameTypeClass) ? $nameTypeClass : '' ?>
                         </p>
-                        <p class="no-padding">
+                        <p class="no-padding" style="display: <?= ($typeClass == 1 || $typeClass == 3) ? '' : 'none' ?>;">
                             <a href="#class-map" title="Xem bản đồ vị trí lớp">
                                 <i class="fa fa-map-marker"></i>
                                 <?= isset($cityName) ? $cityName : '' ?> | <?= isset($detailCity) ? $detailCity : '' ?>, <?= isset($wardName) ? $wardName : '' ?>, <?= isset($districtName) ? $districtName : '' ?> </a>
@@ -254,6 +258,9 @@ if (isset($_GET['view'])) {
                         </p>
                         <p>
                             <i class="fa fa-money"></i> Học phí 1 buổi: <span class="class-tutor-fee"><?= isset($price) ? $price : '' ?> vnđ</span>
+                        </p>
+                        <p style="display: <?= (isset($phoneClass) && ($statusConnect == "Đề nghị dạy đã chấp nhận") ) ? '' :'none' ?>;">
+                            <i  class="fa fa-phone"></i> Điện thoại: <span class=""><?= $phoneClass?></span>
                         </p>
                     </div>
 
@@ -377,10 +384,10 @@ if (isset($_GET['view'])) {
             </div>
         </div> <!--page container-->
     </section>
-    <section class="p-class-detail-steps bg-gradient-blue">
+    <!-- <section class="p-class-detail-steps bg-gradient-blue">
         <div class="container">
             <div class="row" style="justify-content: center;">
-                <h2 class="p-home-section-title-left">Quy trình tìm gia sư trên Blacasa</h2>
+                <h2 class="p-home-section-title-left">Quy trình tìm gia sư trên TutorConnectStudent</h2>
             </div>
             <div class="row" style="justify-content: center;">
                 <div class="col-md-5 col-sm-6 col-xs-12" style="display: none; padding:15px 0 0 0">
@@ -399,7 +406,7 @@ if (isset($_GET['view'])) {
                         <li>
                             <p class="header-step"><span class="step-number">2</span>Các gia sư gửi đề nghị dạy.</p>
                             <p class="body-step">
-                                Mỗi đề nghị dạy bao gồm lời nhắn và giá học phí mà gia sư muốn nhận (đấu giá).
+                                Gia sư gửi đề nghị dạy đến các lớp mình muốn dạy.
                             </p>
                         </li>
                         <li>
@@ -428,9 +435,168 @@ if (isset($_GET['view'])) {
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
+    <style>
+        .section_steps {
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+.section-title {
+    font-size: 2rem !important;
+    /* line-height: 1.2; */
+    line-height: 46px;
+    font-weight: 700;
+    color: #171f32;
+    padding: 0px 0px 20px 0px;
+    margin: 0 0 26px;
+    position: relative;
+}
+.process-left-icon-1 i {
+    right: 20%;
+}
+.process-left-icon-2 i {
+    right: 45%;
+}
+.process-left-icon-3 i {
+    left: 20%;
+}
+.process-left-icon i {
+    font-size: 30px;
+    border-radius: 50%;
+    position: absolute;
+    top: 86px;
+    color: #fff;
+    z-index: 9;
+    background: #FF961E;
+    width: 35px;
+    height: 35px;
+}
+.section_steps .box-content {
+    margin-top: 50px;
+}
+.section_steps .col-lg-3 {
+    margin-bottom: 30px;
+}
+.process-box i {
+    font-size: 48px;
+    line-height: 72px;
+    color: #069d86;
+}
+.plan-line:before {
+    content: "";
+    border: 1px dashed #e0e0e0;
+    position: absolute;
+    width: 67%;
+    left: 65%;
+    top: 50px;
+}
+    </style>
+
+    <div class="section_steps" id="section_steps " style="display: <?= (isset($idStudent) ? '' :'none') ?>;"> 
+      <div class="container">
+        <div class="">
+					<div class="section-title text-center">QUY TRÌNH TÌM GIA SƯ</div>
+          <div class="section-subtitle text-muted text-center font-secondary pb-4">
+						Quy trình tìm gia sư được thiết kế tối ưu giúp học viên nhanh chóng kết nối được với gia sư phù hợp <br> và đạt được sự tiến bộ chỉ sau một thời gian ngắn.  
+					</div>
+				</div>
+        <div class="row">
+           <div class="col-lg-4 text-center process-left-icon process-left-icon-1"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
+           <div class="col-lg-4 text-center process-left-icon process-left-icon-2"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
+           <div class="col-lg-4 text-center process-left-icon process-left-icon-3"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
+        </div>
+        <div class="box-content row">
+           <div class="col-lg-3 plan-line">
+              <div class="text-center process-box">
+                 <i class="fa fa-file-text-o"></i> 
+                 <h4 class="pt-3 text-uppercase">1. Đăng yêu cầu (lớp) tìm gia sư</h4>
+                 <p class="text-muted">Học viên sẽ đăng yêu cầu để tìm gia sư và có thể mời gia sư phù hợp được gợi ý bởi hệ thống giúp việc kết nối nhanh hơn.</p>
+              </div>
+           </div>
+           <div class="col-lg-3 plan-line">
+              <div class="text-center process-box">
+                 <i class="fa fa-envelope-o"></i> 
+                 <h4 class="pt-3 text-uppercase">2. Các gia sư gửi đề nghị dạy</h4>
+                 <p class="text-muted">Gia sư gửi đề nghị dạy đến các lớp mình muốn dạy.</p>
+              </div>
+           </div>
+           <div class="col-lg-3 plan-line">
+              <div class="text-center process-box">
+                 <i class="fa fa-check-square-o"></i> 
+                 <h4 class="pt-3 text-uppercase">3. Học viên lựa chọn đề nghị dạy</h4>
+                 <p class="text-muted">Khi đã có một hoặc nhiều đề nghị dạy, học viên có thể lựa chọn chấp nhận đề nghị dạy phù hợp nhất.</p>
+              </div>
+           </div>
+           <div class="col-lg-3 ">
+              <div class="text-center process-box">
+                 <i class="fa fa-phone "></i> 
+                 <h4 class="pt-3 text-uppercase">4. Liên hệ hẹn buổi học đầu tiên</h4>
+                 <p class="text-muted">Khi bạn chấp nhận 1 đề nghị dạy, số điện thoại của giáo viên sẽ hiện lên và bạn có thể gọi điện hẹn lịch học.</p>
+              </div>
+           </div>
+        </div>    
+				<div class="mt-4 row w-100 justify-content-center">
+						<a href="add_class.php" class="btnPopupRegister bla-shadow btn-bla-yellow" data-location="lp-bmentor-steps">ĐĂNG YÊU CẦU TÌM GIA SƯ</a>
+				</div>
+      </div> <!--endcontainer-->
+    </div>
+    
     <section class="p-class-suggest-teacher" id="p-class-suggest-teacher" style="background: #fff !important">
-        <div class="container">
+        <?php 
+            $sqlSuggest = "SELECT * FROM giasu
+            WHERE (1=1) 
+                        AND EXISTS (
+                            SELECT * FROM lophoc 
+                            WHERE 
+                                lophoc.MaLop = '$idClass'
+                                AND (
+                                    (lophoc.GioiTinhGS != 2 AND giasu.GioiTinh = lophoc.GioiTinhGS)
+                                    OR (lophoc.GioiTinhGS = 2)
+                                )
+                             )
+                         AND EXISTS (
+                        SELECT * FROM lophoc
+                        JOIN giasu_monhoc ON giasu_monhoc.MaMH = lophoc.MaMH
+                
+                        AND lophoc.MaLop = '$idClass'
+                    ) 
+                
+                        and EXISTS (          
+                          SELECT * FROM giasu_chude 
+                        JOIN lophoc_chude ON lophoc_chude.MaCD = giasu_chude.MaCD 
+                        WHERE giasu_chude.MaGS = giasu.MaGS 
+                        AND lophoc_chude.MaLop = '$idClass')
+             ";
+
+            // // $sqlSuggest .= " AND (giasu.GioiTinh = 2 OR (
+            // //     lophoc.GioiTinhGS != 2 AND EXISTS (
+            // //         SELECT * FROM giasu 
+            // //         WHERE lophoc.GioiTinhGS = giasu.GioiTinh 
+            // //         AND giasu.MaGS = '$idTutor'
+            // //     )
+            // // ))";
+
+            // // $sqlSuggest .= " AND EXISTS (
+            // //     SELECT * FROM lophoc 
+            // //     WHERE lophoc.MaMH = giasu_monhoc.MaMH 
+            // //     AND lophoc.MaLop = '$idClass'
+            // // )";
+
+            // $sqlSuggest .= " AND EXISTS (
+            //     SELECT * FROM giasu_chude 
+            //     JOIN lophoc_chude ON lophoc_chude.MaCD = giasu_chude.MaCD 
+            //     WHERE lophoc_chude.MaLop = lophoc.MaLop 
+            //     AND lophoc_chude.MaLop = '$idClass'
+            // )";
+
+            // echo $sqlSuggest;
+
+            $stmt = $conn->prepare($sqlSuggest);
+            $stmt->execute();
+            $resultsTutor = $stmt->get_result();
+        
+        ?>
+        <div class="container" style="display: <?= (isset($idStudent) ? '' :'none') ?>;">
             <div class="find-teacher-list">
                 <div class="content-category fixed">
                     <h2 class="p-home-section-title-left">Gợi ý các gia sư phù hợp</h2>
@@ -474,35 +640,63 @@ if (isset($_GET['view'])) {
                             <div id="suggest-list-tags"></div>
                         </div>
                     </div>
-                    <div style="display: none;" class="row suggest-result">
+                    <div style="" class="row suggest-result">
+                        <?php while ($row = $resultsTutor->fetch_assoc()) {
+                             
 
+                        
+                        ?>
                         <div class="col-md-3 col-sm-6">
                             <div class="box-content">
                                 <div class="tile-v-12">
                                     <div class="img img-box-sugest">
-                                        <a href="https://www.blacasa.vn/nguyen-quang-hai">
-                                            <img src=" https://d1plicc6iqzi9y.cloudfront.net/sites/default/files/image/201907/02/-09-22-23c6e9e3e003860419b7aff6ec9ea05428.JPEG ">
+                                        <a href="account.php?view_tutor=<?= $row['MaGS']?>">
+                                            <img src="../assets/img/img_tutor/<?= $row['AnhDaiDien'] ?>">
                                         </a>
                                     </div>
                                     <div class="name">
                                         <h4>
-                                            <a href="https://www.blacasa.vn/nguyen-quang-hai">Nguyễn Quang Hải</a>
+                                            <a href="account.php?view_tutor=<?= $row['MaGS']?>"><?= $row['HoTen'] ?></a>
                                         </h4>
                                         <p style="    white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width: 200px;">
-                                            <span>Hà Nội</span> |
-                                            <span>Tiếng Anh</span>
+                                            <span><?= $row['Tinh_TP'] ?></span> |
+                                            <?php
+                                                // $typeSubjects = 'SELECT * FROM monhoc';
+                                                // $stmt = $conn->prepare($typeSubjects);
+                                                // $stmt->execute();
+                                                // $resultSubjects = $stmt->get_result();
+
+                                                // Lấy dữ liệu môn học gia sư dạy
+                                                $sql = 'SELECT * FROM giasu_monhoc 
+                                                JOIN monhoc on giasu_monhoc.MaMH = monhoc.MaMH
+                                                WHERE MaGS = ?'; // Đổi MaGS thành ID của giáo sư
+                                                $stmt = $conn->prepare($sql);
+                                                $stmt->bind_param('i', $row['MaGS']);
+                                                $stmt->execute();
+                                                $resultTutorSubjects = $stmt->get_result();
+
+                                                // Tạo một mảng lưu trữ các môn học mà giáo sư dạy
+                                                $typeSubjects = array();
+                                                while ($rowTutorSubject = $resultTutorSubjects->fetch_assoc()) {
+                                                    $typeSubjects[] = $rowTutorSubject['TenMH'];
+                                                }
+
+                                                echo "<span>";
+                                          
+                                                    echo implode(', ', $typeSubjects);
+                                               
+                                                echo "</span>";
+                                            ?>
                                         </p>
                                         <p class="cost">
-                                            <span>150,000 vnđ/h</span>
+                                            <span><?= $row['HocPhi1H'] ?> vnđ/h</span>
                                         </p>
 
-                                        <span class="number ">N/A</span>
+                                        <!-- <span class="number ">N/A</span> -->
                                     </div>
                                     <div class="description">
                                         <div class="view">
-                                            Tôi có chứng chỉ IELTS 6.5, học chuyên ngành sư phạm tiếng Anh và đã có kinh nghiệm giảng dạy trong 2 năm.
-
-                                            Có chứng chỉ thạc sĩ chuyên ngành giảng dạy tiếng Anh do University of Huddersfield cấp. </div>
+                                            <?= $row['MoTa'] ?> </div>
                                     </div>
                                     <div class="btn-bottom text-right">
                                         <div class="btn-data" data-object="17950" data-type="user"></div>
@@ -513,7 +707,9 @@ if (isset($_GET['view'])) {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3 col-sm-6">
+
+                        <?php  } ?>
+                        <!-- <div class="col-md-3 col-sm-6">
                             <div class="box-content">
                                 <div class="tile-v-12">
                                     <div class="img img-box-sugest">
@@ -943,11 +1139,11 @@ if (isset($_GET['view'])) {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="content-next-page" id="page-2"></div>
+                        </div> -->
+                        <!-- <div class="content-next-page" id="page-2"></div>
                         <div class="view-footer">
                             <p class="load-more suggest-teacher-load-more btn-bla-big btn-blueblacasa" onclick="return load_more_page(1,71,'0',null,null,2,12,'all','all','',0,-1,0)" id="load-1">Xem thêm</p>
-                        </div>
+                        </div> -->
 
                         <script type="text/javascript">
                             function load_more_page(dia_diem, mon_hoc, type, lat, lng, next_page, limit, agency, gender, tags, time_active, distance, teacher_type) {

@@ -78,10 +78,16 @@ include 'config.php';
                 if (typeAcc === undefined) {
                     typeAcc = 0;
                 }
-                let fullName = $("#edit-full-name").val();
-                let email = $("#edit-email").val();
-                let phoneNumber = $("#edit-phone-number").val();
-                let passWord = $("#edit-pass").val();
+                // let fullName = $("#edit-full-name").val();
+                // let email = $("#edit-email").val();
+                // let phoneNumber = $("#edit-phone-number").val();
+                // let passWord = $("#edit-pass").val();
+
+                let fullName = $("#regUser").val();
+                let email = $("#regEmail").val();
+                let phoneNumber = $("#regPhone").val();
+                let passWord = $("#regPassword").val();
+
                 let errTypeAcc = $(".errTypeAcc");
                 let errEmail = $(".errEmail");
                 let errFullName = $(".errFullName");
@@ -143,8 +149,10 @@ include 'config.php';
             });
             $("#edit-submit--2").on("click", function() {
 
-                let emailPhone = $("#edit-email-phone").val();
-                let passLogin = $("#password_login_form").val();
+                // let emailPhone = $("#edit-email-phone").val();
+                // let passLogin = $("#password_login_form").val();
+                let emailPhone = $("#logEmail").val();
+                let passLogin = $("#logPassword").val();
 
                 let errEmailPhone = $(".errEmailPhone");
                 let errPassLogin = $(".errPassLogin");
@@ -195,8 +203,8 @@ include 'config.php';
     <!--arcontact button: allin-->
     <div class="form-signin-signup mfp-bg mfp-hide"></div>
     <div class="form-signin-signup mfp-wrap mfp-auto-cursor mfp-hide" tabindex="-1" style="overflow: hidden auto;">
-        <div class="mfp-container">
-            <div class="mfp-content">
+        <div class="mfp-container" style="display: flex;justify-content: center;align-items: center;">
+            <!-- <div class="mfp-content">
                 <div id="popup-form" class="white-popup-block" style="width: 70%;">
                     <a class="popup-modal-dismiss" href="#">x</a>
                     <ul class="nav nav-tabs" id="tab-login">
@@ -394,6 +402,326 @@ include 'config.php';
                             </div>
                         </form>
                     </div>
+                </div>
+            </div> -->
+            <style>
+                @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+
+                .container8 {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    min-height: 100vh;
+                    background-color: #f0f2f5;
+                }
+
+                .box8 {
+                    display: flex;
+                    flex-direction: row;
+                    position: relative;
+                    padding: 60px 20px 30px 20px;
+                    height: 735px;
+                    width: 400px;
+                    background-color: white;
+                    border-radius: 30px;
+                    -webkit-backdrop-filter: blur(15px);
+                    backdrop-filter: blur(15px);
+                    border: 3px solid rgba(255, 255, 255, 0.2);
+                    overflow: hidden;
+                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                }
+
+                .box-login8 {
+                    position: absolute;
+                    width: 85%;
+                    left: 27px;
+                    transition: .5s ease-in-out;
+                }
+
+                .box-register8 {
+                    position: absolute;
+                    width: 85%;
+                    right: -350px;
+                    transition: .5s ease-in-out;
+                }
+
+                .top-header8 {
+                    text-align: center;
+                    margin: 30px 0;
+                }
+
+                .top-header8 h3 {
+                    font-size: 22px;
+                    font-weight: 600;
+                    margin-bottom: 8px;
+                }
+
+                .input-group8 {
+                    width: 100%;
+                }
+
+                .input-field8 {
+                    margin: 12px 0;
+                    position: relative;
+                }
+
+                .input-box8 {
+                    width: 100%;
+                    height: 50px;
+                    font-size: 15px;
+                    color: #040404;
+                    border: none;
+                    border-radius: 10px;
+                    padding: 7px 45px 0 20px;
+                    background: rgba(224, 223, 223, 0.6);
+                    backdrop-filter: blur(2px);
+                    outline: none;
+                }
+
+                .input-field8 label {
+                    position: absolute;
+                    left: 20px;
+                    top: 15px;
+                    font-size: 15px;
+                    transition: .3s ease-in-out;
+
+                }
+
+                .input-box8:focus~label,
+                .input-box8:valid~label {
+                    top: 2px;
+                    font-size: 10px;
+                    color: #c12828;
+                    font-weight: 500;
+                }
+
+                .eye-area8 {
+                    position: absolute;
+                    top: 25px;
+                    right: 25px;
+                }
+
+                .eye-box8 {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    position: relative;
+                }
+
+                .i-8 {
+                    position: absolute;
+                    color: #444444;
+                    cursor: pointer;
+                }
+
+                #eye,
+                #eye-2 {
+                    opacity: 1;
+                }
+
+                #eye-slash,
+                #eye-slash-2 {
+                    opacity: 0;
+                }
+
+                .remember8 {
+                    display: flex;
+                    font-size: 13px;
+                    margin: 12px 0 30px 0;
+                    color: #000;
+                }
+
+                .check8 {
+                    margin-right: 8px;
+                    width: 14px;
+                }
+
+                .input-submit8 {
+                    width: 100%;
+                    height: 50px;
+                    font-size: 15px;
+                    font-weight: 500;
+                    border: none;
+                    border-radius: 10px;
+                    background: #bc6202;
+                    color: #fff;
+                    box-shadow: 0px 4px 20px rgba(62, 9, 9, 0.145);
+                    cursor: pointer;
+                    transition: .4s;
+                }
+
+                .input-submit8:hover {
+                    background: #db3e00;
+                    box-shadow: 0px 4px 20px rgba(62, 9, 9, 0.32);
+                }
+
+                .forgot8 {
+                    text-align: center;
+                    font-size: 13px;
+                    font: 500;
+                    margin-top: 40px;
+                }
+
+                .forgot8 a {
+                    text-decoration: none;
+                    color: #000;
+                }
+
+                .switch8 {
+                    display: flex;
+                    position: absolute;
+                    bottom: 40px;
+                    left: 25px;
+                    width: 85%;
+                    height: 50px;
+                    background: rgba(255, 255, 255, 0.16);
+                    backdrop-filter: blur(10px);
+                    border-radius: 10px;
+                    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+                    overflow: hidden;
+                }
+
+                .switch8 a {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 14px;
+                    font-weight: 500;
+                    color: #000;
+                    text-decoration: none;
+                    width: 50%;
+                    border-radius: 10px;
+                    z-index: 10;
+                }
+
+
+                #btn8 {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 50%;
+                    height: 50px;
+                    background: #cccccd;
+                    border-radius: 10px;
+                    box-shadow: 2px 0px 12px rgba(0, 0, 0, 0.1);
+                    transition: .5s ease-in-out;
+                }
+
+                .remember8 label {
+                    margin-bottom: 0px !important;
+                }
+
+
+
+                .form-row8 {
+                    display: flex;
+                    /* justify-content: space-between; */
+                }
+
+                .form-item8.form-type-radio8.form-item-type-acc8 {
+                    margin-bottom: 0;
+                    /* Loại bỏ margin dưới của các nút radio */
+                }
+            </style>
+            <div class="box8">
+                <a class="popup-modal-dismiss" href="#">x</a>
+                <!------------------ Login Box --------------------->
+                <div class="box-login8" id="login-8">
+
+                    <div class="top-header8">
+                        <h3>Xin chào</h3>
+                        <small>Chúng tôi rất vui khi bạn quay trở lại.</small>
+                    </div>
+                    <div class="input-group8">
+                        <div class="input-field8">
+                            <input type="text" class="input-box8" id="logEmail" required>
+                            <label for="logEmail">Nhập Email hoặc SĐT</label>
+                            <div class="errEmailPhone" style="color: red;"></div>
+                        </div>
+                        <div class="input-field8">
+                            <input type="password" class="input-box8" id="logPassword" required>
+                            <label for="logPassword">Mật khẩu</label>
+                            <div class="eye-area8">
+                                <div class="eye-box8" onclick="myLogPassword()">
+                                    <i class="fa fa-regular fa-eye i-8" id="eye"></i>
+                                    <i class="fa fa-regular fa-eye-slash i-8" id="eye-slash"></i>
+                                </div>
+                            </div>
+                            <div class="errPassLogin" style="color: red;"></div>
+                        </div>
+                        <div class="remember8">
+                            <input type="checkbox" id="formCheck" class="check8">
+                            <label for="formCheck"> Ghi nhớ</label>
+                        </div>
+                        <div class="input-field8">
+                            <input type="submit" class="input-submit8" id="edit-submit--2"  value="Đăng nhập">
+                        </div>
+                        <div class="forgot8">
+                            <a href="#">Quên mật khẩu?</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-------------------- Register --------------------------->
+                <div class="box-register8" id="register-8">
+                    <div class="top-header8">
+                        <h3>Đăng ký</h3>
+                        <small>Chúng tôi mời bạn tham gia.</small>
+                    </div>
+                    <div class="input-group8">
+                        <div id="edit-type-acc" class="form-radios8">
+                            <div class="form-row8" style="justify-content: space-around;">
+                                <div class="form-item8 form-type-radio8 form-item-type-acc8">
+                                    <input type="radio" id="edit-type-acc-1" name="type_acc" value="2" class="form-radio8">
+                                    <label class="option8" for="edit-type-acc-1">Gia sư</label>
+                                </div>
+                                <div class="form-item8 form-type-radio8 form-item-type-acc8">
+                                    <input type="radio" id="edit-type-acc-0" name="type_acc" value="3" class="form-radio8">
+                                    <label class="option8" for="edit-type-acc-0">Học viên</label>
+                                </div>
+                                
+                            </div>
+                            <div class="errTypeAcc" style="color: red;"></div>
+                        </div>
+                     
+                        <div class="input-field8">
+                            <input type="text" class="input-box8" id="regUser" required>
+                            <label for="regUser">Nhập họ tên</label>
+                            <div class="errFullName" style="color: red;"></div>
+                        </div>
+                        <div class="input-field8">
+                            <input type="number" class="input-box8" id="regPhone" required>
+                            <label for="regPhone">Nhập SĐT</label>
+                            <div class="errPhoneNumber" style="color: red;"></div>
+                        </div>
+                        <div class="input-field8">
+                            <input type="email" class="input-box8" id="regEmail" required>
+                            <label for="regEmail">Nhập Email</label>
+                            <div class="errEmail" style="color: red;"></div>
+                        </div>
+                        <div class="input-field8">
+                            <input type="password" class="input-box8" id="regPassword" required>
+                            <label for="regPassword">Mật khẩu</label>
+                            <div class="eye-area8">
+                                <div class="eye-box8" onclick="myRegPassword()">
+                                    <i class="fa fa-regular fa-eye i-8" id="eye-2"></i>
+                                    <i class="fa fa-regular fa-eye-slash i-8" id="eye-slash-2"></i>
+                                </div>
+                            </div>
+                            <div class="errPassWord" style="color: red;"></div>
+                        </div>
+
+                        <div class="input-field8" style="margin: 25px 0 ;">
+                            <input type="submit" class="input-submit8" id="edit-submit--3" value="Đăng ký">
+                        </div>
+                    </div>
+                </div>
+
+                <!------------------------ Switch -------------------------->
+                <div class="switch8">
+                    <a href="#" class="login8" onclick="login()">Đăng nhập</a>
+                    <a href="#" class="register8" onclick="register()">Đăng ký</a>
+                    <div id="btn8"></div>
                 </div>
             </div>
         </div>
@@ -734,14 +1062,14 @@ include 'config.php';
                     </li>
                     <li>
                         <a href="https://www.blacasa.vn" class="logo" title="Blacasa - Hệ thống gia sư lớn nhất Việt Nam">
-                            <img src="/sites/all/themes/blacasa/images/logo-blacasa.png" alt="Blacasa - Hệ thống gia sư lớn nhất Việt Nam">
+                            <img src="../assets/img/tutorConnectStudent-removebg.png" alt="Hệ thống kết nối giữa gia sư và học viên" style="height: 50px;">
                         </a>
                     </li>
                     <li class="d-none d-lg-block ml-4 mr-2">
-                        <a href="mailto:contact@blacasa.vn"><i class="fa fa-envelope mr-1"></i>contact@blacasa.vn</a>
+                        <a href="mailto:contact@blacasa.vn"><i class="fa fa-envelope mr-1"></i>tutorconnect@gmail.com</a>
                     </li>
                     <li class="d-none d-lg-block  px-2 bla-border-left">
-                        <a href="tel:0989704869"><i class="fa fa-phone mr-1"></i>0989.704.869 | 1900.63.63.42</a>
+                        <a href="tel:0989704869"><i class="fa fa-phone mr-1"></i>0854.641.904</a>
                     </li>
                 </ul>
             </div>
@@ -755,38 +1083,36 @@ include 'config.php';
                     </li>
                     <!-- when sign in -->
                     <?php
-                        if (isset($_SESSION['Account'])) {
+                    if (isset($_SESSION['Account'])) {
 
-                            $sql = 'SELECT * FROM taikhoan WHERE TenDN = ?';
+                        $sql = 'SELECT * FROM taikhoan WHERE TenDN = ?';
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param('s', $_SESSION['Account']);
+                        $stmt->execute();
+                        $result = $stmt->get_result()->fetch_assoc();
+                        $id = $result['MaTK'];
+                        $typeAcc = $result['MaPQ'];
+
+                        if ($typeAcc == 2) {
+                            $sql = 'SELECT * FROM giasu WHERE MaTK = ?';
                             $stmt = $conn->prepare($sql);
-                            $stmt->bind_param('s', $_SESSION['Account']);
+                            $stmt->bind_param('s', $id);
                             $stmt->execute();
-                            $result = $stmt->get_result()->fetch_assoc();
-                            $id = $result['MaTK'];
-                            $typeAcc = $result['MaPQ'];
+                            $resultTutor = $stmt->get_result()->fetch_assoc();
+                            $idTutor = $resultTutor['MaGS'];
+                            $avatarTutor = $resultTutor['AnhDaiDien'];
+                        } else if ($typeAcc == 3) {
+                            $sql = 'SELECT * FROM hocvien WHERE MaTK = ?';
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bind_param('s', $id);
+                            $stmt->execute();
+                            $resultStudent = $stmt->get_result()->fetch_assoc();
+                            $idStudent = $resultStudent['MaHV'];
+                            $avatarStudent = $resultStudent['AnhDaiDien'];
+                            $coverStudent = $resultStudent['AnhBia'];
+                        }
+                    }
 
-                            if ($typeAcc == 2) {
-                                $sql = 'SELECT * FROM giasu WHERE MaTK = ?';
-                                $stmt = $conn->prepare($sql);
-                                $stmt->bind_param('s', $id);
-                                $stmt->execute();
-                                $resultTutor = $stmt->get_result()->fetch_assoc();
-                                $idTutor = $resultTutor['MaGS'];
-                                $avatarTutor = $resultTutor['AnhDaiDien'];
-                    
-                            } else if ($typeAcc == 3) {
-                                $sql = 'SELECT * FROM hocvien WHERE MaTK = ?';
-                                $stmt = $conn->prepare($sql);
-                                $stmt->bind_param('s', $id);
-                                $stmt->execute();
-                                $resultStudent = $stmt->get_result()->fetch_assoc();
-                                $idStudent = $resultStudent['MaHV'];
-                                $avatarStudent = $resultStudent['AnhDaiDien'];
-                                $coverStudent = $resultStudent['AnhBia'];
-                            }
-                        
-                        } 
-                    
                     ?>
                     <li class="dropdown notification notification-info common-tooltip <?= isset($_SESSION['Account']) ? 'mfp-ready' : 'mfp-hide' ?>">
                         <a href="#" id="dropdown-header-notifs" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" data-type="view_notification">
@@ -806,32 +1132,32 @@ include 'config.php';
                     <li class="dropdown <?= isset($_SESSION['Account']) ? 'mfp-ready' : 'mfp-hide' ?>">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="dropdown-header-profiles" aria-expanded="false" style="padding-right:0;">
                             <img class="bla-img-sm img-circle" width="24" height="24" typeof="foaf:Image" src="../assets/img/<?php
-                                if (!empty($avatarTutor)){
-                                    echo 'img_tutor/'.$avatarTutor;
-                                } else if (!empty($avatarStudent)){
-                                    echo 'img_student/'.$avatarStudent;
-                                } else {
-                                    echo 'default_user.png';
-                                }
-                            ?>" alt=""> </a>
+                                                                                                                                if (!empty($avatarTutor)) {
+                                                                                                                                    echo 'img_tutor/' . $avatarTutor;
+                                                                                                                                } else if (!empty($avatarStudent)) {
+                                                                                                                                    echo 'img_student/' . $avatarStudent;
+                                                                                                                                } else {
+                                                                                                                                    echo 'default_user.png';
+                                                                                                                                }
+                                                                                                                                ?>" alt=""> </a>
                         <div class="dropdown-menu dropdown-menu-right py-0" id="menu-top-personal-menu" x-placement="top-end" aria-labelledby="dropdown-header-profiles" style="position: absolute; transform: translate3d(-210px, 0px, 0px); top: 0px; left: 0px; will-change: transform;">
 
-                            <a class="dropdown-item <?= isset($typeAcc) && ($typeAcc == 2) ? 'mfp-ready' : 'mfp-hide'?> " href="https://www.blacasa.vn/class">
+                            <a class="dropdown-item <?= isset($typeAcc) && ($typeAcc == 2) ? 'mfp-ready' : 'mfp-hide' ?> " href="class.php">
                                 <i class="fa fa-flag" aria-hidden="true" style="width:20px;"></i> Xem các lớp mới</a>
-                            <a class="dropdown-item <?= isset($typeAcc) && ($typeAcc == 2) ? 'mfp-ready' : 'mfp-hide'?> " href="https://www.blacasa.vn/huy-nguyen-080324/offer">
+                            <a class="dropdown-item <?= isset($typeAcc) && ($typeAcc == 2) ? 'mfp-ready' : 'mfp-hide' ?> " href="class_student_tutor.php?view=<?= $id ?>">
                                 <i class="fa fa-flag" aria-hidden="true" style="width:20px;"></i> Các đề nghị dạy đã gửi</a>
-                            <a class="dropdown-item bla-border-bottom" href="class_student_tutor.php?view=<?=$id?>">
+                            <a class="dropdown-item bla-border-bottom <?= isset($typeAcc) && ($typeAcc == 2) ? 'mfp-hide' : 'mfp-ready' ?>" href="class_student_tutor.php?view=<?= $id ?>">
                                 <i class="fa fa-book" aria-hidden="true" style="width:20px;"></i> Yêu cầu tìm gia sư</a>
-                            <a class="dropdown-item <?= isset($typeAcc) && ($typeAcc == 2) ? 'mfp-ready' : 'mfp-hide'?>" href="https://www.blacasa.vn/huy-nguyen-080324/object-saved?c=teacher">
+                            <a class="dropdown-item <?= isset($typeAcc) && ($typeAcc == 2) ? 'mfp-ready' : 'mfp-hide' ?>" href="https://www.blacasa.vn/huy-nguyen-080324/object-saved?c=teacher">
                                 <i class="fa fa-heart-saved" aria-hidden="true" style="width:20px;"></i> Giáo viên đã lưu</a>
-                            <a class="dropdown-item" href="add_class.php?add=<?=$id?>">
+                            <a class="dropdown-item <?= isset($typeAcc) && ($typeAcc == 2) ? 'mfp-hide' : 'mfp-ready' ?>" href="add_class.php?add=<?= $id ?>">
                                 <i class="fa fa-plus-circle" aria-hidden="true" style="width:20px;"></i> Đăng yêu cầu mới</a>
-                            
+
                             <a class="dropdown-item" href="https://www.blacasa.vn/huy-nguyen-080324/bpoint">
                                 <i class="fa fa-btc" aria-hidden="true" style="width:20px;"></i> Quản lý BPoint</a>
-                            <a class="dropdown-item" href="account.php?view=<?=$id?>">
+                            <a class="dropdown-item" href="account.php?view=<?= $id ?>">
                                 <i class="fa fa-home" aria-hidden="true" style="width:20px;"></i> Trang cá nhân</a>
-                            <a class="dropdown-item" href="edit_account.php?edit=<?=$id?>">
+                            <a class="dropdown-item" href="edit_account.php?edit=<?= $id ?>">
                                 <i class="fa fa-user" aria-hidden="true" style="width:20px;"></i> Cài đặt</a>
                             <a class="dropdown-item" href="LogoutAcc.php"><i class="fa fa-sign-out" aria-hidden="true" style="width:20px;"></i> Đăng xuất</a>
                         </div>
@@ -851,7 +1177,7 @@ include 'config.php';
                         <i class="fa fa-times" style="font-size:24px;"></i>
                     </button>
                     <div>
-                        <img src="/sites/all/themes/blacasa/images/logo-blacasa-white.png" height="30px" alt="Blacasa - Hệ thống gia sư lớn nhất Việt Nam">
+                        <img src="../assets/img/tutorConnectStudent-removebg.png" height="30px" alt="Blacasa - Hệ thống gia sư lớn nhất Việt Nam">
                     </div>
                 </div>
                 <div class="modal-body">
@@ -865,10 +1191,10 @@ include 'config.php';
                                 <li>
                                     <a href="#">Giới thiệu</a>
                                     <ul class="menu-top-modal-sub">
-                                        <li><a title="Giới thiệu Blacasa Việt Nam" href="/gioi-thieu">Giới thiệu Blacasa </a></li>
-                                        <li><a title="Trải nghiệm 360 độ" href="/vr-360" target="_blank">Blacasa 360 VR</a></li>
-                                        <li><a title="Hợp tác và đầu tư" href="/gioi-thieu#partner">Hợp tác và đầu tư</a></li>
-                                        <li><a title="Tuyển dụng" href="/jobs">Tuyển dụng</a></li>
+                                        <li><a title="Giới thiệu Blacasa Việt Nam" href="introduction.php">Giới thiệu Blacasa </a></li>
+                               
+                                        <li><a title="Hợp tác và đầu tư" href="introduction.php#partner">Hợp tác và đầu tư</a></li>
+                                 
                                     </ul>
                                 </li>
                                 <li>
@@ -880,7 +1206,7 @@ include 'config.php';
                                         <li><a title="Danh sách gia sư" href="tutor.php">Danh sách gia sư</a></li>
                                     </ul>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <a href="https://www.blacasa.vn#products" class="bla-goScrollSmoothly" data-selector="#products">Khoá học & Dịch vụ</a>
                                     <ul class="menu-top-modal-sub">
                                         <li><a title="Gia sư dạy kèm B-Mentor" href="/lp/tro-ly-hoc-tap-bmentor" target="_blank">Gia sư tại nhà</a></li>
@@ -890,7 +1216,7 @@ include 'config.php';
                                         <li><a title="Trắc nghiệm phong cách học tập" href="/test/phong-cach-hoc-tap" target="_blank">Trắc nghiệm phong cách học tập</a></li>
 
                                     </ul>
-                                </li>
+                                </li> -->
 
                             </ul>
                         </div>
@@ -900,12 +1226,12 @@ include 'config.php';
                                     <a href="/class">Dành cho gia sư</a>
                                     <ul class="menu-top-modal-sub">
                                         <li><a title="Lớp đang cần gia sư" href="class.php">Lớp đang cần gia sư</a></li>
-                                        <li><a title="Trở thành gia sư" href="/lp/tro-thanh-gia-su-bmentor">Trở thành gia sư</a></li>
+                              
                                         <li><a title="Hướng dẫn nhận lớp" href="/become-teacher">Hướng dẫn nhận lớp</a></li>
-                                        <li><a title="Mời bạn bè" href="/invite-friend">Mời bạn bè</a></li>
+                                 
                                     </ul>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <a href="/affiliate">Affiliate</a>
                                     <ul class="menu-top-modal-sub">
                                         <li><a title="Giới thiệu phụ huynh" href="/affiliate">Giới thiệu phụ huynh</a></li>
@@ -928,7 +1254,7 @@ include 'config.php';
                                         <li><a title="Áo xanh sư phạm tới trường" href="/ao-xanh-su-pham" target="_blank">Dự án áo xanh sư phạm tới trường</a></li>
                                         <li><a title="Dự án học cùng chiến binh nhí" href="/bai-viet/hoc-cung-chien-binh-nhi" target="_blank">Dự án học cùng chiến binh nhí</a></li>
                                     </ul>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </div>
@@ -938,33 +1264,33 @@ include 'config.php';
     </div>
     <!--Main menu for PC-->
     <section class="section main-nav-top" id="main-nav-top">
-        <nav class="container  d-flex align-items-center justify-content-between">
+        <nav class="container  d-flex align-items-center ">
             <ul class="menu-top" id="nav-top-home">
                 <li>
-                    <a href="https://www.blacasa.vn" style="padding:13px 16px 13px 16px"><i class="fa fa-home mr-2" style="font-size:20px;"></i>Trang chủ</a>
+                    <a href="introduction.php" style="padding:13px 16px 13px 16px"><i class="fa fa-home mr-2" style="font-size:20px;"></i>Trang chủ</a>
                 </li>
             </ul>
-            <a href="https://www.blacasa.vn" id="nav-top-logo-home"><img src="/sites/all/themes/blacasa/images/logo-blacasa-white.png" style="height:30px !important;"></a>
+            <a href="https://www.blacasa.vn" id="nav-top-logo-home"><img src="../assets/img/tutorConnectStudent-removebg.png" style="height:52px !important;"></a>
             <ul class="menu-top d-flex align-items-center">
                 <li>
-                    <a href="/gioi-thieu">Giới thiệu</a>
+                    <a href="introduction.php">Giới thiệu</a>
                     <ul class="menu-top-sub">
-                        <li><a title="Giới thiệu Blacasa Việt Nam" href="/gioi-thieu">Giới thiệu Blacasa </a></li>
-                        <li><a title="Trải nghiệm 360 độ" href="/vr-360" target="_blank">Blacasa 360 VR</a></li>
-                        <li><a title="Hợp tác và đầu tư" href="/gioi-thieu#partner">Hợp tác và đầu tư</a></li>
-                        <li><a title="Tuyển dụng" href="/jobs">Tuyển dụng</a></li>
+                        <li><a title="Giới thiệu Blacasa Việt Nam" href="introduction.php">Giới thiệu</a></li>
+    
+                        <li><a title="Hợp tác và đầu tư" href="introduction.php#partner">Hợp tác và đầu tư</a></li>
+                        
                     </ul>
                 </li>
-                <li>
+                <li style="display: <?= (isset($idStudent)) ? '' : 'none' ?>;">
                     <a href="javascript:" class="btnPopupRegister" data-location='lp-bmentor-header'>Tìm gia sư</a>
                     <ul class="menu-top-sub">
-                        <li><a href="javascript:" class="btnPopupRegister" data-location='lp-bmentor-header'>Tư vấn tìm gia sư</a></li>
-                        <li><a title="Tại sao chọn Blacasa" href="https://www.blacasa.vn#why-us" class="bla-goScrollSmoothly" data-selector="#why-us">Tại sao chọn Blacasa</a></li>
-                        <li><a title="Phụ huynh nhận xét" href="https://www.blacasa.vn#testimonial" class="bla-goScrollSmoothly" data-selector="#testimonial">Phụ huynh nói gì</a></li>
+                        <!-- <li><a href="javascript:" class="btnPopupRegister" data-location='lp-bmentor-header'>Tư vấn tìm gia sư</a></li> -->
+                        <!-- <li><a title="Tại sao chọn Blacasa" href="https://www.blacasa.vn#why-us" class="bla-goScrollSmoothly" data-selector="#why-us">Tại sao chọn Blacasa</a></li> -->
+                        <li><a title="Phụ huynh nhận xét" href="testimonial.php" class="bla-goScrollSmoothly" data-selector="#testimonial">Phụ huynh nói gì</a></li>
                         <li><a title="Danh sách gia sư" href="tutor.php">Danh sách gia sư</a></li>
                     </ul>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="https://www.blacasa.vn#product">Khoá học & Dịch vụ</a>
                     <ul class="menu-top-sub">
                         <li><a title="Gia sư dạy kèm B-Mentor" href="/lp/tro-ly-hoc-tap-bmentor" target="_blank">Gia sư tại nhà</a></li>
@@ -973,23 +1299,21 @@ include 'config.php';
                         <li><a title="Khoá học online" href="https://tot.edu.vn" target="_blank">Khoá học video online</a></li>
                         <li><a title="Trắc nghiệm phong cách học tập" href="/test/phong-cach-hoc-tap" target="_blank">Trắc nghiệm phong cách học tập</a></li>
                     </ul>
-                </li>
-                <li>
-                    <a href="/class">Dành cho gia sư</a>
+                </li> -->
+                <li style="display: <?= (isset($idTutor)) ? '' : 'none' ?>;">
+                    <a href="/class">Tìm lớp học mới</a>
                     <ul class="menu-top-sub">
-                        <li><a title="Lớp đang cần gia sư" href="class.php">Lớp đang cần gia sư</a></li>
-                        <li><a title="Trở thành gia sư" href="/lp/tro-thanh-gia-su-bmentor">Trở thành gia sư</a></li>
-                        <li><a title="Hướng dẫn nhận lớp" href="/become-teacher">Hướng dẫn nhận lớp</a></li>
-                        <li><a title="Mời bạn bè" href="/invite-friend">Mời bạn bè</a></li>
+                        <li><a title="Lớp đang cần gia sư" href="class.php">Lớp đang cần gia sư</a></li>      
+                        <li><a title="Hướng dẫn nhận lớp" href="become_teacher.php">Hướng dẫn nhận lớp</a></li>        
                     </ul>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="/affiliate">Affiliate</a>
                     <ul class="menu-top-sub">
                         <li><a title="Giới thiệu phụ huynh" href="/affiliate">Giới thiệu phụ huynh</a></li>
                         <li><a title="Giới thiệu gia sư" href="/invite-friend">Giới thiệu gia sư</a></li>
                     </ul>
-                </li>
+                </li> -->
                 <li>
                     <a href="/bai-viet">Bài viết sự kiện</a>
                     <ul class="menu-top-sub">
@@ -1220,7 +1544,11 @@ include 'config.php';
             var form_forget_password = document.querySelector("#forget-password");
             var forget_password_link = document.querySelector("#forget-password-link");
             var html_js = document.querySelector(".js");
-            var popup_modal_dismiss = document.querySelectorAll(".popup-modal-dismiss");
+            var popup_modal_dismiss = document.querySelector(".popup-modal-dismiss");
+            var login_8 = document.querySelector("#login-8");
+            console.log(popup_modal_dismiss);
+
+       
 
             function openFormSigin_Signup() {
                 form_signin_signup.forEach(function(element) {
@@ -1232,16 +1560,25 @@ include 'config.php';
             function openForgetPassword() {
                 form_forget_password.classList.replace('mfp-hide', 'mfp-ready');
             }
+  
 
             function closeModal() {
                 form_signin_signup.forEach(function(element) {
                     element.classList.replace('mfp-ready', 'mfp-hide');
                 });
                 form_forget_password.classList.replace('mfp-ready', 'mfp-hide');
-                popup_form.classList.remove('mfp-hide')
+                popup_form.classList.remove('mfp-hide');
                 html_js.style.cssText = "";
+                login_8.style.display = 'none';
+                
 
             }
+            popup_modal_dismiss.addEventListener("click", function() {
+                console.log('aba');
+                closeModal();
+                
+            });
+            
             account_login_modals.addEventListener("click", function() {
                 openFormSigin_Signup();
             });
@@ -1251,11 +1588,13 @@ include 'config.php';
                 popup_form.classList.add('mfp-hide')
             });
 
-            popup_modal_dismiss.forEach(function(element) {
-                element.addEventListener("click", function() {
-                    closeModal();
-                });
-            });
+    
+            // popup_modal_dismiss.forEach(function(element) {
+            //     element.addEventListener("click", function() {
+            //         closeModal();
+            //         console.log('aba');
+            //     });
+            // });
 
             // popup_modal_dismiss.addEventListener("click", function() {
             // 	openForgetPassword();
@@ -1263,7 +1602,52 @@ include 'config.php';
 
         });
     </script>
-    
+        <script>
+        function login() {
+            document.getElementById("login-8").style.left = "27px";
+            document.getElementById("register-8").style.right = "-400px";
+            document.getElementById("btn8").style.left = "0";
+        }
+
+        function register() {
+            document.getElementById("login-8").style.left = "-400px";
+            document.getElementById("register-8").style.right = "27px";
+            document.getElementById("btn8").style.left = "50%";
+        }
+
+        function myLogPassword() {
+            var x = document.getElementById("logPassword");
+            var y = document.getElementById("eye");
+            var z = document.getElementById("eye-slash");
+
+            if (x.type === "password") {
+                x.type = "text";
+                y.style.opacity = "0";
+                z.style.opacity = "1";
+            } else {
+                x.type = "password";
+                y.style.opacity = "1";
+                z.style.opacity = "0";
+            }
+        }
+
+        function myRegPassword() {
+            var x = document.getElementById("regPassword");
+            var y = document.getElementById("eye-2");
+            var z = document.getElementById("eye-slash-2");
+
+            if (x.type === "password") {
+                x.type = "text";
+                y.style.opacity = "0";
+                z.style.opacity = "1";
+            } else {
+                x.type = "password";
+                y.style.opacity = "1";
+                z.style.opacity = "0";
+            }
+        }
+    </script>
+
 
 </body>
 

@@ -141,9 +141,9 @@ if (isset($idAcc)) {
 		if (array_key_exists($city, $cityData)) {
 			// Lấy tên của tỉnh/thành phố tương ứng với mã số
 			$selectedCity = $cityData[$city];
-			echo $selectedCity;
+			// echo $selectedCity;
 		} else {
-			echo "Không tìm thấy tỉnh/thành phố tương ứng.";
+			// echo "Không tìm thấy tỉnh/thành phố tương ứng.";
 		}
 		if ($typeAcc == 2) {
 			if (isset($idTutor)) {
@@ -154,44 +154,44 @@ if (isset($idAcc)) {
 				$degreeTutor = $_FILES['img_cmt_cert']['name'];
 				$upload_deg_Tutor = "../assets/img/img_tutor/" . $degreeTutor;
 
-				echo $fullName;
-				echo $phoneNumber;
-				echo $city;
-				echo $detailCity;
-				echo $description;
-				echo $typeTutor;
-				echo $avatarTutor;
-				echo $upload_avt_Tutor;
-				echo $degreeTutor;
-				echo $upload_deg_Tutor;
-				echo $sex;
-				echo $fee1Hour;
+				// echo $fullName;
+				// echo $phoneNumber;
+				// echo $city;
+				// echo $detailCity;
+				// echo $description;
+				// echo $typeTutor;
+				// echo $avatarTutor;
+				// echo $upload_avt_Tutor;
+				// echo $degreeTutor;
+				// echo $upload_deg_Tutor;
+				// echo $sex;
+				// echo $fee1Hour;
 				if (isset($_POST['subject'])) {
 					$typeSubjects  = $_POST['subject'];
-					foreach ($typeSubjects as $subject) {
-						echo $subject . "<br>";
-					}
+					// foreach ($typeSubjects as $subject) {
+					// 	echo $subject . "<br>";
+					// }
 				} else {
 					$typeSubjects = NULL;
 				}
 
 				if (isset($_POST['list_tag'])) {
 					$listTags = $_POST['list_tag']; // Lấy các giá trị được chọn từ checkbox
-					foreach ($listTags as $tag) {
-						echo "Giá trị của checkbox được chọn: $tag <br>";
-					}
+					// foreach ($listTags as $tag) {
+					// 	echo "Giá trị của checkbox được chọn: $tag <br>";
+					// }
 				} else {
-					echo "Không có checkbox nào được chọn.";
+					// echo "Không có checkbox nào được chọn.";
 					$listTags = NULL;
 				}
 				if (isset($_POST['list-calendar'])) {
 					$listCalendars = $_POST['list-calendar'];
 
-					foreach ($listCalendars as $calendar) {
-						echo "Giá trị của checkbox được chọn: $calendar <br>";
-					}
+					// foreach ($listCalendars as $calendar) {
+					// 	echo "Giá trị của checkbox được chọn: $calendar <br>";
+					// }
 				} else {
-					echo "Không có checkbox nào được chọn.";
+					// echo "Không có checkbox nào được chọn.";
 					$listCalendars = array();
 				}
 				if (isset($_POST['type-teach'])) {
@@ -207,10 +207,10 @@ if (isset($idAcc)) {
 							}
 						}
 					}
-					echo $typeTeach;
+					// echo $typeTeach;
 				} else {
 					$typeTeachs = NULL;
-					echo "vcllll";
+					// echo "vcllll";
 				}
 
 

@@ -131,21 +131,28 @@ if (isset($_GET['view'])) {
 	.active-link {
 		color: white;
 	}
+
+	.btn-huy-de-nghi:hover, .btn-chap-nhan:hover {
+		opacity: 0.8;
+		cursor: pointer;
+		text-decoration: none;
+		/* Giảm độ mờ khi hover */
+	}
 </style>
 
 <body class="html not-front not-logged-in no-sidebars page-node page-node- page-node-579 node-type-page s">
 	<?php include 'header.php' ?>
 	<?php
-		// Xác định trang hiện tại
-		$page = isset($_GET['page']) ? $_GET['page'] : 1;
+	// Xác định trang hiện tại
+	$page = isset($_GET['page']) ? $_GET['page'] : 1;
 
-		// Số lượng mục trên mỗi trang
-		$items_per_page = 3;
+	// Số lượng mục trên mỗi trang
+	$items_per_page = 3;
 
-		// Tính toán offset cho truy vấn SQL dựa trên trang hiện tại
-		$offset = ($page - 1) * $items_per_page;
+	// Tính toán offset cho truy vấn SQL dựa trên trang hiện tại
+	$offset = ($page - 1) * $items_per_page;
 
-
+	if (isset($idStudent)) {
 		$sql = 'SELECT * FROM lophoc 
 		JOIN monhoc on monhoc.MaMH = lophoc.MaMH
 		JOIN hinhthuc on hinhthuc.MaHT = lophoc.MaHT
@@ -153,7 +160,7 @@ if (isset($_GET['view'])) {
 
 		if (isset($_GET['search-class-tutor'])) {
 			$statusClass = $_GET['status'];
-			
+
 
 			if ($statusClass == 1) {
 				$status = "Đang tìm gia sư";
@@ -170,12 +177,11 @@ if (isset($_GET['view'])) {
 				$status = "";
 			}
 
-				
-			
+
+
 			if (!empty($status)) {
 				$sql .= " AND lophoc.TenTTLop = '$status'";
 			}
-
 		}
 
 		$sql .= " ORDER BY ThoiGianDang DESC";
@@ -207,6 +213,69 @@ if (isset($_GET['view'])) {
 		$stmt->bind_param('i', $idStudent);
 		$stmt->execute();
 		$resultClass = $stmt->get_result();
+	} else if (isset($idTutor)) {
+		$sql = 'SELECT * FROM lophoc 
+		JOIN monhoc on monhoc.MaMH = lophoc.MaMH
+		JOIN hinhthuc on hinhthuc.MaHT = lophoc.MaHT
+		JOIN ketnoigs_hv on ketnoigs_hv.MaLop = lophoc.MaLop
+		WHERE ketnoigs_hv.MaGS = ? AND (1=1) ';
+
+		if (isset($_GET['search-class-tutor'])) {
+			$statusConnect = $_GET['status'];
+
+			if ($statusConnect == 6) {
+				$status = "Đề nghị dạy đã chấp nhận";
+			} elseif ($statusConnect == 7) {
+				$status = "Đang đề nghị dạy";
+			} elseif ($statusConnect == 8) {
+				$status = "Đề nghị đã hủy";
+			} elseif ($statusConnect == 9) {
+				$status = "Đề nghị đã bị từ chối";
+			} elseif ($statusConnect == 10) {
+				$status = "Đã mời";
+			} else {
+				// Xử lý trường hợp không khớp với bất kỳ giá trị nào
+				$status = "";
+			}
+
+
+
+			if (!empty($status)) {
+				$sql .= " AND ketnoigs_hv.TenTTDeNghi = '$status'";
+			}
+		}
+
+		$sql .= " ORDER BY ThoiGianDang DESC";
+
+
+		$stmt = $conn->prepare($sql);
+		$stmt->bind_param('i', $idTutor);
+		$stmt->execute();
+		$results = $stmt->get_result();
+
+
+		// Đếm số lượng kết quả
+		$total_results = $results->num_rows;
+
+		// Tính toán số trang
+		$total_pages = ceil($total_results / $items_per_page);
+
+
+		// Thực hiện truy vấn SQL có phân trang sử dụng LIMIT và OFFSET
+		$sql .= ' LIMIT ' . $items_per_page . ' OFFSET ' . $offset;
+
+
+		// $stmt = $conn->prepare($sql);
+		// $stmt->execute();
+		// $results = $stmt->get_result();
+
+		$stmt = $conn->prepare($sql);
+		$stmt->bind_param('i', $idTutor);
+		$stmt->execute();
+		$resultClass = $stmt->get_result();
+	}
+
+
 	?>
 	<!--main content-->
 	<div class="container user-manage">
@@ -270,7 +339,8 @@ if (isset($_GET['view'])) {
 
 							<div class="content">
 								<div class="gblock-v2" style="margin-bottom:0">
-									<div class="header-block"><span>Quản lý yêu cầu tìm gia sư</span></div>
+									<div class="header-block" style="display: <?= (isset($idStudent)) ? '' : 'none' ?>"><span> Quản lý yêu cầu tìm gia sư</span></div>
+									<div class="header-block" style="display: <?= (isset($idTutor)) ? '' : 'none' ?>"><span> Các đề nghị dạy đã gửi</span></div>
 								</div>
 								<div class="view view-nhom-hoc-chung view-id-nhom_hoc_chung view-display-id-block_8 view-dom-id-a8f8990a92392270597df1f6c30a8f89 jquery-once-2-processed">
 
@@ -284,12 +354,20 @@ if (isset($_GET['view'])) {
 																<div class="form-item form-type-select form-item-status">
 																	<select id="edit-status" name="status" class="form-select">
 																		<option value="" selected="selected">- Any -</option>
-																		<option value="1" <?= (isset($statusClass) && ($statusClass == 1) ) ? 'selected' :'' ?>>Đang tìm gia sư</option>
-																		<option value="2"<?= (isset($statusClass) && $statusClass == 2 ) ? 'selected' :'' ?>>Đã chấp nhận</option>
-																		<option value="3"<?= (isset($statusClass) && $statusClass == 3 ) ? 'selected' :'' ?>>Đóng lớp: Đã kết nối</option>
-																		<option value="4"<?= (isset($statusClass) && $statusClass == 4 ) ? 'selected' :'' ?>>Đóng lớp: Chưa có kết nối</option>
-																		<option value="5"<?= (isset($statusClass) && $statusClass == 5 ) ? 'selected' :'' ?>>Chưa duyệt</option>
+
+																		<option style="display: <?= (isset($idStudent)) ? '' : 'none' ?>" value="1" <?= (isset($statusClass) && ($statusClass == 1)) ? 'selected' : '' ?>>Đang tìm gia sư</option>
+																		<option style="display: <?= (isset($idStudent)) ? '' : 'none' ?>" value="2" <?= (isset($statusClass) && $statusClass == 2) ? 'selected' : '' ?>>Đã chấp nhận</option>
+																		<option style="display: <?= (isset($idStudent)) ? '' : 'none' ?>" value="3" <?= (isset($statusClass) && $statusClass == 3) ? 'selected' : '' ?>>Đóng lớp: Đã kết nối</option>
+																		<option style="display: <?= (isset($idStudent)) ? '' : 'none' ?>" value="4" <?= (isset($statusClass) && $statusClass == 4) ? 'selected' : '' ?>>Đóng lớp: Chưa có kết nối</option>
+																		<option style="display: <?= (isset($idStudent)) ? '' : 'none' ?>" value="5" <?= (isset($statusClass) && $statusClass == 5) ? 'selected' : '' ?>>Chưa duyệt</option>
+
+																		<option style="display: <?= (isset($idTutor)) ? '' : 'none' ?>" value="6" <?= (isset($statusConnect) && ($statusConnect == 6)) ? 'selected' : '' ?>>Đã chấp nhận</option>
+																		<option style="display: <?= (isset($idTutor)) ? '' : 'none' ?>" value="7" <?= (isset($statusConnect) && $statusConnect == 7) ? 'selected' : '' ?>>Đang đề nghị dạy</option>
+																		<option style="display: <?= (isset($idTutor)) ? '' : 'none' ?>" value="8" <?= (isset($statusConnect) && $statusConnect == 8) ? 'selected' : '' ?>>Đề nghị đã hủy</option>
+																		<option style="display: <?= (isset($idTutor)) ? '' : 'none' ?>" value="9" <?= (isset($statusConnect) && $statusConnect == 9) ? 'selected' : '' ?>>Đề nghị đã bị từ chối</option>
+																		<option style="display: <?= (isset($idTutor)) ? '' : 'none' ?>" value="10" <?= (isset($statusConnect) && $statusConnect == 10) ? 'selected' : '' ?>>Được mời dạy</option>
 																	</select>
+
 																</div>
 															</div>
 														</div>
@@ -311,7 +389,7 @@ if (isset($_GET['view'])) {
 											<div class="row-request-2" style="color:#212529">
 												<h3>MÔ TẢ</h3>
 											</div>
-											<div class="row-request-3" style="color:#212529">
+											<div class="row-request-3" style="color:#212529; display: <?= (isset($idStudent)) ? '' : 'none' ?> ;">
 												<h3>ĐỀ NGHỊ DẠY</h3>
 											</div>
 											<div class="row-request-4" style="color:#212529">
@@ -320,7 +398,8 @@ if (isset($_GET['view'])) {
 										</div>
 										<?php
 										if ($resultClass->num_rows < 1) {
-											echo "<p style='margin: 2% auto;' class='content-info-step-2'>Bạn chưa đăng yêu cầu tạo lớp nào!</p>";
+											echo "<p style='margin: 2% auto;display: " . (isset($idStudent) ? '' : 'none') . ";' class='content-info-step-2'>Bạn chưa đăng yêu cầu tạo lớp nào!</p>";
+											echo "<p style='margin: 2% auto;display: " . (isset($idTutor) ? '' : 'none') . ";' class='content-info-step-2'>Chưa có đề nghị dạy nào!</p>";
 										}
 										while ($row = $resultClass->fetch_assoc()) {
 										?>
@@ -344,7 +423,7 @@ if (isset($_GET['view'])) {
 													<span><?= $row['TenHT'] ?></span>
 													<span class="orange"><?= $row['HocPhi1Buoi'] ?> VND/buổi</span>
 												</div>
-												<div class="row-request-3 count-request">
+												<div class="row-request-3 count-request" style="display: <?= (isset($idStudent)) ? '' : 'none' ?>">
 													<span><?php
 															$sql = 'SELECT * FROM ketnoigs_hv  
                                                                        WHERE MaLop = ?';
@@ -356,7 +435,7 @@ if (isset($_GET['view'])) {
 															echo $numberConnect . '/6'
 															?><a href="offer_student_tutor.php?view=<?= $row['MaLop'] ?>"> Xem đề nghị</a></span>
 												</div>
-												<div class="row-request-4">
+												<div class="row-request-4" style="display: <?= (isset($idStudent)) ? '' : 'none' ?>">
 													<p style="font-weight: bold; text-transform: uppercase;"><?= $row['TenTTLop'] ?></p>
 													<div style="display: <?= ($row['TenTTLop'] == "Chưa duyệt" || $row['TenTTLop'] == "Đang tìm gia sư") ? 'block' : 'none' ?>">
 														<a href="javascripts:voild(0)" class="btn-option dropdown-toggle manage-class-action-edit" type="button" id="dropdown-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" tabindex="0">
@@ -366,6 +445,15 @@ if (isset($_GET['view'])) {
 															<li><a href="edit_class.php?edit=<?= $row['MaLop'] ?>" tabindex="0">Chỉnh sửa</a></li>
 															<li><a href="" tabindex="0" class="ctools-use-modal ctools-use-modal-processed btn-close-request" data-id="<?= $row['MaLop'] ?>" data-name="<?= $row['TenLop'] ?>">Đóng yêu cầu</a></li>
 														</ul>
+													</div>
+												</div>
+
+												<div class="row-request-4" style="display: <?= (isset($idTutor)) ? '' : 'none' ?>">
+													<p style="font-weight: bold; text-transform: uppercase;"><?= $row['TenTTDeNghi'] ?></p>
+													<div>
+
+														<a style="border-radius: 0.25rem; text-transform: uppercase;padding: 10px 18px;background: #069d86;color: #fff;font-size: 12px; font-weight: bold; transition: opacity 0.3s;display:<?= $row['TenTTDeNghi'] == "Đã mời" ? 'none' : '' ?>;" class="btn-huy-de-nghi" data-id="<?= $row['MaLop'] ?>" data-name="<?= $row['TenLop'] ?>"> Hủy đề nghị</a>
+														<a style="border-radius: 0.25rem; text-transform: uppercase;padding: 10px 18px;background: #069d86;color: #fff;font-size: 12px; font-weight: bold; transition: opacity 0.3s;display: <?= ($row['TenTTDeNghi'] == "Đã mời" && $row['TenTTLop'] != "Chưa duyệt") ? '' : 'none' ?>;" class="btn-chap-nhan" data-id="<?= $row['MaLop'] ?>" data-name="<?= $row['TenLop'] ?>" data-status="<?= $row['TenTTDeNghi'] ?>"> Chấp nhận</a>
 													</div>
 												</div>
 
@@ -454,18 +542,31 @@ if (isset($_GET['view'])) {
 
 							<div class="modal-body">
 								<p class="err"><i class="fa fa-face-happy" aria-hidden="true" style="font-size: 30px;color: #03ad03;"></i>
-									Bạn có chắc chắn muốn đóng lớp học: <b class="name-class"> </b> không?
+									<span class="message">
+										<?php
+										if (isset($idStudent)) {
+											echo 'Bạn có chắc chắn muốn đóng lớp học:';
+										} else if (isset($idTutor)) {
+											echo 'Bạn có chắc chắn muốn hủy đề nghị dạy lớp:';
+										}
+
+										?>
+									</span>
+									<b class="name-class"> </b> không?
 								</p>
 							</div>
 							<div class="modal-footer" style="justify-content: center;">
 								<!-- <a href="/huy-nguyen-080324">Về Trang cá nhân</a> -->
 								<!-- <a href="/become-teacher#how-it-work" style="background-color: #afabab !important">Hướng dẫn</a> -->
 								<button type="button" style="text-transform: uppercase;padding: 10px 18px;background: #ff961e;color: #fff;font-size: 16px; font-weight: bold; transition: opacity 0.3s;" class="btn-close" data-dismiss="modal" aria-label="Close">Thoát</button>
-								<a style="text-transform: uppercase;padding: 10px 18px;background: #069d86;color: #fff;font-size: 16px; font-weight: bold; transition: opacity 0.3s;" class="btn-dong-yeu-cau" data-id="<?= $row['MaLop'] ?>"> Đóng yêu cầu</a>
-
+								<a style="display: <?= (isset($idStudent)) ? '' : 'none'; ?>;text-transform: uppercase;padding: 10px 18px;background: #069d86;color: #fff;font-size: 16px; font-weight: bold; transition: opacity 0.3s;" class="btn-dong-yeu-cau" data-id="<?= $row['MaLop'] ?>"> Đóng yêu cầu</a>
+								<a style="display: <?= (isset($idTutor)) ? '' : 'none'; ?>;text-transform: uppercase;padding: 10px 18px;background: #069d86;color: #fff;font-size: 16px; font-weight: bold; transition: opacity 0.3s;" class="btn-huy-dn" data-id="<?= $row['MaLop'] ?>"> Hủy đề nghị</a>
+								<a style="display: none; text-transform: uppercase;padding: 10px 18px;background: #069d86;color: #fff;font-size: 16px; font-weight: bold; transition: opacity 0.3s;" class="btn-cn" data-id="<?= $row['MaLop'] ?>"> Chấp nhận</a>
 								<style>
 									.btn-close:hover,
-									.btn-dong-yeu-cau:hover {
+									.btn-huy-dn:hover,
+									.btn-dong-yeu-cau:hover,
+									.btn-cn:hover {
 										opacity: 0.8;
 										cursor: pointer;
 										text-decoration: none;
@@ -484,9 +585,12 @@ if (isset($_GET['view'])) {
 		var idClass;
 		document.addEventListener("DOMContentLoaded", function() {
 			var btnsCloseRequest = document.querySelectorAll(".btn-close-request");
+			var btnsCloseConnect = document.querySelectorAll(".btn-huy-de-nghi");
+			var btnsAccept = document.querySelectorAll(".btn-chap-nhan");
 			var boldnameClass = document.querySelector(".name-class");
-
-
+			var message = document.querySelector(".message");
+			var btn_cn = document.querySelector(".btn-cn");
+			var btn_huy_dn = document.querySelector(".btn-huy-dn");
 			btnsCloseRequest.forEach(function(btn) {
 				btn.addEventListener("click", function(event) {
 					event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
@@ -496,6 +600,35 @@ if (isset($_GET['view'])) {
 
 					// Gửi ID lớp học đến modal
 					openModal(nameClass);
+				});
+			});
+
+			btnsCloseConnect.forEach(function(btn) {
+				btn.addEventListener("click", function(event) {
+					event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+
+					var nameClass = this.getAttribute("data-name");
+					idClass = this.getAttribute("data-id"); // Lấy ID lớp học từ thuộc tính data
+
+					// Gửi ID lớp học đến modal
+					openModal(nameClass);
+				});
+			});
+
+			btnsAccept.forEach(function(btn) {
+				btn.addEventListener("click", function(event) {
+					event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+
+					var nameClass = this.getAttribute("data-name");
+					idClass = this.getAttribute("data-id"); // Lấy ID lớp học từ thuộc tính data
+					
+					btn_cn.style.display = ''
+					btn_huy_dn.style.display='none';
+
+					message.innerHTML = "Bạn có chắc chắn đồng ý lời mời dạy lớp: ";
+					// Gửi ID lớp học đến modal
+					openModal(nameClass);
+
 				});
 			});
 
@@ -539,6 +672,7 @@ if (isset($_GET['view'])) {
 	</script>
 	<script>
 		$(document).ready(function() {
+			// đóng yêu cầu
 			$(".btn-dong-yeu-cau").on("click", function() {
 				console.log(idClass);
 				let err = $(".err");
@@ -553,6 +687,89 @@ if (isset($_GET['view'])) {
 					method: "POST",
 					data: {
 						idClass: idClass,
+					},
+					dataType: 'json', // Expect JSON response
+					success: function(response) {
+						err.html("");
+						console.log(response);
+						// Check for specific errors and display messages
+
+						if (response.success) {
+							err.html(response.success);
+							// btn_connect.html("Tìm các lớp khác!");
+							// btn_connect.attr("href", "class.php");
+							modal_footer.css("display", "none");
+							// Delay 2 giây trước khi reload trang
+							setTimeout(function() {
+								location.reload();
+							}, 1500);
+						}
+
+					},
+					error: function(xhr, status, error) {
+						console.log("Error in AJAX request:", status, error);
+					}
+				});
+			});
+			// hủy đề nghị
+			$(".btn-huy-dn").on("click", function() {
+				console.log(idClass);
+				let idTutor = <?php echo isset($idTutor) ? $idTutor : "''"; ?>;
+				let err = $(".err");
+				let modal_footer = $(".modal-footer");
+				// let btn_use_modal = $(".btn-use-modal");
+				// let btn_search_class = $(".btn-tim-lop-khac");
+				// console.log(btn_use_modal);
+
+
+				$.ajax({
+					url: "CloseConnect.php",
+					method: "POST",
+					data: {
+						idClass: idClass,
+						idTutor: idTutor
+					},
+					dataType: 'json', // Expect JSON response
+					success: function(response) {
+						err.html("");
+						console.log(response);
+						// Check for specific errors and display messages
+
+						if (response.success) {
+							err.html(response.success);
+							// btn_connect.html("Tìm các lớp khác!");
+							// btn_connect.attr("href", "class.php");
+							modal_footer.css("display", "none");
+							// Delay 2 giây trước khi reload trang
+							setTimeout(function() {
+								location.reload();
+							}, 1500);
+						}
+
+					},
+					error: function(xhr, status, error) {
+						console.log("Error in AJAX request:", status, error);
+					}
+				});
+			});
+
+			// Chấp nhận lời mời
+			$(".btn-cn").on("click", function() {
+				console.log(idClass);
+				let idTutor = <?php echo isset($idTutor) ? $idTutor : "''"; ?>;
+				let err = $(".err");
+				let modal_footer = $(".modal-footer");
+				// let btn_use_modal = $(".btn-use-modal");
+				// let btn_search_class = $(".btn-tim-lop-khac");
+				// console.log(btn_use_modal);
+
+
+				$.ajax({
+					url: "Accept.php",
+					method: "POST",
+					data: {
+						idClass: idClass,
+						idTutor: idTutor
 					},
 					dataType: 'json', // Expect JSON response
 					success: function(response) {
